@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>II Simpósio de Prevenção de IRAS e Stewardship — Regional Sul | Rede D'Or</title>
+    <meta name="description" content="II Simpósio de Prevenção de Infecções Relacionadas à Assistência à Saúde e Stewardship de Antimicrobianos. 14 e 15 de agosto de 2026. Hospital São Luiz Itaim, São Paulo.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="II Simpósio de Prevenção de IRAS e Stewardship — Regional Sul">
+    <meta property="og:description" content="14-15 Agosto 2026 | Hospital São Luiz Itaim | Rede D'Or">
+    <meta property="og:type" content="website">
+
+    <style>
+        /* ============================================================
+           REDE D'OR 2025 — IDENTIDADE VISUAL
+           Cores: Primária #003DA5, Escuro #002855, Claro #71C5E8
+                  Dourado #C6A27C, Off-white #F2F5F9
+           ============================================================ */
+
+        :root {
+            --blue: #003DA5;
+            --blue-dark: #002855;
+            --blue-light: #71C5E8;
+            --gold: #C6A27C;
+            --gold-light: #F7CEA7;
+            --offwhite: #F2F5F9;
+            --white: #FFFFFF;
+            --text: #1a1a2e;
+            --text-light: #555;
+            --radius: 12px;
+            --shadow: 0 4px 24px rgba(0,40,85,0.10);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: 'Segoe UI', 'Verdana', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text);
+            background: var(--offwhite);
+            line-height: 1.6;
+        }
+
+        /* ── HERO ─────────────────────────────── */
+        .hero {
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 40%, #0048b8 100%);
+            color: var(--white);
+            padding: 60px 20px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -120px; right: -120px;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: rgba(113,197,232,0.12);
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px; left: -80px;
+            width: 280px; height: 280px;
+            border-radius: 50%;
+            background: rgba(198,162,124,0.10);
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero .event-series {
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            margin-bottom: 8px;
+        }
+        .hero h1 {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+        .hero .subtitle {
+            font-size: 1.05rem;
+            color: var(--blue-light);
+            margin-bottom: 24px;
+            font-weight: 300;
+        }
+        .hero .event-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.85);
+        }
+        .hero .event-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .hero .icon {
+            font-size: 1.2rem;
+        }
+        .gold-line {
+            width: 60px; height: 3px;
+            background: var(--gold);
+            margin: 16px auto;
+            border-radius: 2px;
+        }
+
+        /* ── BADGE ─────────────────────────────── */
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 22px;
+        }
+        .badge {
+            background: rgba(255,255,255,0.13);
+            color: var(--white);
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        /* ── CONTAINER ──────────────────────────── */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ── SECTIONS ───────────────────────────── */
+        section {
+            padding: 50px 0;
+        }
+        section h2 {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--blue-dark);
+            margin-bottom: 6px;
+        }
+        section .section-sub {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 28px;
+        }
+
+        /* ── CARDS ──────────────────────────────── */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        /* ── PROGRAM DAY TABS ────────────────────── */
+        .day-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 0;
+            border-radius: var(--radius) var(--radius) 0 0;
+            overflow: hidden;
+        }
+        .day-tab {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: var(--white);
+            color: var(--text-light);
+            transition: all 0.2s;
+            font-family: inherit;
+            border-bottom: 3px solid transparent;
+        }
+        .day-tab.active {
+            color: var(--blue);
+            border-bottom-color: var(--blue);
+            background: #f8fafd;
+        }
+        .day-tab:hover { background: #f8fafd; }
+
+        .program-panel {
+            display: none;
+            background: var(--white);
+            border-radius: 0 0 var(--radius) var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .program-panel.active { display: block; }
+
+        /* ── PROGRAM TABLE ───────────────────────── */
+        .session-block {
+            padding: 20px 28px;
+            border-bottom: 1px solid #eee;
+        }
+        .session-block:last-child { border-bottom: none; }
+        .session-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .session-title .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+            flex-shrink: 0;
+        }
+        .talk-row {
+            display: flex;
+            padding: 6px 0 6px 16px;
+            font-size: 0.88rem;
+            align-items: baseline;
+            gap: 10px;
+        }
+        .talk-time {
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 0.78rem;
+            white-space: nowrap;
+            min-width: 70px;
+        }
+        .talk-topic {
+            flex: 1;
+            color: var(--text);
+        }
+        .talk-speaker {
+            color: var(--text-light);
+            font-size: 0.78rem;
+            font-style: italic;
+            white-space: nowrap;
+        }
+        .moderator-row {
+            font-size: 0.78rem;
+            color: var(--gold);
+            padding: 4px 0 4px 16px;
+            font-weight: 500;
+        }
+        .break-row {
+            font-size: 0.82rem;
+            color: var(--text-light);
+            padding: 8px 0 4px 16px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* ── REGISTRATION ────────────────────────── */
+        .registration-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 36px 32px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 2px solid var(--gold);
+        }
+        .spots-counter {
+            display: inline-block;
+            background: var(--blue-dark);
+            color: var(--white);
+            padding: 8px 24px;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+        .spots-counter .count {
+            color: var(--gold-light);
+            font-size: 1.2rem;
+        }
+        .form-iframe {
+            width: 100%;
+            min-height: 850px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        /* ── INFO GRID ───────────────────────────── */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+        .info-item {
+            background: var(--white);
+            padding: 22px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        .info-item .info-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .info-item h4 {
+            font-size: 0.85rem;
+            color: var(--blue);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .info-item p {
+            font-size: 0.88rem;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        /* ── FOOTER ──────────────────────────────── */
+        .site-footer {
+            background: var(--blue-dark);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.8rem;
+        }
+        .site-footer .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .site-footer .logos img {
+            height: 36px;
+            opacity: 0.85;
+        }
+        .site-footer strong { color: var(--white); }
+
+        /* ── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 640px) {
+            .hero { padding: 40px 16px 36px; }
+            .hero h1 { font-size: 1.35rem; }
+            .talk-row { flex-direction: column; gap: 2px; padding: 8px 0 8px 12px; }
+            .talk-speaker { margin-left: 0; }
+            .session-block { padding: 14px 16px; }
+            .card { padding: 18px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- HERO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<header class="hero">
+    <div class="hero-content">
+        <div class="event-series">Rede D'Or — Regional Sul</div>
+        <h1>II Simpósio de Prevenção de IRAS<br>e Stewardship de Antimicrobianos</h1>
+        <div class="gold-line"></div>
+        <p class="subtitle">Hospitais São Luiz Itaim, Vila Nova Star e Maternidade Star</p>
+        <div class="event-meta">
+            <span><span class="icon">📅</span> 14 e 15 de Agosto de 2026</span>
+            <span><span class="icon">📍</span> Hospital São Luiz Itaim — Auditório Térreo</span>
+            <span><span class="icon">🏥</span> Av. Santo Amaro, 722 — Vila Nova Conceição, SP</span>
+        </div>
+        <div class="badge-row">
+            <span class="badge">🎯 Médicos</span>
+            <span class="badge">🎯 Enfermeiros</span>
+            <span class="badge">🎯 Farmacêuticos</span>
+            <span class="badge">🎯 Biomédicos</span>
+            <span class="badge">🎓 Evento Gratuito</span>
+            <span class="badge">👥 Vagas Limitadas</span>
+        </div>
+    </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- INFO RÁPIDAS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+    <div class="container">
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-icon">📅</div>
+                <h4>Datas</h4>
+                <p>14 e 15 de Agosto de 2026<br>8h00 — 16h30 (Dia 1)<br>8h00 — 15h15 (Dia 2)</p>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">📍</div>
+                <h4>Local</h4>
+                <p>Hospital São Luiz Itaim<br>Auditório Térreo<br>Av. Santo Amaro, 722<br>Vila Nova Conceição, SP</p>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">🎓</div>
+                <h4>Inscrição</h4>
+                <p><strong>Gratuita</strong><br>100 vagas disponíveis<br>Certificado de participação</p>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">🏥</div>
+                <h4>Realização</h4>
+                <p>Rede D'Or — Regional Sul<br>São Luiz Itaim<br>Vila Nova Star<br>Maternidade Star</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PROGRAMAÇÃO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section style="background: var(--white);">
+    <div class="container">
+        <h2>Programação Científica</h2>
+        <p class="section-sub">Dois dias de conteúdo com especialistas em prevenção de IRAS e stewardship</p>
+
+        <!-- Tabs -->
+        <div class="day-tabs">
+            <button class="day-tab active" onclick="switchDay('day1', this)">📅 Dia 1 — 14 de Agosto (Quinta-feira)</button>
+            <button class="day-tab" onclick="switchDay('day2', this)">📅 Dia 2 — 15 de Agosto (Sexta-feira)</button>
+        </div>
+
+        <!-- Dia 1 -->
+        <div class="program-panel active" id="day1">
+            <div class="session-block">
+                <div class="break-row">☕ 08:00 – 08:30 &nbsp; Welcome Coffee</div>
+            </div>
+            <div class="session-block">
+                <div class="session-title"><span class="dot"></span>Abertura</div>
+                <div class="talk-row"><span class="talk-time">08:30</span><span class="talk-topic">Solenidade Corporativa</span><span class="talk-speaker">Dr. David Uip / Dra. Ana Lucia Munhoz / Dra. Tania Strabelli</span></div>
+                <div class="talk-row"><span class="talk-time">08:40</span><span class="talk-topic">Solenidade Institucional</span><span class="talk-speaker">José Jair / Daniel Favarão / Fernando Sogayar / Maria Luisa / Renan Giglio / Maria Augusta Gibelli</span></div>
+                <div class="talk-row"><span class="talk-time">08:50</span><span class="talk-topic">Representantes SCIH's</span><span class="talk-speaker">Dra. Regia / Dra. Maria Luisa</span></div>
+            </div>
+            <div class="session-block">
+                <div class="session-title"><span class="dot"></span>Mesa: Pacientes Críticos</div>
+                <div class="moderator-row">🎤 Moderador: Enf. Juliana Virolli (ITM)</div>
+                <div class="talk-row"><span class="talk-time">09:00</span><span class="talk-topic">Prevenção de infecções de corrente sanguínea em hemodiálise — água, cateter, etc</span><span class="talk-speaker">Med. Laila Viana (ITM)</span></div>
+                <div class="talk-row"><span class="talk-time">09:20</span><span class="talk-topic">Prevenção de infecção em pacientes em ECMO/LVAD</span><span class="talk-speaker">Med. Desiree Machado (Rede D'Or)</span></div>
+                <div class="talk-row"><span class="talk-time">09:40</span><span class="talk-topic">Prevenção de IRAS em gestantes de alto risco</span><span class="talk-speaker">Med. Mariza Loesch (ITM/MTS)</span></div>
+                <div class="talk-row"><span class="talk-time">10:00</span><span class="talk-topic"><em>Debate</em></span></div>
+            </div>
+            <div class="session-block">
+                <div class="session-title"><span class="dot"></span>Mesa: Pacientes Cirúrgicos</div>
+                <div class="moderator-row">🎤 Moderador: Enf. Ana Puin (ITM)</div>
+                <div class="talk-row"><span class="talk-time">10:15</span><span class="talk-topic">Prevenção de infecção em cirurgias robóticas</span><span class="talk-speaker">Med. Regia Feijo (MTS/ITM)</span></div>
+                <div class="talk-row"><span class="talk-time">10:35</span><span class="talk-topic">Atualização de recomendações em processamento e limpeza de instrumentais</span><span class="talk-speaker">Enf. Marcia Oliveira (Regional Sul)</span></div>
+                <div class="talk-row"><span class="talk-time">10:55</span><span class="talk-topic">Curativo a vácuo e prevenção de ISC: mitos e verdades</span><span class="talk-speaker">Enf. Julianne Meryelle (VNS)</span></div>
+                <div class="talk-row"><span class="talk-time">11:15</span><span class="talk-topic"><em>Debate</em></span></div>
+            </div>
+            <div class="session-block"><div class="break-row">🍽️ 11:30 – 12:15 &nbsp; Almoço (lunchbox)</div></div>
+            <div class="session-block">
+                <div class="session-title"><span class="dot"></span>Mesa: Imunossuprimidos</div>
+                <div class="moderator-row">🎤 Moderador: Enf. Laiane Gil (VNS)</div>
+                <div class="talk-row"><span class="talk-time">12:15</span><span class="talk-topic">Prevenção de infecção em Tumores Sólidos</span><span class="talk-speaker">Enf. Rodrigo Reghini (AC Camargo)</span></div>
+                <div class="talk-row"><span class="talk-time">12:35</span><span class="talk-topic">Polêmicas em prevenção de infecção em pacientes neutropênicos</span><span class="talk-speaker">Enf. Juliana Virolli (ITM)</span></div>
+                <div class="talk-row"><span class="talk-time">12:55</span><span class="talk-topic">Prevenção de infecção em transplantes de coração</span><span class="talk-speaker">Prof. Dra. Med. Tania Strabelli (NNI)</span></div>
+                <div class="talk-row"><span class="talk-time">13:15</span><span class="talk-topic"><em>Debate</em></span></div>
+            </div>
+            <div class="session-block">
+                <div class="session-title"><span class="dot"></span>Mesa: O telefone do SCIH tocou — desafios da vida real</div>
+                <div class="moderator-row">🎤 Moderador: Enf. Tatiane Silva (VNS)</div>
+                <div class="talk-row"><span class="talk-time">13:30</span><span class="talk-topic">Candida auris</span><span class="talk-speaker">Med. Regia Feijo (MTS/ITM)</span></div>
+                <div class="talk-row"><span class="talk-time">13:50</span><span class="talk-topic">Legionella</span><span class="talk-speaker">Med. Natanael Adiwardana (ITM)</span></div>
+                <div class="talk-row"><span class="talk-time">14:10</span><span class="talk-topic">Fusarium</span><span class="talk-speaker">Med. Raquel Ito (ICESP/IIER)</span></div>
+                <div class="talk-row"><span class="talk-time">14:30</span><span class="talk-topic"><em>Debate</em></span></div>
+            </div>
+            <div class="session-block"><div class="break-row">☕ 14:45 – 15:05 &nbsp; Networking Coffee</div></div>
+            <div class="session-block">
+                <div class="session-title"><span class="dot"></span>Mitos e verdades sobre IRAS</div>
+                <div class="moderator-row">🎤 Moderador: Enf. Miriã Oliveira (ITM)</div>
+                <div class="talk-row"><span class="talk-time">15:05</span><span class="talk-topic">Pets de suporte emocional no ambiente hospitalar</span><span class="talk-speaker">Enf. Ticiane Campanili (VNS)</span></div>
+                <div class="talk-row"><span class="talk-time">15:25</span><span class="talk-topic">Inteligência artificial e prevenção de IRAS</span><span class="talk-speaker">Med. Natanael Adiwardana (ITM)</span></div>
+                <div class="talk-row"><span class="talk-time">15:45</span><span class="talk-topic">Time de observação de higiene de mãos — quanto mais, melhor?</span><span class="talk-speaker">Med. Camila Bicalho (SUS)</span></div>
+                <div class="talk-row"><span class="talk-time">16:05</span><span class="talk-topic"><em>Debate</em></span></div>
+            </div>
+            <div class="session-block"><div class="break-row">🔚 16:20 – 16:30 &nbsp; Encerramento</div></div>
+        </div>
+
+        <!-- Dia 2 -->
+        <div class="program-panel" id="day2">
+            <div class="session-block">
+                <div class="break-row">☕ 08:00 – 08:30 &nbsp; Welcome Coffee</div>
+            </div>
+            <div class="session-block">
+                <div class="session-title"><span class="dot"></span>Mesa: Desafios em diagnóstico de infecções difíceis de tratar</div>
+                <div class="moderator-row">🎤 Moderador: Med. Regia Feijo (MTS/ITM)</div>
+                <div class="talk-row"><span class="talk-time">08:30</span><span class="talk-topic">Infecções ortopédicas: como maximizar sua sensibilidade diagnóstica</span><span class="talk-speaker">Prof. Dra. Med. Ana Munhoz (Rede D'Or)</span></div>
+                <div class="talk-row"><span class="talk-time">08:50</span><span class="talk-topic">Novas estratégias de diagnóstico rápido para bactérias multidrogarresistentes</span><span class="talk-speaker">Biomed. Flavia Palomo (ITM)</span></div>
+                <div class="talk-row"><span class="talk-time">09:10</span><span class="talk-topic">BrCAST — por que ainda falta o ponto de corte? E como atuar?</span><span class="talk-speaker">Prof. Dr. Med. Daniel Wagner (UDI)</span></div>
+                <div class="talk-row"><span class="talk-time">09:30</span><span class="talk-topic"><em>Debate</em></span></div>
+            </div>
+            <div class="session-block">
+                <div class="session-title"><span class="dot"></span>Mesa: O básico bem feito — impactos em resultados operacionais e clínicos de uso de antimicrobianos</div>
+                <div class="moderator-row">🎤 Moderador: Med. Regia Feijo (MTS/ITM)</div>
+                <div class="talk-row"><span class="talk-time">09:45</span><span class="talk-topic">Da farmácia clínica dedicada à gestão de antimicrobianos</span><span class="talk-speaker">Farm. Adam Roman (Rede D'Or)</span></div>
+                <div class="talk-row"><span class="talk-time">10:05</span><span class="talk-topic">Da UTI</span><span class="talk-speaker">Med. Mariza Loesch (ITM)</span></div>
+                <div class="talk-row"><span class="talk-time">10:25</span><span class="talk-topic">Da qualidade diagnóstica em microbiologia</span><span class="talk-speaker">Med. Thais Romano (Rede D'Or)</span></div>
+                <div class="talk-row"><span class="talk-time">10:45</span><span class="talk-topic">A visão da alta gestão sobre antimicrobianos</span><span class="talk-speaker">Med. Maria Luisa Nascimento (VNS)</span></div>
+                <div class="talk-row"><span class="talk-time">11:05</span><span class="talk-topic"><em>Debate</em></span></div>
+            </div>
+            <div class="session-block"><div class="break-row">🍽️ 11:30 – 12:30 &nbsp; Almoço (lunchbox)</div></div>
+            <div class="session-block">
+                <div class="session-title"><span class="dot"></span>Mesa: Soft skills — não tão soft?</div>
+                <div class="moderator-row">🎤 Moderador: Med. Natanael Adiwardana (ITM)</div>
+                <div class="talk-row"><span class="talk-time">12:30</span><span class="talk-topic">Comportamento prescricional: vieses cognitivos</span><span class="talk-speaker">Psc. Armando Ribeiro</span></div>
+                <div class="talk-row"><span class="talk-time">12:50</span><span class="talk-topic">Comunicando-se sobre antibióticos: oportunidades da assistência à alta gestão</span><span class="talk-speaker">Med. Fernando Oliveira (MRB)</span></div>
+                <div class="talk-row"><span class="talk-time">13:10</span><span class="talk-topic">Cuidados paliativos e antibioticoterapia no fim da vida: não faz mal pra quem?</span><span class="talk-speaker">Med. Rodrigo Lima (ITM)</span></div>
+                <div class="talk-row"><span class="talk-time">13:30</span><span class="talk-topic"><em>Debate</em></span></div>
+            </div>
+            <div class="session-block">
+                <div class="session-title"><span class="dot"></span>Mesa: Quando administrar o antibiótico é difícil</div>
+                <div class="moderator-row">🎤 Moderador: Med. Natanael Adiwardana (ITM)</div>
+                <div class="talk-row"><span class="talk-time">14:05</span><span class="talk-topic">ATB em neonatos: quando falta a via?</span><span class="talk-speaker">Farm. Marinei Ricieri (Pequeno Príncipe, PR)</span></div>
+                <div class="talk-row"><span class="talk-time">14:25</span><span class="talk-topic">Vancomicina: implantação de processo de monitoramento</span><span class="talk-speaker">Med. Natanael Adiwardana (ITM)</span></div>
+                <div class="talk-row"><span class="talk-time">14:45</span><span class="talk-topic"><em>Debate</em></span></div>
+            </div>
+            <div class="session-block"><div class="break-row">🔚 15:00 – 15:15 &nbsp; Encerramento</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- INSCRIÇÃO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="inscricao">
+    <div class="container">
+        <h2>Inscreva-se</h2>
+        <p class="section-sub">Evento gratuito com vagas limitadas. Garanta sua participação.</p>
+
+        <div class="registration-card">
+            <div class="spots-counter">
+                🎯 Vagas: <span class="count">100</span> disponíveis
+            </div>
+            <p style="margin-bottom:20px; color: var(--text-light); font-size: 0.9rem;">
+                Preencha o formulário abaixo para confirmar sua inscrição.
+                Você receberá a confirmação por e-mail.
+            </p>
+
+            <!-- FORMULARIO DE INSCRICAO — Google Forms (seguro, sem codigo exposto) -->
+
+            <!--
+            ════════════════════════════════════════════════════════
+            CONFIGURACAO: Substitua o src abaixo pela URL do seu
+            Google Forms (embed). Instrucoes no GUIA_PUBLICACAO.md
+
+            Campos obrigatorios no Google Forms:
+              1. Nome completo (texto curto)
+              2. E-mail (texto curto, com validacao de e-mail)
+              3. Profissao (multipla escolha)
+              4. Instituicao (texto curto)
+              5. CPF (texto curto)
+              6. Conselho de Classe + Numero (texto curto)
+
+            Configuracoes do Forms:
+              - "Limitar a 1 resposta" (requer login Google)
+              - "Coletar e-mails automaticamente"
+              - "Mostrar barra de progresso"
+            ════════════════════════════════════════════════════════
+            -->
+
+            <iframe class="form-iframe"
+                    id="google-form-frame"
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSfx3gR79C-agLXGj-4HGIUSSpfduDvmIkSWvkL7r8XC4MHuFw/viewform?embedded=true"
+                    width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0">
+                Carregando formulario...
+            </iframe>
+
+            <!-- Aviso LGPD -->
+            <p style="font-size:0.72rem; color:#999; margin-top:16px; text-align:left; line-height:1.5;">
+                <strong>LGPD — Lei Geral de Protecao de Dados:</strong> Os dados pessoais coletados neste
+                formulario (nome, e-mail, CPF, profissao, instituicao e numero de conselho de classe)
+                serao utilizados exclusivamente para organizacao do II Simposio de Prevencao de IRAS
+                e Stewardship de Antimicrobianos, incluindo controle de presenca, emissao de certificados
+                e comunicacao sobre o evento. Seus dados nao serao compartilhados com terceiros e serao
+                armazenados de forma segura pelo Google Forms. Ao se inscrever, voce concorda com o
+                uso dos seus dados para estas finalidades. Para duvidas ou solicitacao de remocao,
+                entre em contato com a organizacao do evento.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+    <div class="logos">
+        <img src="Logo_RedeDOR_svg.svg" alt="Rede D'Or" style="height:36px; filter:brightness(0) invert(1);">
+        <span style="color:rgba(255,255,255,0.4);">+</span>
+        <span style="color:var(--white); font-size:0.8rem;">Sao Luiz Itaim</span>
+        <span style="color:rgba(255,255,255,0.4);">+</span>
+        <span style="color:var(--white); font-size:0.8rem;">Vila Nova Star</span>
+        <span style="color:rgba(255,255,255,0.4);">+</span>
+        <span style="color:var(--white); font-size:0.8rem;">Maternidade Star</span>
+    </div>
+    <p><strong>II Simpósio de Prevenção de IRAS e Stewardship de Antimicrobianos</strong><br>
+    Regional Sul — Rede D'Or | SCIH — Serviço de Controle de Infecção Hospitalar</p>
+    <p style="margin-top:8px; opacity:0.6;">© 2026 Rede D'Or São Luiz — Todos os direitos reservados</p>
+</footer>
+
+<script>
+    function switchDay(day, btn) {
+        document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.program-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(day).classList.add('active');
+    }
+</script>
+</body>
+</html>
