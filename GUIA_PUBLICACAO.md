@@ -106,6 +106,6 @@ Isso regera o QR Code e os cards de inscricao com a URL real.
 
 | Recurso | URL |
 |---|---|
-| Landing page | `https://SEU-USUARIO.github.io/ii-simposio-iras-stewardship-2026` |
+| Landing page | `https://itaimscih.github.io/simposio2026` |
 | Google Forms | `https://docs.google.com/forms/d/SEU-FORM-ID/viewform` |
 | Google Sheets | `https://docs.google.com/spreadsheets/d/SEU-SHEET-ID/edit` |
