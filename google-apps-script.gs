@@ -19,8 +19,8 @@
  */
 
 // Configuração
-const MAX_VAGAS = 100;
-const SPREADSHEET_ID = 'SUBSTITUA_PELO_ID_DA_SUA_PLANILHA'; // ID da planilha Google Sheets
+const MAX_VAGAS = 90;
+const SPREADSHEET_ID = 'https://docs.google.com/spreadsheets/d/1dqXEYveKt5zd58gokpkFVrEmZOdU5nwFLLeAlIKVDl8/edit?gid=0#gid=0'; // ID da planilha Google Sheets
 const SHEET_NAME = 'Inscricoes';
 
 function doPost(e) {

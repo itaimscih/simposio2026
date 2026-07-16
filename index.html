@@ -223,20 +223,73 @@
         .site-footer { background:var(--text); color:rgba(255,255,255,0.55); text-align:center; padding:28px 20px; font-size:0.78rem; }
         .site-footer strong { color:var(--white); }
 
-        /* ── RESPONSIVE ────────────────────────── */
+        /* ── RESPONSIVE: TABLET ────────────────── */
+        @media (max-width:900px) {
+            .container { padding:0 20px; }
+            .talk-who { white-space:normal; max-width:200px; }
+            .form-iframe { min-height:820px; }
+        }
+
+        /* ── RESPONSIVE: SMARTPHONE ───────────── */
         @media (max-width:640px) {
-            .hero { padding:44px 16px 32px; }
-            .hero h1 { font-size:1.45rem; }
-            .hero .subtitle { font-size:0.9rem; }
-            .hero .meta-row { font-size:0.82rem; gap:14px; }
-            .talk { flex-direction:column; gap:2px; padding:6px 0 4px 12px; }
-            .talk-who { white-space:normal; }
-            .talk-time { font-size:0.74rem; }
-            .sess { padding:14px 16px; }
-            .hero-logos img { height:22px; }
-            .hero-logos .sep { height:24px; margin:0 10px; }
-            .main-tab { font-size:0.82rem; padding:12px 14px; min-height:46px; }
+            .hero { padding:40px 16px 28px; }
+            .hero .overline { font-size:0.68rem; letter-spacing:3px; margin-bottom:14px; }
+            .hero h1 { font-size:1.3rem; letter-spacing:0; }
+            .hero .subtitle { font-size:0.82rem; }
+            .hero .gold-sep { margin:14px auto; }
+            .hero .meta-row { font-size:0.78rem; gap:10px; flex-direction:column; align-items:center; }
+            .hero .pill { font-size:0.7rem; padding:5px 12px; }
+            .hero-logos { margin-top:20px; padding-top:16px; }
+            .hero-logos img { height:20px; }
+            .hero-logos .sep { height:20px; margin:0 8px; }
+
+            section { padding:36px 0; }
+            section h2 { font-size:1.2rem; }
+            .section-note { font-size:0.84rem; margin-bottom:22px; }
+
+            .overview-grid { grid-template-columns:1fr 1fr; gap:10px; }
+            .ov-card { padding:16px 14px; }
+            .ov-card h4 { font-size:0.66rem; }
+            .ov-card p { font-size:0.82rem; }
+
+            .main-tab { font-size:0.8rem; padding:12px 10px; min-height:46px; gap:5px; }
+            .main-tab svg { width:14px; height:14px; }
+            .day-tab { font-size:0.78rem; padding:12px 14px; min-height:44px; }
             .prog-shell { border-radius:10px; }
+
+            .sess { padding:12px 14px; }
+            .sess-hdr { font-size:0.74rem; }
+            .talk { flex-direction:column; gap:1px; padding:5px 0 5px 12px; }
+            .talk-time { font-size:0.72rem; }
+            .talk-topic { font-size:0.84rem; }
+            .talk-who { font-size:0.74rem; white-space:normal; }
+            .mod-row { font-size:0.74rem; }
+            .brk-row { font-size:0.76rem; }
+
+            .reg-card { padding:24px 16px; }
+            .consent-box { padding:20px 16px; }
+            .consent-text { font-size:0.74rem; max-height:120px; }
+            .consent-check { font-size:0.78rem; }
+            .form-iframe { min-height:900px; }
+            .form-blocked::after { font-size:0.82rem; padding:20px; }
+
+            .site-footer { font-size:0.72rem; padding:22px 14px; }
+        }
+
+        /* ── RESPONSIVE: SMALL PHONE ──────────── */
+        @media (max-width:400px) {
+            .hero h1 { font-size:1.15rem; }
+            .hero .subtitle { font-size:0.76rem; }
+            .hero .pill-row { gap:6px; }
+            .hero .pill { font-size:0.66rem; padding:4px 10px; }
+            .overview-grid { grid-template-columns:1fr; }
+            .hero-logos { gap:4px; }
+            .hero-logos img { height:17px; }
+            .hero-logos .sep { height:17px; margin:0 6px; }
+            .main-tab { font-size:0.74rem; padding:10px 6px; }
+            .day-tab { font-size:0.72rem; padding:10px 10px; }
+            .sess { padding:10px 10px; }
+            .talk { padding:4px 0 4px 8px; }
         }
     </style>
 </head>
@@ -265,7 +318,7 @@
         <div class="pill-row" aria-label="Público-alvo">
             <span class="pill">Médicos</span><span class="pill">Enfermeiros</span>
             <span class="pill">Farmacêuticos</span><span class="pill">Biomédicos</span>
-            <span class="pill">Gratuito</span><span class="pill">100 Vagas</span>
+            <span class="pill">Gratuito</span><span class="pill">90 Vagas</span>
         </div>
 
         <div class="hero-logos" aria-label="Realização">
@@ -433,7 +486,7 @@
         <h2>Inscreva-se</h2>
         <p class="section-note">Evento gratuito. Vagas limitadas. Garanta sua presença.</p>
         <div class="reg-card">
-            <div class="spots-badge" aria-live="polite">Vagas: <span>100</span> disponíveis</div>
+            <div class="spots-badge" aria-live="polite">Vagas: <span>90</span> disponíveis</div>
 
             <div class="consent-box" id="consent-box">
                 <h4>
