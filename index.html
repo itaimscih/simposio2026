@@ -98,17 +98,18 @@
             border:1px solid rgba(255,255,255,0.12);
         }
 
-        /* ── HERO LOGOS ───────────────────────── */
+        /* ── HERO LOGOS (per manual: mesma altura lettering, centro, traco divisor) ── */
         .hero-logos {
             margin-top:26px; padding-top:22px;
             border-top:1px solid rgba(255,255,255,0.12);
             display:flex; align-items:center; justify-content:center;
-            gap:0; flex-wrap:wrap;
+            gap:14px; flex-wrap:wrap; row-gap:10px;
         }
-        .hero-logos img { height:28px; }
+        .hero-logos img { height:28px; vertical-align:middle; flex-shrink:0; }
         .hero-logos .sep {
             display:inline-block; width:1px; height:30px;
-            background:var(--gold); margin:0 18px; opacity:0.6;
+            background:var(--gold); margin:0 8px; opacity:0.6;
+            flex-shrink:0; align-self:center;
         }
 
         /* ── MAIN NAV ────────────────────────── */
@@ -239,9 +240,9 @@
             .hero .gold-sep { margin:14px auto; }
             .hero .meta-row { font-size:0.78rem; gap:10px; flex-direction:column; align-items:center; }
             .hero .pill { font-size:0.7rem; padding:5px 12px; }
-            .hero-logos { margin-top:20px; padding-top:16px; }
-            .hero-logos img { height:20px; }
-            .hero-logos .sep { height:20px; margin:0 8px; }
+            .hero-logos { margin-top:18px; padding-top:14px; gap:10px; row-gap:8px; }
+            .hero-logos img { height:22px; }
+            .hero-logos .sep { height:24px; margin:0 10px; }
 
             section { padding:36px 0; }
             section h2 { font-size:1.2rem; }
@@ -283,9 +284,9 @@
             .hero .pill-row { gap:6px; }
             .hero .pill { font-size:0.66rem; padding:4px 10px; }
             .overview-grid { grid-template-columns:1fr; }
-            .hero-logos { gap:4px; }
-            .hero-logos img { height:17px; }
-            .hero-logos .sep { height:17px; margin:0 6px; }
+            .hero-logos { gap:6px; row-gap:6px; }
+            .hero-logos img { height:18px; }
+            .hero-logos .sep { height:20px; margin:0 6px; }
             .main-tab { font-size:0.74rem; padding:10px 6px; }
             .day-tab { font-size:0.72rem; padding:10px 10px; }
             .sess { padding:10px 10px; }
@@ -322,11 +323,11 @@
         </div>
 
         <div class="hero-logos" aria-label="Realização">
-            <img src="MaternidadeStar_png_converted.png" alt="Maternidade Star" style="height:28px;">
-            <img src="Itaim_png_whiteversion_converted.png" alt="São Luiz Itaim" style="height:28px; margin-left:14px;">
-            <img src="VNS_png_converted.png" alt="Vila Nova Star" style="height:28px; margin-left:14px;">
+            <img src="MaternidadeStar_png_converted.png" alt="Maternidade Star">
+            <img src="Itaim_png_whiteversion_converted.png" alt="São Luiz Itaim">
+            <img src="VNS_png_converted.png" alt="Vila Nova Star">
             <span class="sep" aria-hidden="true"></span>
-            <img src="Logo Rede Dor White.png" alt="Rede D'Or" style="height:28px;">
+            <img src="Logo Rede Dor White.png" alt="Rede D'Or">
         </div>
     </div>
 </header>
