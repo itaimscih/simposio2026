@@ -600,7 +600,7 @@
         <h2>Inscreva-se</h2>
         <p class="section-note">Evento gratuito. Vagas limitadas. Garanta sua presença.</p>
         <div class="reg-card">
-            <div class="spots-badge" aria-live="polite">Vagas: <span>90</span> disponíveis</div>
+            <div class="spots-badge" aria-live="polite" id="spots-badge">Vagas: <span id="spots-count">90</span> disponíveis</div>
 
             <div class="consent-box" id="consent-box">
                 <h4>
@@ -661,6 +661,30 @@
         btn.classList.add('active'); btn.setAttribute('aria-selected','true');
         document.getElementById(day).classList.add('active');
     }
+
+    // Contador dinamico de vagas
+    var SPOTS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZWq5izGS2TFREGrYUj0p1V0ofYnVvNR-RVQGPfbyILIEXaQtEXf7QpcZyc_heqAhapVgfm7tftHUt/pub?gid=0&single=true&output=csv';
+
+    function updateSpots() {
+        fetch(SPOTS_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(txt) {
+                var n = parseInt(txt.trim(), 10);
+                if (!isNaN(n)) {
+                    var el = document.getElementById('spots-count');
+                    el.textContent = n;
+                    if (n <= 0) {
+                        document.getElementById('spots-badge').style.background = '#8b1a1a';
+                        document.getElementById('spots-badge').innerHTML = 'Vagas <span>esgotadas</span>';
+                    } else if (n <= 10) {
+                        el.style.color = '#ff9966';
+                    }
+                }
+            })
+            .catch(function() { /* mantem valor padrao */ });
+    }
+
+    updateSpots();
 
     // Countdown
     (function updateCountdown() {
