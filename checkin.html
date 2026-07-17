@@ -16,100 +16,71 @@
             background: #F4F6F9; color: var(--text);
             min-height: 100vh; -webkit-font-smoothing: antialiased;
         }
-        .container { max-width: 520px; margin: 0 auto; padding: 20px 16px; }
-
-        /* Header */
-        .header {
-            background: var(--blue-dark); color: var(--white);
-            padding: 20px 16px; text-align: center;
-        }
+        .container { max-width: 520px; margin:0 auto; padding: 20px 16px; }
+        .header { background: var(--blue-dark); color: var(--white); padding: 20px 16px; text-align: center; }
         .header h1 { font-size: 1rem; font-weight: 700; line-height: 1.3; }
         .header .sub { font-size: 0.72rem; opacity: 0.65; margin-top: 4px; }
-
-        /* Stats bar */
-        .stats {
-            display: flex; gap: 10px; margin: 16px 0;
-        }
-        .stat-card {
-            flex:1; background: var(--white); border-radius: 10px;
-            padding: 14px 12px; text-align: center;
-            border: 1px solid var(--border);
-        }
+        .stats { display: flex; gap: 10px; margin: 16px 0; }
+        .stat-card { flex:1; background: var(--white); border-radius: 10px; padding: 14px 12px; text-align: center; border: 1px solid var(--border); }
         .stat-num { font-size: 1.6rem; font-weight: 800; color: var(--blue); line-height: 1; }
         .stat-num.done { color: var(--green); }
         .stat-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; }
-
-        /* Search */
-        .search-box {
-            position: relative; margin-bottom: 10px;
-        }
+        .search-box { margin-bottom: 10px; }
         .search-box input {
             width: 100%; padding: 14px 16px; font-size: 1rem;
             border: 2px solid var(--border); border-radius: 12px;
             font-family: inherit; background: var(--white);
-            transition: border-color 0.2s;
         }
         .search-box input:focus { outline: none; border-color: var(--blue); }
-
-        /* Participant list */
         .participant {
             background: var(--white); border: 1px solid var(--border);
-            border-radius: 10px; padding: 14px 16px;
-            margin-bottom: 8px; display: flex; align-items: center;
-            gap: 12px; cursor: pointer; transition: all 0.15s;
+            border-radius: 10px; padding: 14px 16px; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 12px;
             -webkit-tap-highlight-color: transparent;
         }
-        .participant:active { background: #F0F4FF; }
         .participant .info { flex:1; min-width:0; }
         .participant .name { font-weight: 700; font-size: 0.9rem; }
         .participant .detail { font-size: 0.74rem; color: var(--muted); margin-top: 2px; }
         .check-badge {
-            padding: 8px 14px; border-radius: 20px;
-            font-size: 0.72rem; font-weight: 700; white-space: nowrap;
-            letter-spacing: 0.3px; flex-shrink:0;
+            padding: 8px 14px; border-radius: 20px; font-size: 0.72rem;
+            font-weight: 700; white-space: nowrap; flex-shrink:0; cursor: pointer;
         }
         .check-badge.in { background: #e6f7ee; color: var(--green); }
-        .check-badge.out { background: #f5f5f5; color: var(--muted); }
-
-        /* PIN screen */
+        .check-badge.out { background: #f0f0f0; color: var(--muted); }
         .pin-screen {
-            position: fixed; inset: 0; background: var(--blue-dark);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100; flex-direction: column; gap: 20px;
+            position: fixed; inset:0; background: var(--blue-dark);
+            display: flex; align-items:center; justify-content:center;
+            z-index:100; flex-direction:column; gap:20px;
         }
-        .pin-screen.hidden { display: none; }
-        .pin-screen h2 { color: var(--white); font-size: 1rem; }
+        .pin-screen.hidden { display:none; }
+        .pin-screen h2 { color:var(--white); font-size:1rem; }
         .pin-screen input {
-            font-size: 1.8rem; width: 160px; text-align: center;
-            padding: 12px; border-radius: 10px; border: 2px solid var(--gold);
-            background: rgba(255,255,255,0.1); color: var(--white);
-            letter-spacing: 6px; font-family: monospace;
+            font-size:1.6rem; width:200px; text-align:center;
+            padding:12px; border-radius:10px; border:2px solid var(--gold);
+            background:rgba(255,255,255,0.1); color:var(--white);
+            letter-spacing:4px; font-family:monospace;
         }
-        .pin-screen input:focus { outline: none; border-color: var(--white); }
-        .pin-screen .pin-error { color: #ff9999; font-size: 0.78rem; display: none; }
-
-        /* Toast */
+        .pin-screen input:focus { outline:none; border-color:var(--white); }
+        .pin-screen .pin-error { color:#ff9999; font-size:0.78rem; display:none; }
         .toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-            background: var(--text); color: var(--white); padding: 12px 24px;
-            border-radius: 24px; font-weight: 600; font-size: 0.85rem;
-            z-index: 200; opacity: 0; transition: opacity 0.3s;
+            position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+            background:var(--text); color:var(--white); padding:12px 24px;
+            border-radius:24px; font-weight:600; font-size:0.85rem;
+            z-index:200; opacity:0; transition:opacity 0.3s;
         }
-        .toast.show { opacity: 1; }
-
-        .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+        .toast.show { opacity:1; }
+        .empty-state { text-align:center; padding:40px 20px; color:var(--muted); }
+        .error-state { text-align:center; padding:20px; color:var(--red); font-size:0.85rem; }
     </style>
 </head>
 <body>
 
-<!-- PIN SCREEN -->
 <div class="pin-screen" id="pin-screen">
-    <h2>Check-in — II Simpósio IRAS</h2>
+    <h2>Check-in · II Simpósio IRAS</h2>
     <input type="password" id="pin-input" placeholder="PIN" maxlength="20" autofocus>
     <div class="pin-error" id="pin-error">PIN incorreto</div>
 </div>
 
-<!-- MAIN -->
 <div class="header">
     <h1>Check-in · II Simpósio IRAS<br>e Stewardship</h1>
     <div class="sub">14-15 Agosto 2026 · São Luiz Itaim</div>
@@ -117,168 +88,160 @@
 
 <div class="container">
     <div class="stats">
-        <div class="stat-card">
-            <div class="stat-num done" id="stat-checked">-</div>
-            <div class="stat-label">Check-in</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-num" id="stat-total">-</div>
-            <div class="stat-label">Inscritos</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-num" id="stat-pending">-</div>
-            <div class="stat-label">Pendentes</div>
-        </div>
+        <div class="stat-card"><div class="stat-num done" id="stat-checked">-</div><div class="stat-label">Check-in</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-total">-</div><div class="stat-label">Inscritos</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-pending">-</div><div class="stat-label">Pendentes</div></div>
     </div>
-
     <div class="search-box">
-        <input type="text" id="search-input" placeholder="Buscar por nome ou e-mail..." autocomplete="off">
+        <input type="text" id="search-input" placeholder="Buscar por nome..." autocomplete="off">
     </div>
-
     <div id="results"></div>
+    <div class="error-state" id="error-msg" style="display:none"></div>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-    // ═══════════════════════════════════════════════════
-    // CONFIGURACAO — substituir pela URL do Apps Script
-    // ═══════════════════════════════════════════════════
-    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsBmwxGAJEhuZ_0usWabuHUhLlWxCte8_gT0sB5LOdAdB-NNINORo93qn7vc6F7mE/exec';
-    var PIN = '';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsBmwxGAJEhuZ_0usWabuHUhLlWxCte8_gT0sB5LOdAdB-NNINORo93qn7vc6F7mE/exec';
+var PIN = '';
 
-    // ── PIN ──────────────────────────────────────────
-    var pinInput = document.getElementById('pin-input');
-    pinInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') verifyPin();
-    });
+// ── PIN ──────────────────────────────────────────
+var pinInput = document.getElementById('pin-input');
+pinInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') verifyPin();
+});
 
-    function verifyPin() {
-        var pin = pinInput.value.trim();
-        if (!pin) return;
-        fetch(SCRIPT_URL + '?action=auth&pin=' + encodeURIComponent(pin))
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                if (data.valid) {
-                    PIN = pin;
-                    document.getElementById('pin-screen').classList.add('hidden');
-                    loadAll();
-                    document.getElementById('search-input').focus();
-                } else {
-                    document.getElementById('pin-error').style.display = 'block';
-                    pinInput.value = '';
-                }
-            })
-            .catch(function() {
-                document.getElementById('pin-error').textContent = 'Erro de conexao';
-                document.getElementById('pin-error').style.display = 'block';
-            });
-    }
-
-    // ── LOAD ─────────────────────────────────────────
-    function loadAll() {
-        fetch(SCRIPT_URL + '?action=all&pin=' + PIN)
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                if (data.error) return;
-                var all = data.results || [];
-                var checked = all.filter(function(p) { return p.checkedIn; }).length;
-                document.getElementById('stat-checked').textContent = checked;
-                document.getElementById('stat-total').textContent = all.length;
-                document.getElementById('stat-pending').textContent = all.length - checked;
-            })
-            .catch(function() {});
-    }
-
-    // ── SEARCH ───────────────────────────────────────
-    var searchTimer;
-    document.getElementById('search-input').addEventListener('input', function() {
-        clearTimeout(searchTimer);
-        var q = this.value.trim();
-        if (q.length < 2) {
-            if (q.length === 0) loadAll();
-            document.getElementById('results').innerHTML = '';
-            return;
-        }
-        searchTimer = setTimeout(function() { doSearch(q); }, 300);
-    });
-
-    function doSearch(q) {
-        fetch(SCRIPT_URL + '?action=search&q=' + encodeURIComponent(q) + '&pin=' + PIN)
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                if (data.error) return;
-                renderResults(data.results || []);
-            })
-            .catch(function() {});
-    }
-
-    // ── RENDER ───────────────────────────────────────
-    function renderResults(list) {
-        var el = document.getElementById('results');
-        if (list.length === 0) {
-            el.innerHTML = '<div class="empty-state">Nenhum participante encontrado</div>';
-            return;
-        }
-        el.innerHTML = list.map(function(p) {
-            var badge = p.checkedIn
-                ? '<span class="check-badge in">Confirmado ' + (p.checkedIn) + '</span>'
-                : '<span class="check-badge out">Check-in</span>';
-            return '<div class="participant" onclick="doCheckin(' + p.row + ', this)" data-row="' + p.row + '">' +
-                '<div class="info">' +
-                    '<div class="name">' + esc(p.nome) + '</div>' +
-                    '<div class="detail">' + esc(p.profissao) + ' · ' + esc(p.instituicao) + '</div>' +
-                '</div>' + badge +
-            '</div>';
-        }).join('');
-    }
-
-    function esc(s) {
-        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
-
-    // ── CHECKIN ──────────────────────────────────────
-    function doCheckin(row, el) {
-        var badge = el.querySelector('.check-badge');
-        var isCheckedIn = badge.classList.contains('in');
-
-        if (isCheckedIn) {
-            // Desfazer check-in
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'undo', row: row, pin: PIN }),
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function(r) { return r.json(); })
-              .then(function(data) {
-                if (data.success) {
-                    badge.className = 'check-badge out';
-                    badge.textContent = 'Check-in';
-                    toast('Check-in removido');
-                    loadAll();
-                }
-            });
+function verifyPin() {
+    var pin = pinInput.value.trim();
+    if (!pin) return;
+    jsonp('auth', {pin:pin}, function(data) {
+        if (data.valid) {
+            PIN = pin;
+            document.getElementById('pin-screen').classList.add('hidden');
+            loadAll();
+            document.getElementById('search-input').focus();
         } else {
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'checkin', row: row, pin: PIN }),
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function(r) { return r.json(); })
-              .then(function(data) {
-                if (data.success) {
-                    badge.className = 'check-badge in';
-                    badge.textContent = 'Confirmado ' + data.timestamp;
-                    toast('Check-in confirmado!');
-                    loadAll();
-                }
-            });
+            document.getElementById('pin-error').style.display = 'block';
+            pinInput.value = '';
         }
-    }
+    });
+}
 
-    function toast(msg) {
-        var t = document.getElementById('toast');
-        t.textContent = msg; t.classList.add('show');
-        setTimeout(function() { t.classList.remove('show'); }, 2000);
+// ── JSONP (bypass CORS para GET) ──────────────────
+var jsonpCounter = 0;
+function jsonp(action, params, callback) {
+    var cbName = '_cb' + (++jsonpCounter);
+    window[cbName] = function(data) {
+        callback(data);
+        delete window[cbName];
+        document.head.removeChild(document.getElementById('scr_' + cbName));
+    };
+    var url = SCRIPT_URL + '?action=' + action + '&pin=' + encodeURIComponent(PIN || params.pin || '');
+    if (params.q) url += '&q=' + encodeURIComponent(params.q);
+    url += '&callback=' + cbName;
+    var s = document.createElement('script');
+    s.id = 'scr_' + cbName;
+    s.src = url;
+    document.head.appendChild(s);
+}
+
+// ── POST (fetch com formulario fallback) ──────────
+function apiPost(body, callback) {
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {'Content-Type': 'application/json'}
+    })
+    .then(function(r) { return r.json(); })
+    .then(callback)
+    .catch(function(err) {
+        callback({ success: false, message: 'Erro de conexao: ' + err });
+    });
+}
+
+// ── LOAD ─────────────────────────────────────────
+function loadAll() {
+    jsonp('all', {}, function(data) {
+        if (data.error) {
+            document.getElementById('error-msg').textContent = data.error;
+            document.getElementById('error-msg').style.display = 'block';
+            return;
+        }
+        document.getElementById('error-msg').style.display = 'none';
+        var all = data.results || [];
+        var checked = all.filter(function(p) { return p.checkedIn; }).length;
+        document.getElementById('stat-checked').textContent = checked;
+        document.getElementById('stat-total').textContent = all.length;
+        document.getElementById('stat-pending').textContent = all.length - checked;
+    });
+}
+
+// ── SEARCH ───────────────────────────────────────
+var searchTimer;
+document.getElementById('search-input').addEventListener('input', function() {
+    clearTimeout(searchTimer);
+    var q = this.value.trim();
+    if (q.length === 0) { loadAll(); document.getElementById('results').innerHTML = ''; return; }
+    if (q.length < 2) return;
+    searchTimer = setTimeout(function() { doSearch(q); }, 300);
+});
+
+function doSearch(q) {
+    jsonp('search', {q: q}, function(data) {
+        if (data.error) return;
+        renderResults(data.results || []);
+    });
+}
+
+// ── RENDER ───────────────────────────────────────
+function renderResults(list) {
+    var el = document.getElementById('results');
+    if (list.length === 0) {
+        el.innerHTML = '<div class="empty-state">Nenhum participante encontrado</div>';
+        return;
     }
+    el.innerHTML = list.map(function(p) {
+        var badge = p.checkedIn
+            ? '<span class="check-badge in" onclick="doCheckin(' + p.row + ',this)">Confirmado ' + esc(p.checkedIn) + '</span>'
+            : '<span class="check-badge out" onclick="doCheckin(' + p.row + ',this)">Check-in</span>';
+        return '<div class="participant">' +
+            '<div class="info"><div class="name">' + esc(p.nome) + '</div>' +
+            '<div class="detail">' + esc(p.profissao) + ' · ' + esc(p.instituicao) + '</div></div>' +
+            badge + '</div>';
+    }).join('');
+}
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── CHECKIN ──────────────────────────────────────
+function doCheckin(row, el) {
+    var badge = el.querySelector ? el.querySelector('.check-badge') : el;
+    if (!badge || badge.tagName !== 'SPAN') badge = el;
+    var isIn = badge.classList.contains('in');
+
+    var action = isIn ? 'undo' : 'checkin';
+    apiPost({ action: action, row: row, pin: PIN }, function(data) {
+        if (data.success) {
+            if (isIn) {
+                badge.className = 'check-badge out';
+                badge.textContent = 'Check-in';
+                toast('Check-in removido');
+            } else {
+                badge.className = 'check-badge in';
+                badge.textContent = 'Confirmado ' + (data.timestamp || '');
+                toast('Check-in confirmado!');
+            }
+            loadAll();
+        } else {
+            toast(data.message || 'Erro');
+        }
+    });
+}
+
+function toast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 2000);
+}
 </script>
 </body>
 </html>
