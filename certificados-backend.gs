@@ -113,6 +113,22 @@ function buildHTML(nome, cpf, conselho, dias) {
     '</div>\n</body>\n</html>';
 }
 
+// ── TESTE ───────────────────────────────────────
+
+function testarCertificado() {
+  const html = buildHTML(
+    'Maria Silva Santos',
+    '123.456.789-00',
+    'CRM 123456',
+    ['14/08', '15/08']
+  );
+  const blob = HtmlService.createHtmlOutput(html)
+      .setWidth(1122).setHeight(793).getBlob().setName('certificado_teste.pdf');
+  const folder = getOrCreateFolder(FOLDER_NAME);
+  folder.createFile(blob).setName('TESTE_Certificado_Maria_Silva_Santos.pdf');
+  Logger.log('Certificado de teste gerado na pasta ' + FOLDER_NAME);
+}
+
 // ── Helpers ──────────────────────────────────────
 
 function getOrCreateFolder(name) {
