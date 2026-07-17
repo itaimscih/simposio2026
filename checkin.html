@@ -8,7 +8,7 @@
         :root {
             --blue: #003DA5; --blue-dark: #002855; --gold: #C6A27C;
             --white: #FFF; --text: #1A1E26; --muted: #6B7280;
-            --border: #E2E6EC; --green: #0a7a3a; --red: #8b1a1a;
+            --border: #E2E6EC; --green: #0a7a3a;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
@@ -17,60 +17,61 @@
             min-height: 100vh; -webkit-font-smoothing: antialiased;
         }
         .container { max-width: 520px; margin:0 auto; padding: 20px 16px; }
-        .header { background: var(--blue-dark); color: var(--white); padding: 20px 16px; text-align: center; }
-        .header h1 { font-size: 1rem; font-weight: 700; line-height: 1.3; }
-        .header .sub { font-size: 0.72rem; opacity: 0.65; margin-top: 4px; }
-        .stats { display: flex; gap: 10px; margin: 16px 0; }
-        .stat-card { flex:1; background: var(--white); border-radius: 10px; padding: 14px 12px; text-align: center; border: 1px solid var(--border); }
-        .stat-num { font-size: 1.6rem; font-weight: 800; color: var(--blue); line-height: 1; }
+        .header { background: var(--blue-dark); color: var(--white); padding: 16px; text-align: center; }
+        .header h1 { font-size: 1rem; font-weight: 700; }
+        .header .sub { font-size: 0.7rem; opacity: 0.65; }
+        .stats { display: flex; gap: 8px; margin: 14px 0; }
+        .stat-card { flex:1; background: var(--white); border-radius: 8px; padding: 10px 8px; text-align: center; border: 1px solid var(--border); }
+        .stat-num { font-size: 1.3rem; font-weight: 800; color: var(--blue); line-height: 1; }
         .stat-num.done { color: var(--green); }
-        .stat-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; }
-        .search-box { margin-bottom: 10px; }
+        .stat-label { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 3px; }
+        .search-box { margin-bottom: 8px; }
         .search-box input {
-            width: 100%; padding: 14px 16px; font-size: 1rem;
-            border: 2px solid var(--border); border-radius: 12px;
+            width: 100%; padding: 12px 14px; font-size: 0.95rem;
+            border: 2px solid var(--border); border-radius: 10px;
             font-family: inherit; background: var(--white);
         }
         .search-box input:focus { outline: none; border-color: var(--blue); }
         .participant {
             background: var(--white); border: 1px solid var(--border);
-            border-radius: 10px; padding: 14px 16px; margin-bottom: 8px;
-            display: flex; align-items: center; gap: 12px;
+            border-radius: 10px; padding: 12px 14px; margin-bottom: 6px;
+            display: flex; align-items: center; gap: 10px;
             -webkit-tap-highlight-color: transparent;
         }
         .participant .info { flex:1; min-width:0; }
-        .participant .name { font-weight: 700; font-size: 0.9rem; }
-        .participant .detail { font-size: 0.74rem; color: var(--muted); margin-top: 2px; }
-        .check-badge {
-            padding: 8px 14px; border-radius: 20px; font-size: 0.72rem;
-            font-weight: 700; white-space: nowrap; flex-shrink:0; cursor: pointer;
+        .participant .name { font-weight: 700; font-size: 0.88rem; }
+        .participant .detail { font-size: 0.72rem; color: var(--muted); }
+        .badges { display:flex; gap:6px; flex-shrink:0; }
+        .ck-badge {
+            padding: 8px 10px; border-radius: 16px; font-size: 0.66rem;
+            font-weight: 700; white-space: nowrap; cursor: pointer;
+            text-align: center; min-width: 44px; border: none; font-family: inherit;
         }
-        .check-badge.in { background: #e6f7ee; color: var(--green); }
-        .check-badge.out { background: #f0f0f0; color: var(--muted); }
+        .ck-badge.in { background: #e6f7ee; color: var(--green); }
+        .ck-badge.out { background: #f0f0f0; color: var(--muted); }
         .pin-screen {
             position: fixed; inset:0; background: var(--blue-dark);
             display: flex; align-items:center; justify-content:center;
-            z-index:100; flex-direction:column; gap:20px;
+            z-index:100; flex-direction:column; gap:16px;
         }
         .pin-screen.hidden { display:none; }
-        .pin-screen h2 { color:var(--white); font-size:1rem; }
+        .pin-screen h2 { color:var(--white); font-size:0.95rem; }
         .pin-screen input {
-            font-size:1.6rem; width:200px; text-align:center;
+            font-size:1.5rem; width:200px; text-align:center;
             padding:12px; border-radius:10px; border:2px solid var(--gold);
             background:rgba(255,255,255,0.1); color:var(--white);
             letter-spacing:4px; font-family:monospace;
         }
         .pin-screen input:focus { outline:none; border-color:var(--white); }
-        .pin-screen .pin-error { color:#ff9999; font-size:0.78rem; display:none; }
+        .pin-error { color:#ff9999; font-size:0.76rem; display:none; }
         .toast {
             position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
-            background:var(--text); color:var(--white); padding:12px 24px;
-            border-radius:24px; font-weight:600; font-size:0.85rem;
+            background:var(--text); color:var(--white); padding:10px 22px;
+            border-radius:20px; font-weight:600; font-size:0.82rem;
             z-index:200; opacity:0; transition:opacity 0.3s;
         }
         .toast.show { opacity:1; }
-        .empty-state { text-align:center; padding:40px 20px; color:var(--muted); }
-        .error-state { text-align:center; padding:20px; color:var(--red); font-size:0.85rem; }
+        .empty-state { text-align:center; padding:30px; color:var(--muted); font-size:0.85rem; }
     </style>
 </head>
 <body>
@@ -82,21 +83,20 @@
 </div>
 
 <div class="header">
-    <h1>Check-in · II Simpósio IRAS<br>e Stewardship</h1>
+    <h1>Check-in · II Simpósio IRAS e Stewardship</h1>
     <div class="sub">14-15 Agosto 2026 · São Luiz Itaim</div>
 </div>
 
 <div class="container">
     <div class="stats">
-        <div class="stat-card"><div class="stat-num done" id="stat-checked">-</div><div class="stat-label">Check-in</div></div>
+        <div class="stat-card"><div class="stat-num done" id="stat-d1">-</div><div class="stat-label">Dia 1</div></div>
+        <div class="stat-card"><div class="stat-num done" id="stat-d2">-</div><div class="stat-label">Dia 2</div></div>
         <div class="stat-card"><div class="stat-num" id="stat-total">-</div><div class="stat-label">Inscritos</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-pending">-</div><div class="stat-label">Pendentes</div></div>
     </div>
     <div class="search-box">
         <input type="text" id="search-input" placeholder="Buscar por nome..." autocomplete="off">
     </div>
     <div id="results"></div>
-    <div class="error-state" id="error-msg" style="display:none"></div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -114,11 +114,8 @@ function verifyPin() {
     var pin = pinInput.value.trim();
     if (!pin) return;
     pinInput.disabled = true;
-    pinInput.placeholder = 'Verificando...';
-
     jsonp('auth', {pin:pin}, function(data) {
         pinInput.disabled = false;
-        pinInput.placeholder = 'PIN';
         if (data && data.valid) {
             PIN = pin;
             document.getElementById('pin-screen').classList.add('hidden');
@@ -130,136 +127,90 @@ function verifyPin() {
         }
     }, function() {
         pinInput.disabled = false;
-        pinInput.placeholder = 'PIN';
-        document.getElementById('pin-error').textContent = 'Erro de conexao. Tente novamente.';
+        document.getElementById('pin-error').textContent = 'Erro de conexao';
         document.getElementById('pin-error').style.display = 'block';
     });
 }
 
-// ── JSONP (bypass CORS para GET) ──────────────────
-var jsonpCounter = 0;
-function jsonp(action, params, callback, errCallback) {
-    var cbName = '_cb' + (++jsonpCounter);
-    var timedOut = false;
-
-    window[cbName] = function(data) {
+// ── JSONP ────────────────────────────────────────
+var ctr = 0;
+function jsonp(action, params, cb, errCb) {
+    var name = '_cb' + (++ctr), timedOut = false;
+    window[name] = function(d) {
         if (timedOut) return;
-        clearTimeout(timer);
-        callback(data);
-        cleanup();
+        clearTimeout(timer); cb(d); cleanup();
     };
-
-    var timer = setTimeout(function() {
-        timedOut = true;
-        cleanup();
-        if (errCallback) errCallback();
-    }, 10000);
-
-    function cleanup() {
-        delete window[cbName];
-        var el = document.getElementById('scr_' + cbName);
-        if (el) document.head.removeChild(el);
-    }
-
+    var timer = setTimeout(function() { timedOut = true; cleanup(); if (errCb) errCb(); }, 10000);
+    function cleanup() { delete window[name]; var e = document.getElementById('s_' + name); if (e) e.remove(); }
     var url = SCRIPT_URL + '?action=' + action + '&pin=' + encodeURIComponent(PIN || params.pin || '');
     if (params.q) url += '&q=' + encodeURIComponent(params.q);
-    url += '&callback=' + cbName;
+    url += '&callback=' + name;
     var s = document.createElement('script');
-    s.id = 'scr_' + cbName;
-    s.onerror = function() {
-        clearTimeout(timer);
-        cleanup();
-        if (errCallback) errCallback();
-    };
-    s.src = url;
+    s.id = 's_' + name; s.src = url;
+    s.onerror = function() { clearTimeout(timer); cleanup(); if (errCb) errCb(); };
     document.head.appendChild(s);
 }
 
-// ── POST (fetch com formulario fallback) ──────────
-function apiPost(body, callback) {
-    fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: {'Content-Type': 'application/json'}
-    })
-    .then(function(r) { return r.json(); })
-    .then(callback)
-    .catch(function(err) {
-        callback({ success: false, message: 'Erro de conexao: ' + err });
-    });
+// ── POST ─────────────────────────────────────────
+function apiPost(body, cb) {
+    fetch(SCRIPT_URL, { method:'POST', body:JSON.stringify(body), headers:{'Content-Type':'application/json'} })
+        .then(function(r) { return r.json(); })
+        .then(cb)
+        .catch(function(e) { cb({ success:false, message:'Erro de conexao' }); });
 }
 
 // ── LOAD ─────────────────────────────────────────
 function loadAll() {
     jsonp('all', {}, function(data) {
-        if (data.error) {
-            document.getElementById('error-msg').textContent = data.error;
-            document.getElementById('error-msg').style.display = 'block';
-            return;
-        }
-        document.getElementById('error-msg').style.display = 'none';
+        if (data.error) return;
         var all = data.results || [];
-        var checked = all.filter(function(p) { return p.checkedIn; }).length;
-        document.getElementById('stat-checked').textContent = checked;
+        var d1 = all.filter(function(p) { return p.d1; }).length;
+        var d2 = all.filter(function(p) { return p.d2; }).length;
+        document.getElementById('stat-d1').textContent = d1;
+        document.getElementById('stat-d2').textContent = d2;
         document.getElementById('stat-total').textContent = all.length;
-        document.getElementById('stat-pending').textContent = all.length - checked;
     });
 }
 
 // ── SEARCH ───────────────────────────────────────
-var searchTimer;
+var tmr;
 document.getElementById('search-input').addEventListener('input', function() {
-    clearTimeout(searchTimer);
+    clearTimeout(tmr);
     var q = this.value.trim();
-    if (q.length === 0) { loadAll(); document.getElementById('results').innerHTML = ''; return; }
+    if (!q) { loadAll(); document.getElementById('results').innerHTML = ''; return; }
     if (q.length < 2) return;
-    searchTimer = setTimeout(function() { doSearch(q); }, 300);
+    tmr = setTimeout(function() { jsonp('search', {q:q}, function(data) { render(data.results || []); }); }, 300);
 });
 
-function doSearch(q) {
-    jsonp('search', {q: q}, function(data) {
-        if (data.error) return;
-        renderResults(data.results || []);
-    });
-}
-
 // ── RENDER ───────────────────────────────────────
-function renderResults(list) {
+function render(list) {
     var el = document.getElementById('results');
-    if (list.length === 0) {
-        el.innerHTML = '<div class="empty-state">Nenhum participante encontrado</div>';
-        return;
-    }
+    if (!list.length) { el.innerHTML = '<div class="empty-state">Nenhum encontrado</div>'; return; }
     el.innerHTML = list.map(function(p) {
-        var badge = p.checkedIn
-            ? '<span class="check-badge in" onclick="doCheckin(' + p.row + ',this)">Confirmado ' + esc(p.checkedIn) + '</span>'
-            : '<span class="check-badge out" onclick="doCheckin(' + p.row + ',this)">Check-in</span>';
-        return '<div class="participant">' +
-            '<div class="info"><div class="name">' + esc(p.nome) + '</div>' +
+        var b1 = p.d1 ? '<button class="ck-badge in" onclick="ck(' + p.row + ',\'undo-d1\',this)">D1 '+esc(p.d1)+'</button>'
+                       : '<button class="ck-badge out" onclick="ck(' + p.row + ',\'checkin-d1\',this)">D1</button>';
+        var b2 = p.d2 ? '<button class="ck-badge in" onclick="ck(' + p.row + ',\'undo-d2\',this)">D2 '+esc(p.d2)+'</button>'
+                       : '<button class="ck-badge out" onclick="ck(' + p.row + ',\'checkin-d2\',this)">D2</button>';
+        return '<div class="participant"><div class="info"><div class="name">' + esc(p.nome) + '</div>' +
             '<div class="detail">' + esc(p.profissao) + ' · ' + esc(p.instituicao) + '</div></div>' +
-            badge + '</div>';
+            '<div class="badges">' + b1 + b2 + '</div></div>';
     }).join('');
 }
 
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ── CHECKIN ──────────────────────────────────────
-function doCheckin(row, el) {
-    var badge = el.querySelector ? el.querySelector('.check-badge') : el;
-    if (!badge || badge.tagName !== 'SPAN') badge = el;
-    var isIn = badge.classList.contains('in');
-
-    var action = isIn ? 'undo' : 'checkin';
-    apiPost({ action: action, row: row, pin: PIN }, function(data) {
+function ck(row, action, btn) {
+    apiPost({ action:action, row:row, pin:PIN }, function(data) {
         if (data.success) {
-            if (isIn) {
-                badge.className = 'check-badge out';
-                badge.textContent = 'Check-in';
-                toast('Check-in removido');
+            if (action.startsWith('undo')) {
+                btn.className = 'ck-badge out';
+                btn.textContent = action === 'undo-d1' ? 'D1' : 'D2';
+                toast(action === 'undo-d1' ? 'Dia 1 removido' : 'Dia 2 removido');
             } else {
-                badge.className = 'check-badge in';
-                badge.textContent = 'Confirmado ' + (data.timestamp || '');
-                toast('Check-in confirmado!');
+                btn.className = 'ck-badge in';
+                btn.textContent = (action === 'checkin-d1' ? 'D1 ' : 'D2 ') + data.timestamp;
+                toast((action === 'checkin-d1' ? 'Dia 1' : 'Dia 2') + ' confirmado!');
             }
             loadAll();
         } else {
