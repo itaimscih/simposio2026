@@ -113,8 +113,13 @@ pinInput.addEventListener('keydown', function(e) {
 function verifyPin() {
     var pin = pinInput.value.trim();
     if (!pin) return;
+    pinInput.disabled = true;
+    pinInput.placeholder = 'Verificando...';
+
     jsonp('auth', {pin:pin}, function(data) {
-        if (data.valid) {
+        pinInput.disabled = false;
+        pinInput.placeholder = 'PIN';
+        if (data && data.valid) {
             PIN = pin;
             document.getElementById('pin-screen').classList.add('hidden');
             loadAll();
@@ -123,23 +128,49 @@ function verifyPin() {
             document.getElementById('pin-error').style.display = 'block';
             pinInput.value = '';
         }
+    }, function() {
+        pinInput.disabled = false;
+        pinInput.placeholder = 'PIN';
+        document.getElementById('pin-error').textContent = 'Erro de conexao. Tente novamente.';
+        document.getElementById('pin-error').style.display = 'block';
     });
 }
 
 // ── JSONP (bypass CORS para GET) ──────────────────
 var jsonpCounter = 0;
-function jsonp(action, params, callback) {
+function jsonp(action, params, callback, errCallback) {
     var cbName = '_cb' + (++jsonpCounter);
+    var timedOut = false;
+
     window[cbName] = function(data) {
+        if (timedOut) return;
+        clearTimeout(timer);
         callback(data);
-        delete window[cbName];
-        document.head.removeChild(document.getElementById('scr_' + cbName));
+        cleanup();
     };
+
+    var timer = setTimeout(function() {
+        timedOut = true;
+        cleanup();
+        if (errCallback) errCallback();
+    }, 10000);
+
+    function cleanup() {
+        delete window[cbName];
+        var el = document.getElementById('scr_' + cbName);
+        if (el) document.head.removeChild(el);
+    }
+
     var url = SCRIPT_URL + '?action=' + action + '&pin=' + encodeURIComponent(PIN || params.pin || '');
     if (params.q) url += '&q=' + encodeURIComponent(params.q);
     url += '&callback=' + cbName;
     var s = document.createElement('script');
     s.id = 'scr_' + cbName;
+    s.onerror = function() {
+        clearTimeout(timer);
+        cleanup();
+        if (errCallback) errCallback();
+    };
     s.src = url;
     document.head.appendChild(s);
 }
