@@ -19,11 +19,17 @@ function doGet(e) {
 
   try {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-    const sheet = ss.getSheetByName(SHEET_NAME);
-    if (!sheet) return json({ found: false, error: 'Base nao encontrada' }, callback);
+    var sheet = ss.getSheetByName(SHEET_NAME);
+    if (!sheet) {
+      sheet = ss.insertSheet(SHEET_NAME);
+      sheet.appendRow(['Codigo', 'Nome', 'Data de Emissao']);
+    }
 
-    const data = sheet.getDataRange().getValues();
-    for (let i = 1; i < data.length; i++) {
+    const lastRow = sheet.getLastRow();
+    if (lastRow < 2) return json({ found: false, error: 'Nenhum certificado registrado' }, callback);
+
+    const data = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
+    for (let i = 0; i < data.length; i++) {
       const rowCode = (data[i][0] || '').toString().trim().toUpperCase();
       if (rowCode === code) {
         return json({
