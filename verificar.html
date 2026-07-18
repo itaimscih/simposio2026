@@ -11,14 +11,12 @@
         body { font-family:'Montserrat','Verdana',sans-serif; background:#F5F7FA; color:var(--text); min-height:100vh; display:flex; align-items:center; justify-content:center; }
         .card { background:var(--white); border-radius:14px; padding:40px 32px; max-width:500px; width:90%; text-align:center; box-shadow:0 4px 24px rgba(0,20,50,0.08); border:1px solid #E2E6EC; }
         .icon-circle { width:64px; height:64px; margin:0 auto 20px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
-        .icon-circle.valid { background:#e6f7ee; }
-        .icon-circle.invalid { background:#fde8e8; }
+        .icon-circle.ok { background:#e6f7ee; } .icon-circle.fail { background:#fde8e8; }
         .icon-circle svg { width:32px; height:32px; }
         h2 { font-size:1.2rem; font-weight:800; margin-bottom:8px; }
         .name { font-size:1.1rem; font-weight:700; color:var(--blue); margin:16px 0 4px; }
         .info { font-size:0.85rem; color:var(--muted); line-height:1.6; }
         .code { font-size:0.7rem; color:var(--muted); margin-top:20px; letter-spacing:1px; }
-        .btn { display:inline-block; margin-top:20px; padding:10px 24px; background:var(--blue); color:var(--white); border-radius:8px; text-decoration:none; font-weight:600; font-size:0.85rem; }
     </style>
 </head>
 <body>
@@ -27,50 +25,54 @@
 </div>
 
 <script>
-    // ══════════════════════════════════════════════
-    // CONFIGURAR: Substituir pela URL do Apps Script
-    // apos fazer o deploy do verificar-backend.gs
-    // ══════════════════════════════════════════════
-    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2XsdmWZncwHWnoPSNdFK1gTFnfcFT5hGmckCFCpM6sMNVjFpTfuvZwxBfnHzNXsno/exec';
+    // CSV publicado da aba Verificacao (mesmo padrao do contador de vagas)
+    var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZWq5izGS2TFREGrYUj0p1V0ofYnVvNR-RVQGPfbyILIEXaQtEXf7QpcZyc_heqAhapVgfm7tftHUt/pub?gid=1727279012&single=true&output=csv';
 
     var params = new URLSearchParams(window.location.search);
     var code = (params.get('c') || '').trim().toUpperCase();
     var card = document.getElementById('card');
 
-    if (!code) {
-        showInvalid('Código não informado', 'Nenhum código de verificação foi fornecido.');
-    } else {
-        jsonp('verify', {c: code}, function(data) {
-            if (data.found) {
-                card.innerHTML =
-                    '<div class="icon-circle valid"><svg viewBox="0 0 24 24" fill="none" stroke="#0a7a3a" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>' +
-                    '<h2 style="color:var(--green);">Certificado Autêntico</h2>' +
-                    '<div class="name">' + esc(data.nome) + '</div>' +
-                    '<p class="info">Emitido em ' + esc(data.dataEmissao) + '<br>' + esc(data.evento) + '</p>' +
-                    '<div class="code">' + esc(code) + '</div>';
-            } else {
-                showInvalid('Código Inválido', 'O código <strong>' + esc(code) + '</strong> não foi encontrado.');
-            }
-        });
+    function show(title, color, msg) {
+        var icon = color === 'green' ? 'ok' : 'fail';
+        var svg = color === 'green'
+            ? '<svg viewBox="0 0 24 24" fill="none" stroke="#0a7a3a" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+            : '<svg viewBox="0 0 24 24" fill="none" stroke="#8b1a1a" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+        card.innerHTML = '<div class="icon-circle ' + icon + '">' + svg + '</div>' +
+            '<h2 style="color:' + (color==='green'?'var(--green)':'var(--red)') + ';">' + title + '</h2>' + msg;
     }
 
-    function showInvalid(title, msg) {
-        card.innerHTML =
-            '<div class="icon-circle invalid"><svg viewBox="0 0 24 24" fill="none" stroke="#8b1a1a" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>' +
-            '<h2 style="color:var(--red);">' + title + '</h2><p class="info">' + msg + '</p>';
+    if (!code) {
+        show('Código não informado', 'red', '<p class="info">Nenhum código de verificação foi fornecido.</p>');
+    } else {
+        fetch(CSV_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(csv) {
+                var lines = csv.trim().split('\n');
+                var found = null;
+                for (var i = 0; i < lines.length; i++) {
+                    var cols = lines[i].split(',');
+                    var rowCode = (cols[0] || '').trim().toUpperCase().replace(/"/g, '');
+                    if (rowCode === code) {
+                        found = { nome: cols[1] || '', data: cols[2] || '' };
+                        break;
+                    }
+                }
+                if (found) {
+                    show('Certificado Autêntico', 'green',
+                        '<div class="name">' + esc(found.nome) + '</div>' +
+                        '<p class="info">Emitido em ' + esc(found.data) + '<br>II Simpósio de Prevenção de IRAS e Stewardship de Antimicrobianos<br>Regional Sul — Rede D\'Or</p>' +
+                        '<div class="code">' + esc(code) + '</div>');
+                } else {
+                    show('Código Inválido', 'red',
+                        '<p class="info">O código <strong>' + esc(code) + '</strong> não foi encontrado.<br>Verifique se digitou corretamente.</p>');
+                }
+            })
+            .catch(function() {
+                show('Erro', 'red', '<p class="info">Serviço de verificação indisponível.<br>Tente novamente em instantes.</p>');
+            });
     }
 
     function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-    // ── JSONP ──────────────────────────────────
-    function jsonp(action, params, cb) {
-        var name = '_vcb' + Math.random().toString(36).slice(2);
-        window[name] = function(d) { cb(d); delete window[name]; };
-        var url = SCRIPT_URL + '?action=' + action + '&c=' + encodeURIComponent(params.c) + '&callback=' + name;
-        var s = document.createElement('script'); s.src = url;
-        s.onerror = function() { showInvalid('Erro', 'Servico de verificacao indisponivel.'); };
-        document.head.appendChild(s);
-    }
 </script>
 </body>
 </html>
