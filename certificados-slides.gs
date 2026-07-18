@@ -42,8 +42,9 @@ function gerarTodosCertificados() {
   for (let i = 0; i < data.length; i++) {
     const row = data[i];
     const nome = (row[1] || '').trim();
-    const cpf = formatCPF(row[5] || '');
-    const conselho = (row[6] || '').trim();
+    const cpf = formatCPF(row[6] || ''); // coluna G
+    const conselhoNum = (row[7] || '').trim(); // coluna H (so o numero)
+    const conselho = conselhoNum ? 'Conselho de Classe: ' + conselhoNum : '';
     const d1 = row[8], d2 = row[9];
 
     if (!d1 && !d2) { pulados++; continue; }
@@ -195,6 +196,11 @@ function formatCPF(cpf) {
   var nums = String(cpf).replace(/\D/g, '');
   if (nums.length !== 11) return cpf;
   return nums.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+}
+
+function formatarConselho(profissao, numero) {
+  if (!numero) return '';
+  return 'Conselho de Classe: ' + numero;
 }
 
 function formatarDias(dias) {
