@@ -63,8 +63,12 @@ function gerarTodosCertificados() {
       const fn = 'Certificado_' + nome.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '_') + '.pdf';
       folder.createFile(pdfBlob).setName(fn);
 
-      // Registra na aba de verificacao
-      registrarVerificacao(codigo, nome, dataEmissao);
+      // Registra codigo de verificacao na propria linha do participante (colunas K e L)
+      const linha = i + 2;
+      const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+      const mainSheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
+      mainSheet.getRange(linha, 11).setValue(codigo); // coluna K
+      mainSheet.getRange(linha, 12).setValue(dataEmissao); // coluna L
       gerados++;
     } catch (err) {
       Logger.log('Erro: ' + nome + ' - ' + err);

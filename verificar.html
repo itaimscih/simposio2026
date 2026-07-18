@@ -25,8 +25,8 @@
 </div>
 
 <script>
-    // CSV publicado da aba Verificacao (mesmo padrao do contador de vagas)
-    var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZWq5izGS2TFREGrYUj0p1V0ofYnVvNR-RVQGPfbyILIEXaQtEXf7QpcZyc_heqAhapVgfm7tftHUt/pub?gid=1727279012&single=true&output=csv';
+    // MESMO CSV do contador de vagas (gid=0) — colunas K e L tem codigo e data
+    var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZWq5izGS2TFREGrYUj0p1V0ofYnVvNR-RVQGPfbyILIEXaQtEXf7QpcZyc_heqAhapVgfm7tftHUt/pub?gid=0&single=true&output=csv';
 
     var params = new URLSearchParams(window.location.search);
     var code = (params.get('c') || '').trim().toUpperCase();
@@ -49,11 +49,12 @@
             .then(function(csv) {
                 var lines = csv.trim().split('\n');
                 var found = null;
-                for (var i = 0; i < lines.length; i++) {
+                for (var i = 1; i < lines.length; i++) { // pula cabecalho
                     var cols = lines[i].split(',');
-                    var rowCode = (cols[0] || '').trim().toUpperCase().replace(/"/g, '');
+                    // Coluna K (indice 10) = codigo, Coluna B (indice 1) = nome, Coluna L (indice 11) = data
+                    var rowCode = (cols[10] || '').trim().toUpperCase().replace(/"/g, '');
                     if (rowCode === code) {
-                        found = { nome: cols[1] || '', data: cols[2] || '' };
+                        found = { nome: cols[1] || '', data: cols[11] || '' };
                         break;
                     }
                 }
