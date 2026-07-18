@@ -58,7 +58,7 @@ function gerarTodosCertificados() {
 
     try {
       // Gera codigo de verificacao unico
-      const codigo = gerarCodigoVerificacao(nome, cpf);
+      const codigo = gerarCodigoVerificacao();
       const pdfBlob = gerarUmCertificado(nome, docInfo, diasTexto, dataEmissao, codigo);
       const fn = 'Certificado_' + nome.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '_') + '.pdf';
       folder.createFile(pdfBlob).setName(fn);
@@ -163,14 +163,9 @@ function testarCertificado() {
 
 // ── Verificacao ──────────────────────────────
 
-function gerarCodigoVerificacao(nome, cpf) {
-  const raw = nome + (cpf || '') + new Date().getTime();
-  const hash = Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, raw);
-  var hex = '';
-  for (var i = 0; i < hash.length; i++) {
-    hex += ('0' + (hash[i] & 0xFF).toString(16)).slice(-2);
-  }
-  return 'CERT-' + hex.substring(0, 8).toUpperCase();
+function gerarCodigoVerificacao() {
+  // Codigo totalmente aleatorio — nao deriva de dados pessoais
+  return 'CERT-' + Utilities.getUuid().substring(0, 8).toUpperCase();
 }
 
 function registrarVerificacao(codigo, nome, dataEmissao) {
