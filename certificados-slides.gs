@@ -92,6 +92,17 @@ function gerarUmCertificado(nome, documento, dias, dataEmissao, codigo, qualific
   substituirTexto(slide, '{{DATA}}', dataEmissao);
   substituirTexto(slide, '{{QUALIFICACAO}}', qualificacao || 'Ouvinte');
 
+  // DEBUG: verificar se a substituicao funcionou
+  Logger.log('Qualificacao enviada: ' + qualificacao);
+  slide.getShapes().forEach(function(s) {
+    if (s.getText) {
+      var t = s.getText().asString();
+      if (t.indexOf('Ouvinte') > -1 || t.indexOf('Palestrante') > -1 || t.indexOf('Comissão') > -1) {
+        Logger.log('Texto no shape: ' + t);
+      }
+    }
+  });
+
   // Codigo de verificacao
   if (codigo) {
     const urlVerif = 'https://itaimscih.github.io/simposio2026/verificar?c=' + codigo;
