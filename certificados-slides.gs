@@ -140,16 +140,21 @@ function substituirTexto(slide, placeholder, valor) {
 // ── Teste ──────────────────────────────────────
 
 function testarCertificado() {
+  const codigo = 'CERT-TESTE-0001';
+  const dataEmissao = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy');
   const pdfBlob = gerarUmCertificado(
     'Maria Silva Santos',
     'CPF 123.456.789-00 — CRM 123456',
     'nos dias 14 e 15 de agosto de 2026',
-    Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy'),
-    'CERT-TESTE-0001'
+    dataEmissao,
+    codigo
   );
   const folder = getOrCreateFolder(FOLDER_NAME);
   folder.createFile(pdfBlob).setName('TESTE_Certificado_Maria_Silva_Santos.pdf');
-  Logger.log('Certificado de teste gerado na pasta ' + FOLDER_NAME);
+
+  // Registra na aba de verificacao
+  registrarVerificacao(codigo, 'Maria Silva Santos', dataEmissao);
+  Logger.log('Certificado de teste gerado. Aba Verificacao: verifique na planilha.');
 }
 
 // ── Verificacao ──────────────────────────────
