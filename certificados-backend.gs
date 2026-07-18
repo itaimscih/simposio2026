@@ -69,32 +69,32 @@ function buildHTML(nome, cpf, conselho, dias) {
 
   return '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="UTF-8">\n<style>\n' +
     '@page{size:A4 landscape;margin:0;}\n' +
-    '*{margin:0;padding:0;}\n' +
-    'body{font-family:Verdana,sans-serif;}\n' +
-    // Outer wrapper
-    '.page{width:100%;height:100vh;background-color:#002855;padding:24px;}\n' +
-    // Inner frame with gold border + extra spacing via nested divs
-    '.frame{border:1px solid #C6A27C;padding:4px;height:100%;}\n' +
-    '.inner{background-color:#001f42;padding:4px;height:100%;}\n' +
-    '.core{border:1px solid #003D5F;padding:40px 70px;height:100%;text-align:center;color:#fff;}\n' +
-    // Accent bars
-    '.accent-top{width:100%;height:3px;background-color:#003DA5;margin-bottom:40px;}\n' +
-    '.accent-bottom{width:100%;height:3px;background-color:#C6A27C;margin-top:40px;}\n' +
+    '*{margin:0;padding:0;box-sizing:border-box;}\n' +
+    'html,body{width:100%;height:100%;font-family:Verdana,sans-serif;}\n' +
+    // Use a single table that fills the entire page
+    '.cert-table{width:100%;height:100%;background-color:#002855;}\n' +
+    '.cert-table td{vertical-align:middle;text-align:center;padding:30px 50px;}\n' +
+    // Inner content card
+    '.card{display:inline-block;background-color:#001a35;border:1px solid #C6A27C;padding:40px 60px;text-align:center;color:#fff;max-width:900px;}\n' +
+    // Accent bars inside card
+    '.bar-top{width:100%;height:3px;background-color:#003DA5;margin-bottom:30px;}\n' +
+    '.bar-bottom{width:100%;height:3px;background-color:#C6A27C;margin-top:30px;}\n' +
     // Typography
-    '.gold-line{width:60px;height:2px;background-color:#C6A27C;margin:0 auto 16px;}\n' +
-    '.title{font-size:24px;font-weight:700;letter-spacing:3px;color:#F7CEA7;text-transform:uppercase;margin-bottom:18px;}\n' +
-    '.subtitle{font-size:14px;color:#71C5E8;margin-bottom:30px;line-height:1.5;}\n' +
-    '.name{font-size:28px;font-weight:700;color:#FFFFFF;margin-bottom:10px;letter-spacing:1px;}\n' +
-    '.body-text{font-size:12.5px;color:#C8D6E5;line-height:1.9;max-width:600px;margin:0 auto 22px;}\n' +
-    '.doc-line{font-size:11px;color:#F7CEA7;margin-bottom:34px;}\n' +
-    '.hours{font-size:11px;color:#C6A27C;font-weight:600;margin-bottom:34px;}\n' +
-    '.sig-line{width:240px;height:1px;background-color:#5A7090;margin:0 auto 4px;}\n' +
+    '.gold-line{width:60px;height:2px;background-color:#C6A27C;margin:0 auto 14px;}\n' +
+    '.title{font-size:24px;font-weight:700;letter-spacing:3px;color:#F7CEA7;text-transform:uppercase;margin-bottom:16px;}\n' +
+    '.subtitle{font-size:14px;color:#71C5E8;margin-bottom:26px;line-height:1.5;}\n' +
+    '.name{font-size:28px;font-weight:700;color:#FFFFFF;margin-bottom:8px;}\n' +
+    '.body-text{font-size:12.5px;color:#C8D6E5;line-height:1.9;margin:0 auto 20px;}\n' +
+    '.doc-line{font-size:11px;color:#F7CEA7;margin-bottom:30px;}\n' +
+    '.hours{font-size:11px;color:#C6A27C;font-weight:600;margin-bottom:30px;}\n' +
+    '.sig-line{width:220px;height:1px;background-color:#5A7090;margin:0 auto 3px;}\n' +
     '.sig-name{font-size:12px;font-weight:600;color:#FFFFFF;}\n' +
     '.sig-role{font-size:9px;color:#71C5E8;}\n' +
-    '.footer-text{font-size:8px;color:#5A7090;margin-top:26px;}\n' +
+    '.footer-text{font-size:8px;color:#5A7090;margin-top:22px;}\n' +
     '</style>\n</head>\n<body>\n' +
-    '<div class="page"><div class="frame"><div class="inner"><div class="core">\n' +
-    '<div class="accent-top"></div>\n' +
+    '<table class="cert-table"><tr><td>\n' +
+    '<div class="card">\n' +
+    '<div class="bar-top"></div>\n' +
     '<div class="gold-line"></div>\n' +
     '<div class="title">Certificado de Participação</div>\n' +
     '<div class="subtitle">II Simpósio de Prevenção de IRAS e Stewardship de Antimicrobianos<br>Regional Sul — Rede D\'Or</div>\n' +
@@ -110,8 +110,9 @@ function buildHTML(nome, cpf, conselho, dias) {
     '<div class="sig-name">Natanael S Adiwardana</div>\n' +
     '<div class="sig-role">Comissão Organizadora</div>\n' +
     '<div class="footer-text">São Paulo, ' + dataEmissao + ' — Rede D\'Or São Luiz</div>\n' +
-    '<div class="accent-bottom"></div>\n' +
-    '</div></div></div></div>\n</body>\n</html>';
+    '<div class="bar-bottom"></div>\n' +
+    '</div>\n' +
+    '</td></tr></table>\n</body>\n</html>';
 }
 
 // ── TESTE ───────────────────────────────────────
