@@ -145,8 +145,12 @@ function substituirTexto(slide, placeholder, valor) {
 
 // ── Teste ──────────────────────────────────────
 
-function testarCertificado() {
-  const codigo = 'CERT-TESTE-0001';
+function testarOuvinte() { testarCertificado('Ouvinte'); }
+function testarPalestrante() { testarCertificado('Palestrante'); }
+function testarComissao() { testarCertificado('Comissão Organizadora'); }
+
+function testarCertificado(qualificacao) {
+  const codigo = 'CERT-TESTE-' + Utilities.getUuid().substring(0, 4).toUpperCase();
   const dataEmissao = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy');
   const pdfBlob = gerarUmCertificado(
     'Maria Silva Santos',
@@ -154,14 +158,12 @@ function testarCertificado() {
     'nos dias 14 e 15 de agosto de 2026',
     dataEmissao,
     codigo,
-    'Ouvinte'
+    qualificacao
   );
   const folder = getOrCreateFolder(FOLDER_NAME);
-  folder.createFile(pdfBlob).setName('TESTE_Certificado_Maria_Silva_Santos.pdf');
-
-  // Registra na aba de verificacao
+  folder.createFile(pdfBlob).setName('TESTE_' + qualificacao.replace(/\s/g, '_') + '_Maria_Silva_Santos.pdf');
   registrarVerificacao(codigo, 'Maria Silva Santos', dataEmissao);
-  Logger.log('Certificado de teste gerado. Aba Verificacao: verifique na planilha.');
+  Logger.log('Certificado de teste gerado: ' + qualificacao);
 }
 
 // ── Verificacao ──────────────────────────────
