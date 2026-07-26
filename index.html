@@ -326,6 +326,25 @@
             margin-bottom:12px;
         }
 
+        /* ── SPEAKERS ────────────────────────── */
+        .speakers-grid {
+            display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+            gap:14px;
+        }
+        .speaker-card {
+            background:var(--white); border-radius:12px; padding:20px 16px;
+            text-align:center; border:1px solid var(--border);
+            box-shadow:0 1px 4px rgba(0,20,50,0.04);
+            transition:transform 0.15s, box-shadow 0.15s;
+        }
+        .speaker-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,30,80,0.10); }
+        .speaker-photo {
+            width:90px; height:90px; border-radius:50%; object-fit:cover;
+            border:2px solid var(--gold); margin-bottom:12px;
+        }
+        .speaker-name { font-size:0.82rem; font-weight:700; color:var(--text); margin-bottom:4px; }
+        .speaker-role { font-size:0.72rem; color:var(--blue); font-weight:600; }
+
         /* ── LIGHTBOX ─────────────────────────── */
         .lightbox {
             display:none; position:fixed; inset:0; z-index:999;
@@ -506,6 +525,14 @@
                 <p>Rede D'Or — Regional Sul<br>São Luiz Itaim<br>Vila Nova Star<br>Maternidade Star</p>
             </div>
         </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <h2>Palestrantes Confirmados</h2>
+        <p class="section-note">Especialistas renomados reunidos para dois dias de conteúdo de alto nível.</p>
+        <div class="speakers-grid" id="speakers-grid"></div>
     </div>
 </section>
 
@@ -734,6 +761,36 @@
             })
             .catch(function() { /* mantem valor padrao */ });
     }
+
+    // Palestrantes
+    (function() {
+        var speakers = [
+            {foto:'Prof Dr David Uip - Nucleo Nacional de Infectologia.jpg', nome:'Dr. David Uip', papel:'Solenidade Corporativa'},
+            {foto:'Prof Dra Ana Lucia Munhoz - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Ana Lucia Munhoz', papel:'Infecções Ortopédicas'},
+            {foto:'Med Desiree Machado - Gerente de Qualidade e Seguranca do Paciente.jpg', nome:'Dra. Desiree Machado', papel:'ECMO/LVAD'},
+            {foto:'Med Laila Viana - Nefrologia.jpg', nome:'Dra. Laila Viana', papel:'Hemodiálise'},
+            {foto:'Mariza Loesch - Terapia Intensiva.jpg', nome:'Dra. Mariza Loesch', papel:'UTI / Gestantes de Alto Risco'},
+            {foto:'Med Regia Feijo - SCIH.jpg', nome:'Dra. Regia Feijó', papel:'Candida auris / Cirurgias Robóticas'},
+            {foto:'Med Natanael Adiwardana - SCIH.jpg', nome:'Dr. Natanael Adiwardana', papel:'Legionella / IA / Vancomicina'},
+            {foto:'Biomed Flavia Palomo - Supervisora Microbiologia.jpg', nome:'Flavia Palomo', papel:'Diagnóstico Rápido MDR'},
+            {foto:'Enf Juliana Virolli - SCIH.jpg', nome:'Enf. Juliana Virolli', papel:'Pacientes Neutropênicos'},
+            {foto:'Enf Rodrigo Reghini - SCIH.jpg', nome:'Enf. Rodrigo Reghini', papel:'Tumores Sólidos'},
+            {foto:'Farm Marinei Ricieri - Stewardship.jpg', nome:'Farm. Marinei Ricieri', papel:'ATB em Neonatos'},
+            {foto:'Marcia Pereira - Gerente Regional de CME.jpg', nome:'Enf. Márcia Pereira', papel:'Processamento de Instrumentais'},
+            {foto:'Med Maria Luisa Moura - Diretora Medica.jpg', nome:'Dra. Maria Luisa Nascimento', papel:'Alta Gestão / Antimicrobianos'},
+            {foto:'Med Rodrigo Lima - Cuidados Paliativos.jpg', nome:'Dr. Rodrigo Lima', papel:'Cuidados Paliativos'},
+            {foto:'Med Daniel Santos - SCIH.jpg', nome:'Dr. Daniel Santos', papel:'SCIH'}
+        ];
+        var el = document.getElementById('speakers-grid');
+        if (!el) return;
+        speakers.forEach(function(s) {
+            el.innerHTML += '<div class="speaker-card">' +
+                '<img class="speaker-photo" src="palestrantes/' + s.foto + '" alt="' + s.nome + '" loading="lazy">' +
+                '<div class="speaker-name">' + s.nome + '</div>' +
+                '<div class="speaker-role">' + s.papel + '</div>' +
+                '</div>';
+        });
+    })();
 
     updateSpots();
 
