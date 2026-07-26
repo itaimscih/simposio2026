@@ -39,11 +39,7 @@ function doGet(e) {
     }
   }
 
-  if (pin !== CHECKIN_PIN) {
-    return json({ error: 'PIN invalido', results: [] }, callback);
-  }
-
-  // Cracha digital (publico, busca por CPF)
+  // Cracha digital (publico, sem PIN)
   if (action === 'badge') {
     var cpfBusca = (e.parameter.cpf || '').replace(/\D/g,'');
     if (cpfBusca.length !== 11) return json({ found:false, error:'CPF invalido' }, callback);
@@ -71,6 +67,10 @@ function doGet(e) {
     } catch (err) {
       return json({ found:false, error:err.toString() }, callback);
     }
+  }
+
+  if (pin !== CHECKIN_PIN) {
+    return json({ error: 'PIN invalido', results: [] }, callback);
   }
 
   if (action === 'auth') {
