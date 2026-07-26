@@ -48,11 +48,11 @@ function doGet(e) {
       var shB = ssB.getSheetByName(SHEET_NAME) || ssB.getSheets()[0];
       var lastB = shB.getLastRow();
       if (lastB < 2) return json({ found:false, error:'Nenhum inscrito' }, callback);
-      var dataB = shB.getRange(2, 1, lastB - 1, 11).getValues();
+      var dataB = shB.getRange(2, 1, lastB - 1, 10).getValues();
       for (var j = 0; j < dataB.length; j++) {
         var cpfRow = (dataB[j][6] || '').toString().replace(/\D/g,'');
         if (cpfRow === cpfBusca) {
-          var d1b = !!dataB[j][9], d2b = !!dataB[j][10];
+          var d1b = !!dataB[j][8], d2b = !!dataB[j][9];
           if (!d1b && !d2b) return json({ found:false, error:'Check-in nao realizado' }, callback);
           return json({
             found:true,
