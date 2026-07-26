@@ -302,6 +302,30 @@
         }
         .legend-item span { color:var(--text-secondary); }
 
+        /* ── GALLERY ─────────────────────────── */
+        .gallery-section { background:var(--white); border-top:1px solid var(--border); }
+        .gallery-scroll {
+            display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory;
+            -webkit-overflow-scrolling:touch; padding-bottom:12px;
+            scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+        }
+        .gallery-scroll::-webkit-scrollbar { height:5px; }
+        .gallery-scroll::-webkit-scrollbar-thumb { background:var(--border); border-radius:10px; }
+        .gallery-scroll::-webkit-scrollbar-track { background:transparent; }
+        .gallery-item {
+            flex-shrink:0; scroll-snap-align:start;
+            border-radius:10px; overflow:hidden;
+            box-shadow:0 2px 8px rgba(0,20,50,0.08);
+            transition:transform 0.2s, box-shadow 0.2s;
+        }
+        .gallery-item:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,30,80,0.14); }
+        .gallery-item img { display:block; height:220px; width:auto; }
+        .gallery-label {
+            display:inline-block; font-size:0.68rem; color:var(--blue);
+            text-transform:uppercase; letter-spacing:1.2px; font-weight:700;
+            margin-bottom:12px;
+        }
+
         /* ── FOOTER ───────────────────────────── */
         .site-footer { background:var(--text); color:rgba(255,255,255,0.55); text-align:center; padding:28px 20px; font-size:0.78rem; }
         .site-footer strong { color:var(--white); }
@@ -590,6 +614,13 @@
         </div>
     </div>
 </section>
+
+<section class="gallery-section">
+    <div class="container">
+        <span class="gallery-label">Momentos da 1ª Edição</span>
+        <div class="gallery-scroll" id="gallery-scroll"></div>
+    </div>
+</section>
 </div>
 
 <!-- ═════════════════════════════════════════ TAB: INSCREVA-SE -->
@@ -686,7 +717,23 @@
 
     updateSpots();
 
-    // Countdown
+    // Galeria 1a edicao
+    (function() {
+        var fotos = '05061261-9550-4d4d-b3cf-13d9204b717b.jpg,053f11de-4a20-4ebb-8fd4-8104b6771a98.jpg,0f7434f6-f4c2-4a82-a8f0-e3bf2fb4a8fb.jpg,2588b2b6-727c-40b3-bf52-1864b6f36821.jpg,2fba2c77-9233-4177-a88e-90dbdaf510dc.jpg,3520e6b8-7afd-46e2-9a42-4545c7c49c25.jpg,36982de7-30f2-429e-b9d9-8ca321fd8263.jpg,4350db4c-1d6b-4d01-ac99-2cf1f35fbe24.jpg,44744a4e-9714-4bc7-afa5-b4a03af8d5ba.jpg,50b75c73-8b5c-450d-8497-4c9a2f335525.jpg,53c02731-9570-46a8-a7f3-3f91e938540b.jpg,6ad2a59b-b29a-4e2d-9581-c92e88ba2c88.jpg,6e6c85a2-a60f-4234-88e4-38b38f7eca22.jpg,6ec40420-ab9e-46c9-8385-f481e451cfb5.jpg,75fc32e6-1d14-4e72-8a84-36f195b7cc8a.jpg,816df413-786b-4fea-8224-7b1e493e95c2.jpg,89dbd7b2-bfce-4fc7-af8b-16887c563523.jpg,bd1f0bf2-caee-4438-ab99-2d00d493e32c.jpg,da805e03-ae30-4847-a558-cd633b41309b.jpg,ec0ea003-9438-4c81-92f2-83e22b27528a.jpg,ef6be6cb-1264-48a5-8656-19d047226253.jpg,f60e3b3b-33a4-4777-9e84-291201ec8b5e.jpg,f6d7927b-2b55-4257-ba4c-94f42bd75dfe.jpg'.split(',');
+        var el = document.getElementById('gallery-scroll');
+        if (!el) return;
+        fotos.forEach(function(f) {
+            var div = document.createElement('div');
+            div.className = 'gallery-item';
+            var img = document.createElement('img');
+            img.src = 'fotos/' + f;
+            img.alt = 'I Simposio IRAS e Stewardship';
+            img.loading = 'lazy';
+            div.appendChild(img);
+            el.appendChild(div);
+        });
+    })();
+
     (function updateCountdown() {
         var evt = new Date('2026-08-14T08:00:00-03:00');
         var now = new Date();
