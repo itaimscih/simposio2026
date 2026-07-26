@@ -219,24 +219,22 @@ function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').re
 
 // ── CHECKIN ──────────────────────────────────────
 function ck(row, action, btn) {
+    btn.disabled = true;
     jsonp(action, {row:row}, function(data) {
+        btn.disabled = false;
         if (data.success) {
-            if (action.startsWith('undo')) {
-                btn.className = 'ck-badge out';
-                btn.textContent = action === 'undo-d1' ? 'D1' : 'D2';
-                btn.setAttribute('onclick', 'ck(' + row + ',\'' + action.replace('undo-','checkin-') + '\',this)');
-                toast(action === 'undo-d1' ? 'Dia 1 removido' : 'Dia 2 removido');
-            } else {
-                btn.className = 'ck-badge in';
-                btn.textContent = (action === 'checkin-d1' ? 'D1 ' : 'D2 ') + data.timestamp;
-                btn.setAttribute('onclick', 'ck(' + row + ',\'' + action.replace('checkin-','undo-') + '\',this)');
-                toast((action === 'checkin-d1' ? 'Dia 1' : 'Dia 2') + ' confirmado!');
-            }
-            loadAll();
+            toast(action.startsWith('undo') ? (action === 'undo-d1' ? 'Dia 1 removido' : 'Dia 2 removido') : ((action === 'checkin-d1' ? 'Dia 1' : 'Dia 2') + ' confirmado!'));
+            // Re-renderiza resultados para atualizar todos os botoes corretamente
+            var q = document.getElementById('search-input').value.trim();
+            if (q.length >= 2) { doSearch(q); } else { loadAll(); renderAll(); }
         } else {
             toast(data.message || 'Erro');
         }
     });
+}
+
+function renderAll() {
+    if (allData.length) renderResults(allData);
 }
 
 var allData = [];
