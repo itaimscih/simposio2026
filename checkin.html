@@ -72,6 +72,18 @@
         }
         .toast.show { opacity:1; }
         .empty-state { text-align:center; padding:30px; color:var(--muted); font-size:0.85rem; }
+        .toolbar { display:flex; gap:8px; margin-bottom:10px; justify-content:flex-end; }
+        .tool-btn {
+            padding:8px 14px; border-radius:8px; border:1px solid var(--border);
+            background:var(--white); color:var(--blue); font-size:0.72rem;
+            font-weight:600; cursor:pointer; font-family:inherit;
+            display:flex; align-items:center; gap:5px;
+        }
+        .tool-btn:hover { background:#F0F4FF; }
+        .print-badge {
+            display:inline-block; margin-left:8px; font-size:0.6rem;
+            color:var(--blue); cursor:pointer; text-decoration:underline;
+        }
     </style>
 </head>
 <body>
@@ -92,6 +104,9 @@
         <div class="stat-card"><div class="stat-num done" id="stat-d1">-</div><div class="stat-label">Dia 1</div></div>
         <div class="stat-card"><div class="stat-num done" id="stat-d2">-</div><div class="stat-label">Dia 2</div></div>
         <div class="stat-card"><div class="stat-num" id="stat-total">-</div><div class="stat-label">Inscritos</div></div>
+    </div>
+    <div class="toolbar">
+        <button class="tool-btn" onclick="exportCSV()" title="Exportar relatório CSV">📥 Exportar</button>
     </div>
     <div class="search-box">
         <input type="text" id="search-input" placeholder="Buscar por nome..." autocomplete="off">
@@ -163,7 +178,8 @@ function apiPost(body, cb) {
 function loadAll() {
     jsonp('all', {}, function(data) {
         if (data.error) return;
-        var all = data.results || [];
+        allData = data.results || [];
+        var all = allData;
         var d1 = all.filter(function(p) { return p.d1; }).length;
         var d2 = all.filter(function(p) { return p.d2; }).length;
         document.getElementById('stat-d1').textContent = d1;
@@ -192,7 +208,8 @@ function render(list) {
         var b2 = p.d2 ? '<button class="ck-badge in" onclick="ck(' + p.row + ',\'undo-d2\',this)">D2 '+esc(p.d2)+'</button>'
                        : '<button class="ck-badge out" onclick="ck(' + p.row + ',\'checkin-d2\',this)">D2</button>';
         return '<div class="participant"><div class="info"><div class="name">' + esc(p.nome) + '</div>' +
-            '<div class="detail">' + esc(p.profissao) + ' · ' + esc(p.instituicao) + '</div></div>' +
+            '<div class="detail">' + esc(p.profissao) + ' · ' + esc(p.instituicao) +
+            ' <span class="print-badge" onclick="event.stopPropagation();printBadge(' + p.row + ')">🖨 crachá</span></div></div>' +
             '<div class="badges">' + b1 + b2 + '</div></div>';
     }).join('');
 }
@@ -217,6 +234,44 @@ function ck(row, action, btn) {
             toast(data.message || 'Erro');
         }
     });
+}
+
+var allData = [];
+function exportCSV() {
+    if (!allData.length) { toast('Nenhum dado para exportar'); return; }
+    var csv = 'Nome,Profissao,Instituicao,Dia 1,Dia 2\n';
+    allData.forEach(function(p) {
+        csv += '"' + p.nome + '","' + p.profissao + '","' + p.instituicao + '","' + (p.d1||'') + '","' + (p.d2||'') + '"\n';
+    });
+    var blob = new Blob(['﻿' + csv], {type:'text/csv;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a'); a.href = url; a.download = 'checkin_' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click(); toast('Relatorio exportado!');
+}
+
+function printBadge(row) {
+    var p = allData.find(function(x) { return x.row === row; });
+    if (!p) return;
+    var w = window.open('','_blank','width=400,height=500');
+    w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><style>' +
+        '@page{size:85mm 54mm;margin:0}*{margin:0;padding:0;box-sizing:border-box}' +
+        'body{font-family:Arial,sans-serif;width:85mm;height:54mm;display:flex;align-items:center;justify-content:center;background:#002855;color:#fff}' +
+        '.badge{text-align:center;padding:6mm}' +
+        '.event{font-size:6pt;color:#F7CEA7;text-transform:uppercase;letter-spacing:1px;margin-bottom:3mm}' +
+        '.name{font-size:13pt;font-weight:700;margin-bottom:2mm}' +
+        '.detail{font-size:8pt;color:#71C5E8;margin-bottom:1mm}' +
+        '.day{display:inline-block;padding:1mm 4mm;border-radius:10px;font-size:7pt;margin:2px;font-weight:600}' +
+        '.day.ok{background:#0a7a3a;color:#fff}.day.no{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)}' +
+        '</style></head><body><div class="badge">' +
+        '<div class="event">II Simposio IRAS e Stewardship — Rede D\'Or</div>' +
+        '<div class="name">' + p.nome + '</div>' +
+        '<div class="detail">' + p.profissao + ' · ' + p.instituicao + '</div>' +
+        '<div><span class="day ' + (p.d1?'ok':'no') + '">D1 ' + (p.d1?'✓':'') + '</span>' +
+        '<span class="day ' + (p.d2?'ok':'no') + '">D2 ' + (p.d2?'✓':'') + '</span></div>' +
+        '<div class="detail" style="margin-top:3mm">14-15 Ago 2026 · Sao Luiz Itaim</div>' +
+        '</div></body></html>');
+    w.document.close();
+    setTimeout(function() { w.print(); }, 500);
 }
 
 function toast(msg) {
