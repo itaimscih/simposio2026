@@ -319,12 +319,27 @@
             transition:transform 0.2s, box-shadow 0.2s;
         }
         .gallery-item:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,30,80,0.14); }
-        .gallery-item img { display:block; height:220px; width:auto; }
+        .gallery-item img { display:block; height:220px; width:auto; cursor:pointer; }
         .gallery-label {
             display:inline-block; font-size:0.68rem; color:var(--blue);
             text-transform:uppercase; letter-spacing:1.2px; font-weight:700;
             margin-bottom:12px;
         }
+
+        /* ── LIGHTBOX ─────────────────────────── */
+        .lightbox {
+            display:none; position:fixed; inset:0; z-index:999;
+            background:rgba(0,0,0,0.92); align-items:center; justify-content:center;
+        }
+        .lightbox.show { display:flex; }
+        .lightbox img { max-width:90vw; max-height:85vh; border-radius:10px; box-shadow:0 8px 40px rgba(0,0,0,0.5); }
+        .lightbox-close {
+            position:absolute; top:20px; right:28px;
+            color:var(--white); font-size:2rem; cursor:pointer;
+            width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+            border-radius:50%; background:rgba(255,255,255,0.1); font-weight:300; line-height:1;
+        }
+        .lightbox-close:hover { background:rgba(255,255,255,0.2); }
 
         /* ── FOOTER ───────────────────────────── */
         .site-footer { background:var(--text); color:rgba(255,255,255,0.55); text-align:center; padding:28px 20px; font-size:0.78rem; }
@@ -673,6 +688,11 @@
     <p style="margin-top:6px; opacity:0.4;">&copy; 2026 Rede D'Or São Luiz</p>
 </footer>
 
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="">
+</div>
+
 <script>
     function switchMain(panel, btn) {
         document.querySelectorAll('.main-tab').forEach(function(t) {
@@ -729,10 +749,18 @@
             img.src = 'fotos/' + f;
             img.alt = 'I Simposio IRAS e Stewardship';
             img.loading = 'lazy';
+            img.addEventListener('click', function() {
+                document.getElementById('lightbox-img').src = this.src;
+                document.getElementById('lightbox').classList.add('show');
+            });
             div.appendChild(img);
             el.appendChild(div);
         });
     })();
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('show');
+    }
 
     (function updateCountdown() {
         var evt = new Date('2026-08-14T08:00:00-03:00');
