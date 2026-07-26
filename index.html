@@ -313,10 +313,23 @@
             border:2px solid var(--blue);
             animation: border-glow 3s ease-in-out infinite;
         }
+        .spots-badge {
+            position:relative;
+        }
         .spots-badge::before {
             content:''; display:inline-block; width:8px; height:8px;
             border-radius:50%; background:var(--gold-light);
             margin-right:8px; animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform:scale(0.8); opacity:0.6; }
+            100% { transform:scale(1.8); opacity:0; }
+        }
+        .spots-badge::after {
+            content:''; position:absolute; top:50%; left:18px; transform:translate(-50%,-50%);
+            width:18px; height:18px; border-radius:50%;
+            border:2px solid var(--gold-light);
+            animation: pulse-ring 2s ease-out infinite;
         }
         .spots-badge { display:inline-block; background:var(--blue-dark); color:var(--white); padding:8px 24px; border-radius:22px; font-weight:700; font-size:0.85rem; margin-bottom:26px; }
         .spots-badge span { color:var(--gold-light); font-size:1.15rem; }
@@ -419,6 +432,34 @@
         }
         .lightbox-close:hover { background:rgba(255,255,255,0.2); }
 
+        /* ── EKG LINE ────────────────────────── */
+        @keyframes ekg {
+            0% { background-position:0 0; }
+            100% { background-position:200px 0; }
+        }
+        .ekg-divider {
+            width:100%; height:40px; position:relative; overflow:hidden;
+            background:
+                linear-gradient(90deg,transparent 0%,var(--blue) 15%,transparent 30%) 0 18px/200px 1px no-repeat,
+                linear-gradient(90deg,transparent 0%,rgba(113,197,232,0.3) 8%,transparent 16%) 0 24px/300px 1px no-repeat,
+                linear-gradient(90deg,transparent 0%,rgba(113,197,232,0.15) 12%,transparent 24%) 0 10px/250px 1px no-repeat;
+            animation: ekg 4s linear infinite;
+        }
+        .ekg-divider::after {
+            content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+            width:6px; height:6px; border-radius:50%;
+            background:var(--gold); box-shadow:0 0 12px var(--gold);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        /* ── HEX MESH ────────────────────────── */
+        .hex-mesh {
+            position:absolute; inset:0; pointer-events:none; z-index:1; opacity:0.6;
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='140'%3E%3Cpath d='M40 0 L80 23v46L40 93L0 70V23z' fill='none' stroke='rgba(113,197,232,0.12)' stroke-width='0.5'/%3E%3C/svg%3E");
+            background-size:80px 140px;
+        }
+
         /* ── SHARE ───────────────────────────── */
         .share-bar {
             position:fixed; bottom:20px; right:20px; z-index:50;
@@ -518,6 +559,7 @@
 
 <!-- ═════════════════════════════════════════ HERO -->
 <header class="hero" role="banner">
+    <div class="hex-mesh" aria-hidden="true"></div>
     <div class="hero-particles" aria-hidden="true">
         <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
         <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -559,6 +601,7 @@
         </div>
     </div>
 </header>
+<div class="ekg-divider" aria-hidden="true"></div>
 
 <!-- ═════════════════════════════════════════ MAIN NAV -->
 <nav class="main-nav" id="main-nav" role="tablist" aria-label="Seções principais">
