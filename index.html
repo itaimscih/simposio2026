@@ -749,12 +749,15 @@
             img.src = 'fotos/' + f;
             img.alt = 'I Simposio IRAS e Stewardship';
             img.loading = 'lazy';
-            img.addEventListener('click', function() {
-                document.getElementById('lightbox-img').src = this.src;
-                document.getElementById('lightbox').classList.add('show');
-            });
             div.appendChild(img);
             el.appendChild(div);
+        });
+        // Event delegation: clique em qualquer imagem da galeria
+        el.addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG') {
+                document.getElementById('lightbox-img').src = e.target.src;
+                document.getElementById('lightbox').classList.add('show');
+            }
         });
     })();
 
