@@ -375,11 +375,22 @@
         }
 
         /* ── SPEAKERS ────────────────────────── */
-        .speakers-grid {
-            display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-            gap:14px;
+        .speakers-scroll-wrapper {
+            position:relative; overflow:hidden; padding:4px 0;
+            mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
+            -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
+        }
+        .speakers-track {
+            display:flex; gap:14px; width:max-content;
+            animation: scroll-speakers 60s linear infinite;
+        }
+        .speakers-track.paused { animation-play-state:paused; }
+        @keyframes scroll-speakers {
+            0% { transform:translateX(0); }
+            100% { transform:translateX(-50%); }
         }
         .speaker-card {
+            flex-shrink:0; width:190px;
             background:var(--white); border-radius:12px; padding:20px 16px;
             text-align:center; border:1px solid var(--border);
             box-shadow:0 1px 4px rgba(0,20,50,0.04);
@@ -387,11 +398,11 @@
         }
         .speaker-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,30,80,0.10); }
         .speaker-photo {
-            width:90px; height:90px; border-radius:50%; object-fit:cover;
-            border:2px solid var(--gold); margin-bottom:12px;
+            width:80px; height:80px; border-radius:50%; object-fit:cover;
+            border:2px solid var(--gold); margin-bottom:10px;
         }
-        .speaker-name { font-size:0.82rem; font-weight:700; color:var(--text); margin-bottom:4px; }
-        .speaker-role { font-size:0.7rem; color:var(--blue); font-weight:600; line-height:1.35; }
+        .speaker-name { font-size:0.8rem; font-weight:700; color:var(--text); margin-bottom:4px; }
+        .speaker-role { font-size:0.68rem; color:var(--blue); font-weight:600; line-height:1.35; }
 
         /* ── LIGHTBOX ─────────────────────────── */
         .lightbox {
@@ -597,7 +608,9 @@
     <div class="container">
         <h2>Palestrantes e Autoridades Confirmadas</h2>
         <p class="section-note">Alguns dos especialistas confirmados.</p>
-        <div class="speakers-grid" id="speakers-grid"></div>
+        <div class="speakers-scroll-wrapper">
+            <div class="speakers-track" id="speakers-track"></div>
+        </div>
     </div>
 </section>
 
@@ -837,7 +850,7 @@
             .catch(function() { /* mantem valor padrao */ });
     }
 
-    // Palestrantes
+    // Palestrantes — carrossel rotativo
     (function() {
         var speakers = [
             {foto:'Prof Dr David Uip - Nucleo Nacional de Infectologia.jpg', nome:'Dr. David Uip', papel:'Solenidade Corporativa de Abertura'},
@@ -860,15 +873,24 @@
             {foto:'Med Laina Bubach - SCIH.jpg', nome:'Dra. Laina Bubach', papel:'Agentes multidrogarresistentes: quando há pouca ou nenhuma opção'},
             {foto:'Med Daniel Santos - SCIH.jpg', nome:'Dr. Daniel Santos', papel:'BrCAST: por que ainda falta o ponto de corte? E como atuar?'}
         ];
-        var el = document.getElementById('speakers-grid');
-        if (!el) return;
+        var track = document.getElementById('speakers-track');
+        if (!track) return;
+        var html = '';
         speakers.forEach(function(s) {
-            el.innerHTML += '<div class="speaker-card">' +
+            html += '<div class="speaker-card">' +
                 '<img class="speaker-photo" src="palestrantes/' + s.foto + '" alt="' + s.nome + '" loading="lazy">' +
                 '<div class="speaker-name">' + s.nome + '</div>' +
                 '<div class="speaker-role">' + s.papel + '</div>' +
                 '</div>';
         });
+        // Duplicar para loop infinito sem salto
+        track.innerHTML = html + html;
+
+        // Pausar ao passar o mouse ou tocar
+        track.addEventListener('mouseenter', function() { track.classList.add('paused'); });
+        track.addEventListener('mouseleave', function() { track.classList.remove('paused'); });
+        track.addEventListener('touchstart', function() { track.classList.add('paused'); });
+        track.addEventListener('touchend', function() { track.classList.remove('paused'); });
     })();
 
     updateSpots();
