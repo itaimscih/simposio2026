@@ -224,10 +224,12 @@ function ck(row, action, btn) {
             if (action.startsWith('undo')) {
                 btn.className = 'ck-badge out';
                 btn.textContent = action === 'undo-d1' ? 'D1' : 'D2';
+                btn.setAttribute('onclick', 'ck(' + row + ',\'' + action.replace('undo-','checkin-') + '\',this)');
                 toast(action === 'undo-d1' ? 'Dia 1 removido' : 'Dia 2 removido');
             } else {
                 btn.className = 'ck-badge in';
                 btn.textContent = (action === 'checkin-d1' ? 'D1 ' : 'D2 ') + data.timestamp;
+                btn.setAttribute('onclick', 'ck(' + row + ',\'' + action.replace('checkin-','undo-') + '\',this)');
                 toast((action === 'checkin-d1' ? 'Dia 1' : 'Dia 2') + ' confirmado!');
             }
             loadAll();
