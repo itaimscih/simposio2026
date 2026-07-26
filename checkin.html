@@ -159,6 +159,7 @@ function jsonp(action, params, cb, errCb) {
     function cleanup() { delete window[name]; var e = document.getElementById('s_' + name); if (e) e.remove(); }
     var url = SCRIPT_URL + '?action=' + action + '&pin=' + encodeURIComponent(PIN || params.pin || '');
     if (params.q) url += '&q=' + encodeURIComponent(params.q);
+    if (params.row) url += '&row=' + params.row;
     url += '&callback=' + name;
     var s = document.createElement('script');
     s.id = 's_' + name; s.src = url;
@@ -218,7 +219,7 @@ function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').re
 
 // ── CHECKIN ──────────────────────────────────────
 function ck(row, action, btn) {
-    apiPost({ action:action, row:row, pin:PIN }, function(data) {
+    jsonp(action, {row:row}, function(data) {
         if (data.success) {
             if (action.startsWith('undo')) {
                 btn.className = 'ck-badge out';

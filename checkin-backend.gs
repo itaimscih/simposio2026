@@ -47,6 +47,35 @@ function doGet(e) {
     return json({ valid: true }, callback);
   }
 
+  // Acoes de check-in via GET (JSONP, bypass CORS)
+  var ckRow = parseInt(e.parameter.row) || 0;
+  if (ckRow > 0 && (action === 'checkin-d1' || action === 'checkin-d2' || action === 'undo-d1' || action === 'undo-d2')) {
+    try {
+      const ss2 = SpreadsheetApp.openById(SPREADSHEET_ID);
+      const sh2 = ss2.getSheetByName(SHEET_NAME) || ss2.getSheets()[0];
+      if (action === 'checkin-d1') {
+        const ts = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM HH:mm');
+        sh2.getRange(ckRow, 9).setValue(ts);
+        return json({ success: true, timestamp: ts, day: 1 }, callback);
+      }
+      if (action === 'checkin-d2') {
+        const ts = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM HH:mm');
+        sh2.getRange(ckRow, 10).setValue(ts);
+        return json({ success: true, timestamp: ts, day: 2 }, callback);
+      }
+      if (action === 'undo-d1') {
+        sh2.getRange(ckRow, 9).setValue('');
+        return json({ success: true, message: 'Check-in Dia 1 removido' }, callback);
+      }
+      if (action === 'undo-d2') {
+        sh2.getRange(ckRow, 10).setValue('');
+        return json({ success: true, message: 'Check-in Dia 2 removido' }, callback);
+      }
+    } catch (err) {
+      return json({ success: false, message: err.toString() }, callback);
+    }
+  }
+
   try {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
