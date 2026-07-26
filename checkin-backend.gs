@@ -43,6 +43,36 @@ function doGet(e) {
     return json({ error: 'PIN invalido', results: [] }, callback);
   }
 
+  // Cracha digital (publico, busca por CPF)
+  if (action === 'badge') {
+    var cpfBusca = (e.parameter.cpf || '').replace(/\D/g,'');
+    if (cpfBusca.length !== 11) return json({ found:false, error:'CPF invalido' }, callback);
+    try {
+      var ssB = SpreadsheetApp.openById(SPREADSHEET_ID);
+      var shB = ssB.getSheetByName(SHEET_NAME) || ssB.getSheets()[0];
+      var lastB = shB.getLastRow();
+      if (lastB < 2) return json({ found:false, error:'Nenhum inscrito' }, callback);
+      var dataB = shB.getRange(2, 1, lastB - 1, 11).getValues();
+      for (var j = 0; j < dataB.length; j++) {
+        var cpfRow = (dataB[j][6] || '').toString().replace(/\D/g,'');
+        if (cpfRow === cpfBusca) {
+          var d1b = !!dataB[j][9], d2b = !!dataB[j][10];
+          if (!d1b && !d2b) return json({ found:false, error:'Check-in nao realizado' }, callback);
+          return json({
+            found:true,
+            nome: dataB[j][2] || '',
+            profissao: dataB[j][4] || '',
+            instituicao: dataB[j][5] || '',
+            d1: d1b, d2: d2b
+          }, callback);
+        }
+      }
+      return json({ found:false, error:'CPF nao encontrado' }, callback);
+    } catch (err) {
+      return json({ found:false, error:err.toString() }, callback);
+    }
+  }
+
   if (action === 'auth') {
     return json({ valid: true }, callback);
   }
