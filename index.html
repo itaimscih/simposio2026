@@ -913,25 +913,25 @@
     // Palestrantes — carrossel rotativo
     (function() {
         var speakers = [
-            {foto:'Prof Dr David Uip - Nucleo Nacional de Infectologia.jpg', nome:'Dr. David Uip', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'D1 · Solenidade Corporativa de Abertura'},
-            {foto:'Prof Dra Ana Lucia Munhoz - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Ana Lucia Munhoz', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'D2 · Infecções ortopédicas: como maximizar a sensibilidade diagnóstica'},
-            {foto:'Prof Dra Tania Strabelli - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Tania Strabelli', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'D1 · Prevenção de infecção em transplantes de coração'},
-            {foto:'Med Desiree Machado - Gerente de Qualidade e Seguranca do Paciente.jpg', nome:'Dra. Desiree Machado', inst:'Qualidade e Segurança — Rede D\'Or', papel:'D1 · Prevenção de infecção em pacientes em ECMO/LVAD'},
-            {foto:'Med Laila Viana - Nefrologia.jpg', nome:'Dra. Laila Viana', inst:'São Luiz Itaim — Rede D\'Or', papel:'D1 · Infecções de corrente sanguínea em hemodiálise'},
-            {foto:'Mariza Loesch - Terapia Intensiva.jpg', nome:'Dra. Mariza Loesch', inst:'São Luiz Itaim · Maternidade Star', papel:'D1 · IRAS em gestantes de alto risco\nD2 · Da UTI'},
-            {foto:'Med Regia Feijo - SCIH.jpg', nome:'Dra. Regia Feijó', inst:'Maternidade Star · São Luiz Itaim', papel:'D1 · Cirurgias robóticas\nD1 · Candida auris\nD2 · Moderadora'},
-            {foto:'Med Natanael Adiwardana - SCIH.jpg', nome:'Dr. Natanael Adiwardana', inst:'São Luiz Itaim — Rede D\'Or', papel:'D1 · Legionella\nD1 · IA e prevenção de IRAS\nD2 · Vancomicina\nD2 · Moderador'},
-            {foto:'Med Thais Romano - Coordenadora Regional de Microbiologia.jpg', nome:'Dra. Thais Romano', inst:'Rede D\'Or — Regional Sul', papel:'D2 · Qualidade diagnóstica em microbiologia'},
-            {foto:'Biomed Flavia Palomo - Supervisora Microbiologia.jpg', nome:'Bioméd. Flavia Palomo', inst:'São Luiz Itaim — Rede D\'Or', papel:'D2 · Diagnóstico rápido para bactérias MDR'},
-            {foto:'Enf Juliana Virolli - SCIH.jpg', nome:'Enf. Juliana Virolli', inst:'Hospital Alemão Oswaldo Cruz', papel:'D1 · Pacientes neutropênicos\nD1 · Moderadora'},
-            {foto:'Enf Rodrigo Reghini - SCIH.jpg', nome:'Enf. Rodrigo Reghini', inst:'AC Camargo Cancer Center', papel:'D1 · Prevenção de infecção em Tumores Sólidos'},
-            {foto:'Farm Marinei Ricieri - Stewardship.jpg', nome:'Farm. Marinei Ricieri', inst:'Hospital Pequeno Príncipe — Curitiba', papel:'D2 · ATB em neonatos: quando falta a via?'},
-            {foto:'Marcia Pereira - Gerente Regional de CME.jpg', nome:'Enf. Márcia Pereira', inst:'Rede D\'Or — Regional Sul', papel:'D1 · Processamento e limpeza de instrumentais'},
-            {foto:'Med Maria Luisa Moura - Diretora Medica.jpg', nome:'Dra. Maria Luisa Nascimento', inst:'Vila Nova Star — Rede D\'Or', papel:'D2 · A visão da alta gestão sobre antimicrobianos'},
-            {foto:'Med Rodrigo Lima - Cuidados Paliativos.jpg', nome:'Dr. Rodrigo Lima', inst:'São Luiz Itaim — Rede D\'Or', papel:'D2 · Cuidados paliativos e antibioticoterapia no fim da vida'},
-            {foto:'Med Fernando Oliveira - Praticas Medicas.jpg', nome:'Dr. Fernando Oliveira', inst:'São Luiz Morumbi — Rede D\'Or', papel:'D2 · Comunicação sobre antibióticos'},
-            {foto:'Med Laina Bubach - SCIH.jpg', nome:'Dra. Laina Bubach', inst:'Vila Nova Star — Rede D\'Or', papel:'D2 · Agentes MDR: quando há pouca ou nenhuma opção'},
-            {foto:'Med Daniel Santos - SCIH.jpg', nome:'Dr. Daniel Wagner', inst:'UDI — Rede D\'Or', papel:'D2 · BrCAST: por que ainda falta o ponto de corte?'}
+            {foto:'Prof Dr David Uip - Nucleo Nacional de Infectologia.jpg', nome:'Dr. David Uip', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'Solenidade Corporativa de Abertura'},
+            {foto:'Prof Dra Ana Lucia Munhoz - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Ana Lucia Munhoz', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'Infecções ortopédicas: como maximizar a sensibilidade diagnóstica'},
+            {foto:'Prof Dra Tania Strabelli - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Tania Strabelli', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'Prevenção de infecção em transplantes de coração'},
+            {foto:'Med Desiree Machado - Gerente de Qualidade e Seguranca do Paciente.jpg', nome:'Dra. Desiree Machado', inst:'Qualidade e Segurança — Rede D\'Or', papel:'Prevenção de infecção em pacientes em ECMO/LVAD'},
+            {foto:'Med Laila Viana - Nefrologia.jpg', nome:'Dra. Laila Viana', inst:'São Luiz Itaim — Rede D\'Or', papel:'Infecções de corrente sanguínea em hemodiálise'},
+            {foto:'Mariza Loesch - Terapia Intensiva.jpg', nome:'Dra. Mariza Loesch', inst:'São Luiz Itaim · Maternidade Star', papel:'IRAS em gestantes de alto risco\nDa UTI'},
+            {foto:'Med Regia Feijo - SCIH.jpg', nome:'Dra. Regia Feijó', inst:'Maternidade Star · São Luiz Itaim', papel:'Cirurgias robóticas\nCandida auris\nModeradora'},
+            {foto:'Med Natanael Adiwardana - SCIH.jpg', nome:'Dr. Natanael Adiwardana', inst:'São Luiz Itaim — Rede D\'Or', papel:'Legionella\nIA e prevenção de IRAS\nVancomicina\nModerador'},
+            {foto:'Med Thais Romano - Coordenadora Regional de Microbiologia.jpg', nome:'Dra. Thais Romano', inst:'Rede D\'Or — Regional Sul', papel:'Qualidade diagnóstica em microbiologia'},
+            {foto:'Biomed Flavia Palomo - Supervisora Microbiologia.jpg', nome:'Bioméd. Flavia Palomo', inst:'São Luiz Itaim — Rede D\'Or', papel:'Diagnóstico rápido para bactérias MDR'},
+            {foto:'Enf Juliana Virolli - SCIH.jpg', nome:'Enf. Juliana Virolli', inst:'Hospital Alemão Oswaldo Cruz', papel:'Pacientes neutropênicos\nModeradora'},
+            {foto:'Enf Rodrigo Reghini - SCIH.jpg', nome:'Enf. Rodrigo Reghini', inst:'AC Camargo Cancer Center', papel:'Prevenção de infecção em Tumores Sólidos'},
+            {foto:'Farm Marinei Ricieri - Stewardship.jpg', nome:'Farm. Marinei Ricieri', inst:'Hospital Pequeno Príncipe — Curitiba', papel:'ATB em neonatos: quando falta a via?'},
+            {foto:'Marcia Pereira - Gerente Regional de CME.jpg', nome:'Enf. Márcia Pereira', inst:'Rede D\'Or — Regional Sul', papel:'Processamento e limpeza de instrumentais'},
+            {foto:'Med Maria Luisa Moura - Diretora Medica.jpg', nome:'Dra. Maria Luisa Nascimento', inst:'Vila Nova Star — Rede D\'Or', papel:'A visão da alta gestão sobre antimicrobianos'},
+            {foto:'Med Rodrigo Lima - Cuidados Paliativos.jpg', nome:'Dr. Rodrigo Lima', inst:'São Luiz Itaim — Rede D\'Or', papel:'Cuidados paliativos e antibioticoterapia no fim da vida'},
+            {foto:'Med Fernando Oliveira - Praticas Medicas.jpg', nome:'Dr. Fernando Oliveira', inst:'São Luiz Morumbi — Rede D\'Or', papel:'Comunicação sobre antibióticos'},
+            {foto:'Med Laina Bubach - SCIH.jpg', nome:'Dra. Laina Bubach', inst:'Vila Nova Star — Rede D\'Or', papel:'Agentes MDR: quando há pouca ou nenhuma opção'},
+            {foto:'Med Daniel Santos - SCIH.jpg', nome:'Dr. Daniel Wagner', inst:'UDI — Rede D\'Or', papel:'BrCAST: por que ainda falta o ponto de corte?'}
         ];
         var track = document.getElementById('speakers-track');
         if (!track) return;
