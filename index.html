@@ -436,8 +436,12 @@
 
         /* ── SPEAKER MODAL ───────────────────── */
         .modal-print-header {
-            display:none;
+            display:block; background:var(--blue-dark); color:var(--white);
+            text-align:center; padding:16px 20px; margin-bottom:20px; border-radius:10px;
         }
+        .modal-print-header h3 { font-size:0.9rem; font-weight:800; margin-bottom:3px; color:var(--white); }
+        .modal-print-header p { font-size:0.7rem; color:var(--blue-light); margin:1px 0; }
+        .modal-print-header .cta { font-size:0.68rem; color:var(--gold); margin-top:4px; font-weight:600; }
         @media print {
             body * { visibility:hidden; }
             .speaker-modal, .speaker-modal * { visibility:visible; }
@@ -445,13 +449,6 @@
             .modal-header { position:static; box-shadow:none; }
             .modal-share { display:none; }
             .modal-back { display:none; }
-            .modal-print-header {
-                display:block; background:var(--blue-dark); color:var(--white);
-                text-align:center; padding:20px;
-            }
-            .modal-print-header h2 { font-size:1rem; font-weight:800; margin-bottom:4px; }
-            .modal-print-header p { font-size:0.75rem; color:var(--blue-light); margin:2px 0; }
-            .modal-print-header .cta { font-size:0.7rem; color:var(--gold); margin-top:6px; font-weight:600; }
         }
 
         .speaker-modal {
@@ -1124,7 +1121,7 @@
         var talks = s.papel.split('\n').filter(Boolean);
         body.innerHTML =
             '<div class="modal-print-header">' +
-                '<h2>II Simpósio de Prevenção de IRAS e Stewardship de Antimicrobianos</h2>' +
+                '<h3>II Simpósio de Prevenção de IRAS e Stewardship de Antimicrobianos</h3>' +
                 '<p>14 e 15 de Agosto de 2026 · Hospital São Luiz Itaim · São Paulo, SP</p>' +
                 '<p>Rede D\'Or — Regional Sul</p>' +
                 '<p class="cta">Inscrições: itaimscih.github.io/simposio2026</p>' +
