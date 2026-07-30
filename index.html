@@ -435,6 +435,25 @@
         .speaker-role { font-size:0.68rem; color:var(--blue); font-weight:600; line-height:1.4; white-space:pre-line; }
 
         /* ── SPEAKER MODAL ───────────────────── */
+        .modal-print-header {
+            display:none;
+        }
+        @media print {
+            body * { visibility:hidden; }
+            .speaker-modal, .speaker-modal * { visibility:visible; }
+            .speaker-modal { position:static; overflow:visible; }
+            .modal-header { position:static; box-shadow:none; }
+            .modal-share { display:none; }
+            .modal-back { display:none; }
+            .modal-print-header {
+                display:block; background:var(--blue-dark); color:var(--white);
+                text-align:center; padding:20px;
+            }
+            .modal-print-header h2 { font-size:1rem; font-weight:800; margin-bottom:4px; }
+            .modal-print-header p { font-size:0.75rem; color:var(--blue-light); margin:2px 0; }
+            .modal-print-header .cta { font-size:0.7rem; color:var(--gold); margin-top:6px; font-weight:600; }
+        }
+
         .speaker-modal {
             display:none; position:fixed; inset:0; z-index:1000; background:#fff;
             overflow-y:auto; -webkit-overflow-scrolling:touch;
@@ -1104,6 +1123,12 @@
         var body = document.getElementById('modal-body');
         var talks = s.papel.split('\n').filter(Boolean);
         body.innerHTML =
+            '<div class="modal-print-header">' +
+                '<h2>II Simpósio de Prevenção de IRAS e Stewardship de Antimicrobianos</h2>' +
+                '<p>14 e 15 de Agosto de 2026 · Hospital São Luiz Itaim · São Paulo, SP</p>' +
+                '<p>Rede D\'Or — Regional Sul</p>' +
+                '<p class="cta">Inscrições: itaimscih.github.io/simposio2026</p>' +
+            '</div>' +
             '<img class="modal-photo" src="palestrantes/' + s.foto + '" alt="' + s.nome + '">' +
             '<div class="modal-name">' + s.nome + '</div>' +
             (s.inst ? '<div class="modal-inst">' + s.inst + '</div>' : '') +
