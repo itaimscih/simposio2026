@@ -393,15 +393,31 @@
             mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
             -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
         }
+        .speakers-scroll-wrapper.expanded {
+            overflow:visible;
+            mask-image:none; -webkit-mask-image:none;
+        }
         .speakers-track {
             display:flex; gap:14px; width:max-content;
             animation: scroll-speakers 60s linear infinite;
         }
         .speakers-track.paused { animation-play-state:paused; }
+        .speakers-track.grid {
+            width:100%; flex-wrap:wrap; justify-content:center;
+            animation:none;
+        }
         @keyframes scroll-speakers {
             0% { transform:translateX(0); }
             100% { transform:translateX(-50%); }
         }
+        .toggle-speakers {
+            display:inline-flex; align-items:center; gap:4px;
+            font-size:0.7rem; color:var(--blue); cursor:pointer;
+            font-weight:600; background:none; border:1px solid var(--border);
+            border-radius:16px; padding:4px 12px; font-family:inherit;
+            margin-left:8px; vertical-align:middle;
+        }
+        .toggle-speakers:hover { background:#F0F4FF; }
         .speaker-card {
             flex-shrink:0; width:190px;
             background:var(--white); border-radius:12px; padding:20px 16px;
@@ -649,7 +665,7 @@
 
 <section>
     <div class="container">
-        <h2>Palestrantes e Autoridades Confirmadas</h2>
+        <h2>Palestrantes e Autoridades Confirmadas <button class="toggle-speakers" id="toggle-speakers" onclick="toggleSpeakers()" title="Expandir grade">📋 Ver todos</button></h2>
         <p class="section-note">Alguns dos especialistas confirmados.</p>
         <div class="speakers-scroll-wrapper">
             <div class="speakers-track" id="speakers-track"></div>
@@ -974,6 +990,25 @@
             var t = document.getElementById('toast');
             if (t) { t.textContent = 'Link copiado!'; t.classList.add('show'); setTimeout(function() { t.classList.remove('show'); }, 2000); }
         });
+    }
+
+    var speakersExpanded = false;
+    function toggleSpeakers() {
+        speakersExpanded = !speakersExpanded;
+        var wrapper = document.querySelector('.speakers-scroll-wrapper');
+        var track = document.getElementById('speakers-track');
+        var btn = document.getElementById('toggle-speakers');
+        if (speakersExpanded) {
+            wrapper.classList.add('expanded');
+            track.classList.add('grid');
+            track.classList.add('paused');
+            btn.innerHTML = '🔄 Carrossel';
+        } else {
+            wrapper.classList.remove('expanded');
+            track.classList.remove('grid');
+            track.classList.remove('paused');
+            btn.innerHTML = '📋 Ver todos';
+        }
     }
 
     function closeLightbox() {
