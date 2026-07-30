@@ -442,6 +442,12 @@
         .modal-print-header h3 { font-size:0.9rem; font-weight:800; margin-bottom:3px; color:var(--white); }
         .modal-print-header p { font-size:0.7rem; color:var(--blue-light); margin:1px 0; }
         .modal-print-header .cta { font-size:0.68rem; color:var(--gold); margin-top:4px; font-weight:600; }
+        .modal-logos {
+            display:flex; align-items:center; justify-content:center; gap:10px;
+            margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.12);
+        }
+        .modal-logos img { height:20px; filter:brightness(0) invert(1); }
+        .modal-logos .sep { width:1px; height:20px; background:var(--gold); margin:0 6px; opacity:0.6; }
         @media print {
             body * { visibility:hidden; }
             .speaker-modal, .speaker-modal * { visibility:visible; }
@@ -1125,6 +1131,13 @@
                 '<p>14 e 15 de Agosto de 2026 · Hospital São Luiz Itaim · São Paulo, SP</p>' +
                 '<p>Rede D\'Or — Regional Sul</p>' +
                 '<p class="cta">Inscrições: itaimscih.github.io/simposio2026</p>' +
+                '<div class="modal-logos">' +
+                    '<img src="MaternidadeStar_png_converted.png" alt="Maternidade Star">' +
+                    '<img src="Itaim_png_whiteversion_converted.png" alt="Sao Luiz Itaim">' +
+                    '<img src="VNS_png_converted.png" alt="Vila Nova Star">' +
+                    '<span class="sep"></span>' +
+                    '<img src="Logo Rede Dor White.png" alt="Rede D\'Or">' +
+                '</div>' +
             '</div>' +
             '<img class="modal-photo" src="palestrantes/' + s.foto + '" alt="' + s.nome + '">' +
             '<div class="modal-name">' + s.nome + '</div>' +
