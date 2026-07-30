@@ -1007,7 +1007,7 @@
         var track = document.getElementById('speakers-track');
         if (!track) return;
         var html = '';
-        window.speakersData.forEach(function(s) {
+        window.speakersData.forEach(function(s, i) {
             html += '<div class="speaker-card" onclick="openSpeakerModal(\'' + i + '\')" style="cursor:pointer">' +
                 '<img class="speaker-photo" src="palestrantes/' + s.foto + '" alt="' + s.nome + '" loading="lazy">' +
                 '<div class="speaker-name">' + s.nome + '</div>' +
