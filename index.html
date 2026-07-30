@@ -944,6 +944,7 @@
                 '<div class="speaker-role">' + s.papel + '</div>' +
                 '</div>';
         });
+        track.setAttribute('data-original', html);
         // Duplicar para loop infinito sem salto
         track.innerHTML = html + html;
 
@@ -1004,11 +1005,14 @@
             wrapper.classList.add('expanded');
             track.classList.add('grid');
             track.classList.add('paused');
+            track.innerHTML = track.getAttribute('data-original');
             btn.innerHTML = '🔄 Carrossel';
         } else {
             wrapper.classList.remove('expanded');
             track.classList.remove('grid');
             track.classList.remove('paused');
+            var orig = track.getAttribute('data-original');
+            track.innerHTML = orig + orig;
             btn.innerHTML = '📋 Ver todos';
         }
     }
