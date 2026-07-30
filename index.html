@@ -434,6 +434,50 @@
         .speaker-inst { font-size:0.66rem; color:var(--gold); font-weight:500; margin-bottom:4px; }
         .speaker-role { font-size:0.68rem; color:var(--blue); font-weight:600; line-height:1.4; white-space:pre-line; }
 
+        /* ── SPEAKER MODAL ───────────────────── */
+        .speaker-modal {
+            display:none; position:fixed; inset:0; z-index:1000; background:#fff;
+            overflow-y:auto; -webkit-overflow-scrolling:touch;
+        }
+        .speaker-modal.show { display:block; }
+        .modal-header {
+            position:sticky; top:0; z-index:10;
+            background:var(--blue-dark); color:var(--white);
+            padding:14px 20px; display:flex; align-items:center; gap:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.15);
+        }
+        .modal-back {
+            width:36px; height:36px; border-radius:50%; border:none;
+            background:rgba(255,255,255,0.1); color:var(--white);
+            font-size:1.2rem; cursor:pointer; flex-shrink:0;
+        }
+        .modal-header h3 { font-size:0.9rem; font-weight:700; flex:1; }
+        .modal-body { max-width:680px; margin:0 auto; padding:28px 20px 40px; }
+        .modal-photo {
+            width:120px; height:120px; border-radius:50%; object-fit:cover;
+            border:3px solid var(--gold); margin:0 auto 20px; display:block;
+        }
+        .modal-name { font-size:1.3rem; font-weight:800; text-align:center; color:var(--text); margin-bottom:4px; }
+        .modal-inst { font-size:0.85rem; text-align:center; color:var(--gold); font-weight:600; margin-bottom:6px; }
+        .modal-talks { text-align:center; margin-bottom:20px; }
+        .modal-talk-tag {
+            display:inline-block; font-size:0.72rem; color:var(--blue);
+            background:#EEF3FB; padding:4px 10px; border-radius:12px; margin:3px;
+            font-weight:500;
+        }
+        .modal-bio { font-size:0.88rem; color:var(--text-secondary); line-height:1.7; }
+        .modal-bio strong { color:var(--text); }
+        .modal-share {
+            display:flex; gap:8px; justify-content:center; margin-top:24px;
+            padding-top:20px; border-top:1px solid var(--border);
+        }
+        .modal-share button {
+            padding:8px 16px; border-radius:8px; border:1px solid var(--border);
+            background:var(--white); font-size:0.78rem; cursor:pointer;
+            font-family:inherit; font-weight:600; display:flex; align-items:center; gap:6px;
+        }
+        .modal-share button:hover { background:#F5F7FA; }
+
         /* ── LIGHTBOX ─────────────────────────── */
         .lightbox {
             display:none; position:fixed; inset:0; z-index:999;
@@ -863,6 +907,14 @@
     <button class="share-btn copy" onclick="shareCopy()" title="Copiar link" aria-label="Copiar link">🔗</button>
 </div>
 
+<div class="speaker-modal" id="speaker-modal">
+    <div class="modal-header">
+        <button class="modal-back" onclick="closeSpeakerModal()">←</button>
+        <h3 id="modal-title">Palestrante</h3>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+</div>
+
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <span class="lightbox-close">&times;</span>
     <img id="lightbox-img" src="" alt="">
@@ -912,32 +964,51 @@
 
     // Palestrantes — carrossel rotativo
     (function() {
-        var speakers = [
-            {foto:'Prof Dr David Uip - Nucleo Nacional de Infectologia.jpg', nome:'Dr. David Uip', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'Solenidade Corporativa de Abertura'},
-            {foto:'Prof Dra Ana Lucia Munhoz - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Ana Lucia Munhoz', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'Infecções ortopédicas: como maximizar a sensibilidade diagnóstica'},
-            {foto:'Prof Dra Tania Strabelli - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Tania Strabelli', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'Prevenção de infecção em transplantes de coração'},
-            {foto:'Med Desiree Machado - Gerente de Qualidade e Seguranca do Paciente.jpg', nome:'Dra. Desiree Machado', inst:'Qualidade e Segurança — Rede D\'Or', papel:'Prevenção de infecção em pacientes em ECMO/LVAD'},
-            {foto:'Med Laila Viana - Nefrologia.jpg', nome:'Dra. Laila Viana', inst:'São Luiz Itaim — Rede D\'Or', papel:'Infecções de corrente sanguínea em hemodiálise'},
-            {foto:'Mariza Loesch - Terapia Intensiva.jpg', nome:'Dra. Mariza Loesch', inst:'São Luiz Itaim · Maternidade Star', papel:'IRAS em gestantes de alto risco\nDa UTI'},
-            {foto:'Med Regia Feijo - SCIH.jpg', nome:'Dra. Regia Feijó', inst:'Maternidade Star · São Luiz Itaim', papel:'Cirurgias robóticas\nCandida auris\nModeradora'},
-            {foto:'Med Natanael Adiwardana - SCIH.jpg', nome:'Dr. Natanael Adiwardana', inst:'São Luiz Itaim — Rede D\'Or', papel:'Legionella\nIA e prevenção de IRAS\nVancomicina\nModerador'},
-            {foto:'Med Thais Romano - Coordenadora Regional de Microbiologia.jpg', nome:'Dra. Thais Romano', inst:'Rede D\'Or — Regional Sul', papel:'Qualidade diagnóstica em microbiologia'},
-            {foto:'Biomed Flavia Palomo - Supervisora Microbiologia.jpg', nome:'Bioméd. Flavia Palomo', inst:'São Luiz Itaim — Rede D\'Or', papel:'Diagnóstico rápido para bactérias MDR'},
-            {foto:'Enf Juliana Virolli - SCIH.jpg', nome:'Enf. Juliana Virolli', inst:'Hospital Alemão Oswaldo Cruz', papel:'Pacientes neutropênicos\nModeradora'},
-            {foto:'Enf Rodrigo Reghini - SCIH.jpg', nome:'Enf. Rodrigo Reghini', inst:'AC Camargo Cancer Center', papel:'Prevenção de infecção em Tumores Sólidos'},
-            {foto:'Farm Marinei Ricieri - Stewardship.jpg', nome:'Farm. Marinei Ricieri', inst:'Hospital Pequeno Príncipe — Curitiba', papel:'ATB em neonatos: quando falta a via?'},
-            {foto:'Marcia Pereira - Gerente Regional de CME.jpg', nome:'Enf. Márcia Pereira', inst:'Rede D\'Or — Regional Sul', papel:'Processamento e limpeza de instrumentais'},
-            {foto:'Med Maria Luisa Moura - Diretora Medica.jpg', nome:'Dra. Maria Luisa Nascimento', inst:'Vila Nova Star — Rede D\'Or', papel:'A visão da alta gestão sobre antimicrobianos'},
-            {foto:'Med Rodrigo Lima - Cuidados Paliativos.jpg', nome:'Dr. Rodrigo Lima', inst:'São Luiz Itaim — Rede D\'Or', papel:'Cuidados paliativos e antibioticoterapia no fim da vida'},
-            {foto:'Med Fernando Oliveira - Praticas Medicas.jpg', nome:'Dr. Fernando Oliveira', inst:'São Luiz Morumbi — Rede D\'Or', papel:'Comunicação sobre antibióticos'},
-            {foto:'Med Laina Bubach - SCIH.jpg', nome:'Dra. Laina Bubach', inst:'Vila Nova Star — Rede D\'Or', papel:'Agentes MDR: quando há pouca ou nenhuma opção'},
-            {foto:'Med Daniel Santos - SCIH.jpg', nome:'Dr. Daniel Wagner', inst:'UDI — Rede D\'Or', papel:'BrCAST: por que ainda falta o ponto de corte?'}
+        var speakers = window.speakersData = [
+            {foto:'Prof Dr David Uip - Nucleo Nacional de Infectologia.jpg', nome:'Dr. David Uip', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'Solenidade Corporativa de Abertura',
+                bio:'<strong>Dr. David Uip</strong> é médico infectologista, Professor Livre-Docente pela Faculdade de Medicina da Universidade de São Paulo (FMUSP). Foi Secretário de Estado da Saúde de São Paulo (2022-2024) e Diretor Executivo do Núcleo Nacional de Infectologia (NNI) da Rede D\'Or. Reconhecido nacionalmente por sua atuação em políticas públicas de saúde e controle de infecções, participa da abertura do II Simpósio trazendo sua visão sobre a importância da prevenção de IRAS no contexto hospitalar brasileiro.'},
+            {foto:'Prof Dra Ana Lucia Munhoz - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Ana Lucia Munhoz', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'Infecções ortopédicas: como maximizar a sensibilidade diagnóstica',
+                bio:'<strong>Dra. Ana Lucia Munhoz</strong> é médica infectologista e Coordenadora do Núcleo Nacional de Infectologia (NNI) da Rede D\'Or São Luiz. Com vasta experiência em infecções osteoarticulares, apresenta estratégias práticas para maximizar a sensibilidade diagnóstica em infecções ortopédicas, um dos maiores desafios na prática clínica hospitalar.'},
+            {foto:'Prof Dra Tania Strabelli - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Tania Strabelli', inst:'Núcleo Nacional de Infectologia — Rede D\'Or', papel:'Prevenção de infecção em transplantes de coração',
+                bio:'<strong>Dra. Tania Strabelli</strong> é médica infectologista, Professora Doutora e referência em infecções em pacientes transplantados cardíacos. Atua no Núcleo Nacional de Infectologia (NNI) da Rede D\'Or e apresenta as mais recentes evidências em prevenção de infecções no contexto de transplantes de coração.'},
+            {foto:'Med Desiree Machado - Gerente de Qualidade e Seguranca do Paciente.jpg', nome:'Dra. Desiree Machado', inst:'Qualidade e Segurança — Rede D\'Or', papel:'Prevenção de infecção em pacientes em ECMO/LVAD',
+                bio:'<strong>Dra. Desiree Machado</strong> é médica e Gerente de Qualidade e Segurança do Paciente da Rede D\'Or. Com expertise em dispositivos de suporte circulatório, aborda a prevenção de infecções em pacientes críticos em ECMO e LVAD, unindo qualidade assistencial e segurança do paciente.'},
+            {foto:'Med Laila Viana - Nefrologia.jpg', nome:'Dra. Laila Viana', inst:'São Luiz Itaim — Rede D\'Or', papel:'Infecções de corrente sanguínea em hemodiálise',
+                bio:'<strong>Dra. Laila Viana</strong> é médica nefrologista do Hospital São Luiz Itaim — Rede D\'Or. Especialista em terapia renal substitutiva, discute a prevenção de infecções de corrente sanguínea relacionadas a cateteres de hemodiálise, abordando desde a qualidade da água até as melhores práticas de inserção e manutenção.'},
+            {foto:'Mariza Loesch - Terapia Intensiva.jpg', nome:'Dra. Mariza Loesch', inst:'São Luiz Itaim · Maternidade Star', papel:'IRAS em gestantes de alto risco\nDa UTI',
+                bio:'<strong>Dra. Mariza Loesch</strong> é médica intensivista com atuação nos Hospitais São Luiz Itaim e Maternidade Star — Rede D\'Or. Apresenta duas palestras no evento: prevenção de IRAS em gestantes de alto risco e a perspectiva da UTI no uso racional de antimicrobianos.'},
+            {foto:'Med Regia Feijo - SCIH.jpg', nome:'Dra. Regia Feijó', inst:'Maternidade Star · São Luiz Itaim', papel:'Cirurgias robóticas\nCandida auris\nModeradora',
+                bio:'<strong>Dra. Regia Feijó</strong> é médica infectologista e coordenadora do SCIH da Maternidade Star e São Luiz Itaim — Rede D\'Or. Referência em prevenção de infecções cirúrgicas, apresenta sobre infecções em cirurgias robóticas e o manejo de Candida auris. Atua como moderadora em duas sessões do Dia 2.'},
+            {foto:'Med Natanael Adiwardana - SCIH.jpg', nome:'Dr. Natanael Adiwardana', inst:'São Luiz Itaim — Rede D\'Or', papel:'Legionella\nIA e prevenção de IRAS\nVancomicina\nModerador',
+                bio:'<strong>Dr. Natanael Adiwardana</strong> é médico infectologista e coordenador do SCIH do Hospital São Luiz Itaim — Rede D\'Or. Membro da comissão organizadora do simpósio, apresenta três palestras: Legionella, Inteligência Artificial aplicada à prevenção de IRAS, e implementação de monitoramento de Vancomicina. Atua como moderador em duas sessões.'},
+            {foto:'Med Thais Romano - Coordenadora Regional de Microbiologia.jpg', nome:'Dra. Thais Romano', inst:'Rede D\'Or — Regional Sul', papel:'Qualidade diagnóstica em microbiologia',
+                bio:'<strong>Dra. Thais Romano</strong> é médica microbiologista e Coordenadora Regional de Microbiologia da Rede D\'Or — Regional Sul. Discute a importância da qualidade diagnóstica em microbiologia como pilar fundamental para o stewardship de antimicrobianos.'},
+            {foto:'Biomed Flavia Palomo - Supervisora Microbiologia.jpg', nome:'Bioméd. Flavia Palomo', inst:'São Luiz Itaim — Rede D\'Or', papel:'Diagnóstico rápido para bactérias MDR',
+                bio:'<strong>Bioméd. Flavia Palomo</strong> é biomédica e Supervisora de Microbiologia do Hospital São Luiz Itaim — Rede D\'Or. Especialista em diagnóstico microbiológico, apresenta as novas estratégias de diagnóstico rápido para bactérias multidrogarresistentes, essenciais para a antibioticoterapia guiada.'},
+            {foto:'Enf Juliana Virolli - SCIH.jpg', nome:'Enf. Juliana Virolli', inst:'Hospital Alemão Oswaldo Cruz', papel:'Pacientes neutropênicos\nModeradora',
+                bio:'<strong>Enf. Juliana Virolli</strong> é enfermeira especialista em controle de infecção hospitalar, com atuação no Hospital Alemão Oswaldo Cruz. Apresenta as polêmicas e controvérsias na prevenção de infecções em pacientes neutropênicos, além de atuar como moderadora no Dia 1.'},
+            {foto:'Enf Rodrigo Reghini - SCIH.jpg', nome:'Enf. Rodrigo Reghini', inst:'AC Camargo Cancer Center', papel:'Prevenção de infecção em Tumores Sólidos',
+                bio:'<strong>Enf. Rodrigo Reghini</strong> é enfermeiro do SCIH do AC Camargo Cancer Center, referência nacional em oncologia. Aborda as especificidades da prevenção de infecções em pacientes com tumores sólidos, compartilhando a experiência de um dos maiores centros oncológicos da América Latina.'},
+            {foto:'Farm Marinei Ricieri - Stewardship.jpg', nome:'Farm. Marinei Ricieri', inst:'Hospital Pequeno Príncipe — Curitiba', papel:'ATB em neonatos: quando falta a via?',
+                bio:'<strong>Farm. Marinei Ricieri</strong> é farmacêutica clínica especialista em stewardship de antimicrobianos no Hospital Pequeno Príncipe (HPP), em Curitiba, PR — referência nacional em saúde pediátrica. Apresenta os desafios da antibioticoterapia em neonatos quando o acesso venoso é limitado.'},
+            {foto:'Marcia Pereira - Gerente Regional de CME.jpg', nome:'Enf. Márcia Pereira', inst:'Rede D\'Or — Regional Sul', papel:'Processamento e limpeza de instrumentais',
+                bio:'<strong>Enf. Márcia Pereira</strong> é enfermeira e Gerente Regional de CME da Rede D\'Or — Regional Sul. Especialista em processamento de materiais e esterilização, traz as mais recentes atualizações de recomendações em processamento e limpeza de instrumentais cirúrgicos.'},
+            {foto:'Med Maria Luisa Moura - Diretora Medica.jpg', nome:'Dra. Maria Luisa Nascimento', inst:'Vila Nova Star — Rede D\'Or', papel:'A visão da alta gestão sobre antimicrobianos',
+                bio:'<strong>Dra. Maria Luisa Nascimento</strong> é médica e Diretora Médica do Hospital Vila Nova Star — Rede D\'Or. Traz a perspectiva da alta gestão hospitalar sobre a importância dos programas de stewardship de antimicrobianos, conectando resultados clínicos e operacionais.'},
+            {foto:'Med Rodrigo Lima - Cuidados Paliativos.jpg', nome:'Dr. Rodrigo Lima', inst:'São Luiz Itaim — Rede D\'Or', papel:'Cuidados paliativos e antibioticoterapia no fim da vida',
+                bio:'<strong>Dr. Rodrigo Lima</strong> é médico especialista em cuidados paliativos do Hospital São Luiz Itaim — Rede D\'Or. Propõe uma reflexão sobre o uso de antibióticos em cuidados paliativos e no fim da vida, questionando paradigmas e discutindo o equilíbrio entre benefício e futilidade terapêutica.'},
+            {foto:'Med Fernando Oliveira - Praticas Medicas.jpg', nome:'Dr. Fernando Oliveira', inst:'São Luiz Morumbi — Rede D\'Or', papel:'Comunicação sobre antibióticos',
+                bio:'<strong>Dr. Fernando Oliveira</strong> é médico e atua no Hospital São Luiz Morumbi — Rede D\'Or. Aborda a comunicação sobre antibióticos como ferramenta essencial no stewardship, explorando as oportunidades desde a assistência direta ao paciente até o diálogo com a alta gestão.'},
+            {foto:'Med Laina Bubach - SCIH.jpg', nome:'Dra. Laina Bubach', inst:'Vila Nova Star — Rede D\'Or', papel:'Agentes MDR: quando há pouca ou nenhuma opção',
+                bio:'<strong>Dra. Laina Bubach</strong> é médica infectologista do SCIH do Hospital Vila Nova Star — Rede D\'Or. Discute o cenário mais desafiador da infectologia: infecções por agentes multidrogarresistentes quando as opções terapêuticas são escassas ou inexistentes.'},
+            {foto:'Med Daniel Santos - SCIH.jpg', nome:'Dr. Daniel Wagner', inst:'UDI — Rede D\'Or', papel:'BrCAST: por que ainda falta o ponto de corte?',
+                bio:'<strong>Dr. Daniel Wagner</strong> é médico infectologista do Hospital UDI — Rede D\'Or, em São Luís, MA. Membro do comitê BrCAST, apresenta uma análise crítica sobre a implementação dos pontos de corte para testes de sensibilidade aos antimicrobianos no Brasil e como atuar na prática clínica enquanto os padrões não chegam.'}
         ];
         var track = document.getElementById('speakers-track');
         if (!track) return;
         var html = '';
         speakers.forEach(function(s) {
-            html += '<div class="speaker-card">' +
+            html += '<div class="speaker-card" onclick="openSpeakerModal(\'' + i + '\')" style="cursor:pointer">' +
                 '<img class="speaker-photo" src="palestrantes/' + s.foto + '" alt="' + s.nome + '" loading="lazy">' +
                 '<div class="speaker-name">' + s.nome + '</div>' +
                 (s.inst ? '<div class="speaker-inst">' + s.inst + '</div>' : '') +
@@ -1015,6 +1086,43 @@
             track.innerHTML = orig + orig;
             btn.innerHTML = '📋 Ver todos';
         }
+    }
+
+    var currentSpeaker = null;
+    function openSpeakerModal(idx) {
+        var s = window.speakersData[idx]; if (!s) return;
+        currentSpeaker = s;
+        document.getElementById('modal-title').textContent = s.nome;
+        var body = document.getElementById('modal-body');
+        var talks = s.papel.split('\n').filter(Boolean);
+        body.innerHTML =
+            '<img class="modal-photo" src="palestrantes/' + s.foto + '" alt="' + s.nome + '">' +
+            '<div class="modal-name">' + s.nome + '</div>' +
+            (s.inst ? '<div class="modal-inst">' + s.inst + '</div>' : '') +
+            '<div class="modal-talks">' + talks.map(function(t) { return '<span class="modal-talk-tag">' + t + '</span>'; }).join('') + '</div>' +
+            '<div class="modal-bio">' + (s.bio || '') + '</div>' +
+            '<div class="modal-share">' +
+                '<button onclick="shareSpeakerWA()">📱 WhatsApp</button>' +
+                '<button onclick="window.print()">🖨 Imprimir</button>' +
+                '<button onclick="shareCopySpeaker()">📋 Copiar link</button>' +
+            '</div>';
+        document.getElementById('speaker-modal').classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeSpeakerModal() {
+        document.getElementById('speaker-modal').classList.remove('show');
+        document.body.style.overflow = '';
+    }
+    function shareSpeakerWA() {
+        if (!currentSpeaker) return;
+        var txt = currentSpeaker.nome + ' — ' + (currentSpeaker.inst||'') + '%0AII Simpósio de Prevenção de IRAS e Stewardship — Rede D\'Or%0A14-15 Ago 2026 · São Paulo%0A' + window.location.href;
+        window.open('https://wa.me/?text=' + txt, '_blank');
+    }
+    function shareCopySpeaker() {
+        navigator.clipboard.writeText(window.location.href).then(function() {
+            var t = document.getElementById('toast');
+            if (t) { t.textContent = 'Link copiado!'; t.classList.add('show'); setTimeout(function(){t.classList.remove('show')},2000); }
+        });
     }
 
     function closeLightbox() {
