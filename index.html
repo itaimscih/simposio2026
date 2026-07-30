@@ -411,13 +411,13 @@
             100% { transform:translateX(-50%); }
         }
         .toggle-speakers {
-            display:inline-flex; align-items:center; gap:4px;
-            font-size:0.7rem; color:var(--blue); cursor:pointer;
-            font-weight:600; background:none; border:1px solid var(--border);
-            border-radius:16px; padding:4px 12px; font-family:inherit;
-            margin-left:8px; vertical-align:middle;
+            display:inline-flex; align-items:center; gap:6px;
+            font-size:0.8rem; color:var(--blue); cursor:pointer;
+            font-weight:600; background:var(--white); border:1.5px solid var(--blue);
+            border-radius:20px; padding:8px 18px; font-family:inherit;
+            margin-left:10px; vertical-align:middle; transition:all 0.15s;
         }
-        .toggle-speakers:hover { background:#F0F4FF; }
+        .toggle-speakers:hover { background:var(--blue); color:var(--white); }
         .speaker-card {
             flex-shrink:0; width:190px;
             background:var(--white); border-radius:12px; padding:20px 16px;
@@ -430,7 +430,8 @@
             width:80px; height:80px; border-radius:50%; object-fit:cover;
             border:2px solid var(--gold); margin-bottom:10px;
         }
-        .speaker-name { font-size:0.8rem; font-weight:700; color:var(--text); margin-bottom:4px; }
+        .speaker-name { font-size:0.8rem; font-weight:700; color:var(--text); margin-bottom:1px; }
+        .speaker-inst { font-size:0.66rem; color:var(--gold); font-weight:500; margin-bottom:4px; }
         .speaker-role { font-size:0.68rem; color:var(--blue); font-weight:600; line-height:1.4; white-space:pre-line; }
 
         /* ── LIGHTBOX ─────────────────────────── */
@@ -912,25 +913,25 @@
     // Palestrantes — carrossel rotativo
     (function() {
         var speakers = [
-            {foto:'Prof Dr David Uip - Nucleo Nacional de Infectologia.jpg', nome:'Dr. David Uip', papel:'D1 · Solenidade Corporativa de Abertura'},
-            {foto:'Prof Dra Ana Lucia Munhoz - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Ana Lucia Munhoz', papel:'D2 · Infecções ortopédicas: como maximizar a sensibilidade diagnóstica'},
-            {foto:'Prof Dra Tania Strabelli - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Tania Strabelli', papel:'D1 · Prevenção de infecção em transplantes de coração'},
-            {foto:'Med Desiree Machado - Gerente de Qualidade e Seguranca do Paciente.jpg', nome:'Dra. Desiree Machado', papel:'D1 · Prevenção de infecção em pacientes em ECMO/LVAD'},
-            {foto:'Med Laila Viana - Nefrologia.jpg', nome:'Dra. Laila Viana', papel:'D1 · Infecções de corrente sanguínea em hemodiálise'},
-            {foto:'Mariza Loesch - Terapia Intensiva.jpg', nome:'Dra. Mariza Loesch', papel:'D1 · IRAS em gestantes de alto risco\nD2 · Da UTI'},
-            {foto:'Med Regia Feijo - SCIH.jpg', nome:'Dra. Regia Feijó', papel:'D1 · Prevenção de infecção em cirurgias robóticas\nD1 · Candida auris\nD2 · Moderadora'},
-            {foto:'Med Natanael Adiwardana - SCIH.jpg', nome:'Dr. Natanael Adiwardana', papel:'D1 · Legionella\nD1 · IA e prevenção de IRAS\nD2 · Vancomicina\nD2 · Moderador'},
-            {foto:'Med Thais Romano - Coordenadora Regional de Microbiologia.jpg', nome:'Dra. Thais Romano', papel:'D2 · Da qualidade diagnóstica em microbiologia'},
-            {foto:'Biomed Flavia Palomo - Supervisora Microbiologia.jpg', nome:'Bioméd. Flavia Palomo', papel:'D2 · Diagnóstico rápido para bactérias MDR'},
-            {foto:'Enf Juliana Virolli - SCIH.jpg', nome:'Enf. Juliana Virolli', papel:'D1 · Polêmicas em prevenção de infecção em pacientes neutropênicos\nD1 · Moderadora'},
-            {foto:'Enf Rodrigo Reghini - SCIH.jpg', nome:'Enf. Rodrigo Reghini', papel:'D1 · Prevenção de infecção em Tumores Sólidos'},
-            {foto:'Farm Marinei Ricieri - Stewardship.jpg', nome:'Farm. Marinei Ricieri', papel:'D2 · ATB em neonatos: quando falta a via?'},
-            {foto:'Marcia Pereira - Gerente Regional de CME.jpg', nome:'Enf. Márcia Pereira', papel:'D1 · Processamento e limpeza de instrumentais'},
-            {foto:'Med Maria Luisa Moura - Diretora Medica.jpg', nome:'Dra. Maria Luisa Nascimento', papel:'D2 · A visão da alta gestão sobre antimicrobianos'},
-            {foto:'Med Rodrigo Lima - Cuidados Paliativos.jpg', nome:'Dr. Rodrigo Lima', papel:'D2 · Cuidados paliativos e antibioticoterapia no fim da vida'},
-            {foto:'Med Fernando Oliveira - Praticas Medicas.jpg', nome:'Dr. Fernando Oliveira', papel:'D2 · Comunicação sobre antibióticos'},
-            {foto:'Med Laina Bubach - SCIH.jpg', nome:'Dra. Laina Bubach', papel:'D2 · Agentes MDR: quando há pouca ou nenhuma opção'},
-            {foto:'Med Daniel Santos - SCIH.jpg', nome:'Dr. Daniel Santos', papel:'D2 · BrCAST: por que ainda falta o ponto de corte?'}
+            {foto:'Prof Dr David Uip - Nucleo Nacional de Infectologia.jpg', nome:'Dr. David Uip', inst:'Rede D\'Or', papel:'D1 · Solenidade Corporativa de Abertura'},
+            {foto:'Prof Dra Ana Lucia Munhoz - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Ana Lucia Munhoz', inst:'Rede D\'Or', papel:'D2 · Infecções ortopédicas: como maximizar a sensibilidade diagnóstica'},
+            {foto:'Prof Dra Tania Strabelli - Nucleo Nacional de Infectologia.jpg', nome:'Dra. Tania Strabelli', inst:'NNI — Rede D\'Or', papel:'D1 · Prevenção de infecção em transplantes de coração'},
+            {foto:'Med Desiree Machado - Gerente de Qualidade e Seguranca do Paciente.jpg', nome:'Dra. Desiree Machado', inst:'Rede D\'Or', papel:'D1 · Prevenção de infecção em pacientes em ECMO/LVAD'},
+            {foto:'Med Laila Viana - Nefrologia.jpg', nome:'Dra. Laila Viana', inst:'ITM', papel:'D1 · Infecções de corrente sanguínea em hemodiálise'},
+            {foto:'Mariza Loesch - Terapia Intensiva.jpg', nome:'Dra. Mariza Loesch', inst:'ITM / MTS', papel:'D1 · IRAS em gestantes de alto risco\nD2 · Da UTI'},
+            {foto:'Med Regia Feijo - SCIH.jpg', nome:'Dra. Regia Feijó', inst:'MTS / ITM', papel:'D1 · Cirurgias robóticas\nD1 · Candida auris\nD2 · Moderadora'},
+            {foto:'Med Natanael Adiwardana - SCIH.jpg', nome:'Dr. Natanael Adiwardana', inst:'ITM', papel:'D1 · Legionella\nD1 · IA e prevenção de IRAS\nD2 · Vancomicina\nD2 · Moderador'},
+            {foto:'Med Thais Romano - Coordenadora Regional de Microbiologia.jpg', nome:'Dra. Thais Romano', inst:'Rede D\'Or', papel:'D2 · Qualidade diagnóstica em microbiologia'},
+            {foto:'Biomed Flavia Palomo - Supervisora Microbiologia.jpg', nome:'Bioméd. Flavia Palomo', inst:'ITM', papel:'D2 · Diagnóstico rápido para bactérias MDR'},
+            {foto:'Enf Juliana Virolli - SCIH.jpg', nome:'Enf. Juliana Virolli', inst:'HAOC', papel:'D1 · Pacientes neutropênicos\nD1 · Moderadora'},
+            {foto:'Enf Rodrigo Reghini - SCIH.jpg', nome:'Enf. Rodrigo Reghini', inst:'AC Camargo', papel:'D1 · Prevenção de infecção em Tumores Sólidos'},
+            {foto:'Farm Marinei Ricieri - Stewardship.jpg', nome:'Farm. Marinei Ricieri', inst:'HPP', papel:'D2 · ATB em neonatos: quando falta a via?'},
+            {foto:'Marcia Pereira - Gerente Regional de CME.jpg', nome:'Enf. Márcia Pereira', inst:'Regional Sul', papel:'D1 · Processamento e limpeza de instrumentais'},
+            {foto:'Med Maria Luisa Moura - Diretora Medica.jpg', nome:'Dra. Maria Luisa Nascimento', inst:'VNS', papel:'D2 · A visão da alta gestão sobre antimicrobianos'},
+            {foto:'Med Rodrigo Lima - Cuidados Paliativos.jpg', nome:'Dr. Rodrigo Lima', inst:'ITM', papel:'D2 · Cuidados paliativos e antibioticoterapia no fim da vida'},
+            {foto:'Med Fernando Oliveira - Praticas Medicas.jpg', nome:'Dr. Fernando Oliveira', inst:'MRB', papel:'D2 · Comunicação sobre antibióticos'},
+            {foto:'Med Laina Bubach - SCIH.jpg', nome:'Dra. Laina Bubach', inst:'SCIH', papel:'D2 · Agentes MDR: quando há pouca ou nenhuma opção'},
+            {foto:'Med Daniel Santos - SCIH.jpg', nome:'Dr. Daniel Santos', inst:'SCIH', papel:'D2 · BrCAST: por que ainda falta o ponto de corte?'}
         ];
         var track = document.getElementById('speakers-track');
         if (!track) return;
@@ -939,6 +940,7 @@
             html += '<div class="speaker-card">' +
                 '<img class="speaker-photo" src="palestrantes/' + s.foto + '" alt="' + s.nome + '" loading="lazy">' +
                 '<div class="speaker-name">' + s.nome + '</div>' +
+                (s.inst ? '<div class="speaker-inst">' + s.inst + '</div>' : '') +
                 '<div class="speaker-role">' + s.papel + '</div>' +
                 '</div>';
         });
