@@ -742,6 +742,16 @@
 
 <section class="prog-section">
     <div class="container">
+        <h2>Moderadores</h2>
+        <p class="section-note">Profissionais que conduzirão as sessões científicas do evento.</p>
+        <div class="speakers-scroll-wrapper">
+            <div class="speakers-track" id="moderadores-track"></div>
+        </div>
+    </div>
+</section>
+
+<section class="prog-section">
+    <div class="container">
         <h2>Programação Científica</h2>
         <p class="section-note">Dois dias de conteúdo com especialistas em prevenção de IRAS e stewardship.</p>
         <div class="prog-shell">
@@ -983,6 +993,70 @@
             })
             .catch(function() { /* mantem valor padrao */ });
     }
+
+    // Moderadores — carrossel rotativo
+    (function() {
+        var moderadores = [
+            {foto:'Ana Carolina Puin Moderadora.jpg', nome:'Enf. Ana Carolina Puin', inst:'São Luiz Itaim — Rede D\'Or', papel:'Dia 1 · Pacientes Cirúrgicos',
+                bio:'<strong>Enf. Ana Carolina Puin</strong> é enfermeira do SCIH do Hospital São Luiz Itaim — Rede D\'Or. Especialista em Prevenção e Controle de Infecção pelo IIEPAE e Mestre em Ciências da Saúde pelo Programa de Doenças Infecciosas e Parasitárias da FMUSP. Atua como moderadora na sessão de Pacientes Cirúrgicos.'},
+            {foto:'Miria Helena de Oliveira Moderadora.jpg', nome:'Enf. Miriã Helena de Oliveira', inst:'São Luiz Itaim — Rede D\'Or', papel:'Dia 1 · Mitos e Verdades sobre IRAS',
+                bio:'<strong>Enf. Miriã Helena de Oliveira</strong> é enfermeira do SCIH do Hospital São Luiz Itaim — Rede D\'Or. Especialista em Prevenção e Controle de Infecção pelo INESP e especialista em Vigilância Sanitária e Epidemiológica pela UNINTER. Atua como moderadora na sessão Mitos e Verdades sobre IRAS.'},
+            {foto:'Med Regia Feijo - SCIH.jpg', nome:'Dra. Regia Damous Fontenele Feijó', inst:'Maternidade Star · São Luiz Itaim', papel:'Dia 2 · Diagnóstico e Antimicrobianos',
+                bio:'<strong>Dra. Regia Damous Fontenele Feijó</strong> é médica formada pela UFMA, com residência em Infectologia e especialização em Controle de Infecção Hospitalar pelo Instituto de Infectologia Emílio Ribas (1997–2020). Mestre em Doenças Infectocontagiosas pela UNIFESP e MBA em Gestão Executiva em Saúde pelo IPOG. Médica do SCIH da Maternidade Star e São Luiz Itaim — Rede D\'Or. Atua como moderadora em duas sessões do Dia 2.'},
+            {foto:'Med Natanael Adiwardana - SCIH.jpg', nome:'Dr. Natanael Adiwardana', inst:'São Luiz Itaim — Rede D\'Or', papel:'Dia 2 · Soft Skills e Antibióticos',
+                bio:'<strong>Dr. Natanael Adiwardana</strong> é médico pela UNESP, especializado em Infectologia e Fellow em Controle de Infecções Hospitalares pelo Instituto de Infectologia Emílio Ribas. Mestre em Infectologia em Saúde Pública pela CCD/SES-SP, Lean Six Sigma Green Belt e MBA Executivo em Gestão de Saúde pela FGV. Médico do SCIH e Coordenador da Equipe de Infectologia do Hospital São Luiz Itaim — Rede D\'Or. Atua como moderador em duas sessões do Dia 2.'}
+        ];
+        var track = document.getElementById('moderadores-track');
+        if (!track) return;
+        var html = '';
+        moderadores.forEach(function(m, i) {
+            html += '<div class="speaker-card" data-speaker="' + i + '" data-type="moderador" style="cursor:pointer">' +
+                '<img class="speaker-photo" src="moderadores/' + m.foto + '" alt="' + m.nome + '" loading="lazy">' +
+                '<div class="speaker-name">' + m.nome + '</div>' +
+                (m.inst ? '<div class="speaker-inst">' + m.inst + '</div>' : '') +
+                '<div class="speaker-role">' + m.papel + '</div>' +
+                '</div>';
+        });
+        track.innerHTML = html + html;
+        track.addEventListener('click', function(e) {
+            var card = e.target.closest('.speaker-card');
+            if (card && card.dataset.speaker && card.dataset.type === 'moderador') {
+                var idx = parseInt(card.dataset.speaker);
+                var m = moderadores[idx];
+                if (m) {
+                    currentSpeaker = m;
+                    document.getElementById('modal-title').textContent = m.nome;
+                    var body = document.getElementById('modal-body');
+                    body.innerHTML =
+                        '<div class="modal-print-header">' +
+                            '<h3>II Simpósio de Prevenção de IRAS e Stewardship de Antimicrobianos</h3>' +
+                            '<p>14 e 15 de Agosto de 2026 · Hospital São Luiz Itaim · São Paulo, SP</p>' +
+                            '<p>Rede D\'Or — Regional Sul</p>' +
+                            '<p class="cta">Inscrições: itaimscih.github.io/simposio2026</p>' +
+                            '<div class="modal-logos">' +
+                                '<img src="MaternidadeStar_png_converted.png" alt="Maternidade Star">' +
+                                '<img src="Itaim_png_whiteversion_converted.png" alt="Sao Luiz Itaim">' +
+                                '<img src="VNS_png_converted.png" alt="Vila Nova Star">' +
+                                '<span class="sep"></span>' +
+                                '<img src="Logo Rede Dor White.png" alt="Rede D\'Or">' +
+                            '</div>' +
+                        '</div>' +
+                        '<img class="modal-photo" src="moderadores/' + m.foto + '" alt="' + m.nome + '">' +
+                        '<div class="modal-name">' + m.nome + '</div>' +
+                        (m.inst ? '<div class="modal-inst">' + m.inst + '</div>' : '') +
+                        '<div class="modal-talks"><span class="modal-talk-tag">' + m.papel + '</span></div>' +
+                        '<div class="modal-bio">' + (m.bio || '') + '</div>' +
+                        '<div class="modal-share">' +
+                            '<button onclick="shareSpeakerWA()">📱 WhatsApp</button>' +
+                            '<button onclick="window.print()">🖨 Imprimir</button>' +
+                            '<button onclick="shareCopySpeaker()">📋 Copiar link</button>' +
+                        '</div>';
+                    document.getElementById('speaker-modal').classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        });
+    })();
 
     // Palestrantes — carrossel rotativo
     (function() {
