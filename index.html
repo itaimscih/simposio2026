@@ -207,6 +207,28 @@
             flex-shrink:0; align-self:center;
         }
 
+        /* ── HERO SPONSORS ── */
+        .hero-sponsors {
+            margin-top:16px; padding-top:14px;
+            border-top:1px solid rgba(255,255,255,0.08);
+            display:flex; align-items:center; justify-content:center;
+            gap:16px; flex-wrap:wrap;
+        }
+        .hero-sponsors-label {
+            font-size:0.6rem; font-weight:600; letter-spacing:1.5px;
+            text-transform:uppercase; color:rgba(255,255,255,0.35);
+            flex-shrink:0;
+        }
+        .hero-sponsors img { height:20px; vertical-align:middle; flex-shrink:0; filter:brightness(0) invert(1); }
+        .hero-sponsors .sponsor-slot {
+            display:inline-flex; align-items:center; justify-content:center;
+            height:24px; min-width:80px;
+            border:1px dashed rgba(255,255,255,0.12);
+            border-radius:4px;
+            font-size:0.55rem; color:rgba(255,255,255,0.25);
+            padding:0 12px;
+        }
+
         /* ── MAIN NAV ────────────────────────── */
         .main-nav {
             background:var(--white); border-bottom:1px solid var(--border);
@@ -583,6 +605,9 @@
             .hero-logos { margin-top:18px; padding-top:14px; gap:10px; row-gap:8px; }
             .hero-logos img { height:22px; filter:brightness(0) invert(1); }
             .hero-logos .sep { height:24px; margin:0 10px; }
+            .hero-sponsors { margin-top:12px; padding-top:10px; gap:10px; }
+            .hero-sponsors img { height:16px; }
+            .hero-sponsors-label { font-size:0.55rem; }
 
             section { padding:36px 0; }
             section h2 { font-size:1.2rem; }
@@ -629,6 +654,8 @@
             .hero-logos { gap:6px; row-gap:6px; }
             .hero-logos img { height:18px; }
             .hero-logos .sep { height:20px; margin:0 6px; }
+            .hero-sponsors img { height:14px; }
+            .hero-sponsors-label { font-size:0.5rem; }
             .main-tab { font-size:0.74rem; padding:10px 6px; }
             .day-tab { font-size:0.72rem; padding:10px 10px; }
             .sess { padding:10px 10px; }
@@ -681,6 +708,11 @@
             <img src="VNS_png_converted.png" alt="Vila Nova Star">
             <span class="sep" aria-hidden="true"></span>
             <img src="Logo Rede Dor White.png" alt="Rede D'Or">
+        </div>
+        <div class="hero-sponsors" aria-label="Patrocínio">
+            <span class="hero-sponsors-label">Patrocínio</span>
+            <img src="Pfizer_Logo_Color_RGB.png" alt="Pfizer">
+            <span class="sponsor-slot">Em breve</span>
         </div>
     </div>
 </header>
