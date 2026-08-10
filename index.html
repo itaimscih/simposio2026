@@ -229,6 +229,38 @@
             padding:0 14px;
         }
 
+        /* ── FOMO BANNER ─────────────────────── */
+        @keyframes slideDown {
+            0% { transform:translateY(-100%); opacity:0; }
+            100% { transform:translateY(0); opacity:1; }
+        }
+        @keyframes fomoPulse {
+            0%,100% { box-shadow:0 0 0 0 rgba(26,30,38,0.4); }
+            50% { box-shadow:0 0 0 14px rgba(26,30,38,0); }
+        }
+        .fomo-banner {
+            display:none; background:linear-gradient(135deg,#C6A27C,#d4b896);
+            color:#1A1E26; text-align:center; padding:14px 20px;
+            animation:slideDown 0.5s ease-out;
+            position:relative; z-index:20;
+            border-bottom:2px solid #b8936e;
+        }
+        .fomo-banner.show { display:block; }
+        .fomo-banner strong { font-size:0.95rem; }
+        .fomo-banner .fomo-link {
+            display:inline-block; margin-left:12px; padding:7px 20px;
+            background:#1A1E26; color:#F7CEA7; border-radius:20px;
+            font-weight:700; font-size:0.82rem; text-decoration:none;
+            animation:fomoPulse 2s ease-in-out infinite;
+        }
+        .fomo-banner .fomo-link:hover { background:#000; }
+        .fomo-banner .fomo-close {
+            position:absolute; right:16px; top:50%; transform:translateY(-50%);
+            background:none; border:none; font-size:1.3rem; cursor:pointer;
+            color:#1A1E26; opacity:0.6; font-family:inherit; line-height:1;
+        }
+        .fomo-banner .fomo-close:hover { opacity:1; }
+
         /* ── MAIN NAV ────────────────────────── */
         .main-nav {
             background:var(--white); border-bottom:1px solid var(--border);
@@ -720,6 +752,13 @@
 </header>
 <div class="ekg-divider" aria-hidden="true"></div>
 
+<!-- ═════════════════════════════════════════ FOMO BANNER -->
+<div class="fomo-banner" id="fomo-banner">
+    <strong>🔴 15 VAGAS EXTRAS LIBERADAS!</strong> · Inscreva-se agora antes que acabem
+    <a class="fomo-link" href="#" onclick="switchMain('insc', document.getElementById('tab-insc'))">QUERO MINHA VAGA →</a>
+    <button class="fomo-close" onclick="closeFomo()" aria-label="Fechar">×</button>
+</div>
+
 <!-- ═════════════════════════════════════════ MAIN NAV -->
 <nav class="main-nav" id="main-nav" role="tablist" aria-label="Seções principais">
     <div class="main-nav-inner">
@@ -1020,8 +1059,9 @@
                     if (n <= 0) {
                         document.getElementById('spots-badge').style.background = '#8b1a1a';
                         document.getElementById('spots-badge').innerHTML = 'Vagas <span>esgotadas</span>';
-                    } else if (n <= 10) {
+                    } else if (n <= 15) {
                         el.style.color = '#ff9966';
+                        document.getElementById('spots-badge').innerHTML = '🔥 Últimas <span>' + n + '</span> vagas!';
                     }
                 }
             })
@@ -1169,6 +1209,18 @@
         track.addEventListener('touchstart', function() { track.classList.add('paused'); });
         track.addEventListener('touchend', function() { track.classList.remove('paused'); });
     })();
+
+    // FOMO banner
+    function showFomo() {
+        if (!sessionStorage.getItem('fomo-closed')) {
+            document.getElementById('fomo-banner').classList.add('show');
+        }
+    }
+    function closeFomo() {
+        document.getElementById('fomo-banner').classList.remove('show');
+        sessionStorage.setItem('fomo-closed', '1');
+    }
+    showFomo();
 
     updateSpots();
 
