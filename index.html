@@ -815,7 +815,7 @@
 
 <section class="prog-section">
     <div class="container">
-        <h2>Moderadores</h2>
+        <h2>Moderadores <button class="toggle-speakers" id="toggle-moderadores" onclick="toggleModeradores()" title="Expandir grade">📋 Ver todos</button></h2>
         <p class="section-note">Profissionais que conduzirão as sessões científicas do evento.</p>
         <div class="speakers-scroll-wrapper">
             <div class="speakers-track" id="moderadores-track"></div>
@@ -1095,6 +1095,7 @@
                 '<div class="speaker-role">' + m.papel + '</div>' +
                 '</div>';
         });
+        track.setAttribute('data-original', html);
         track.innerHTML = html + html;
         track.addEventListener('click', function(e) {
             var card = e.target.closest('.speaker-card');
@@ -1269,6 +1270,27 @@
     }
 
     var speakersExpanded = false;
+    var moderadoresExpanded = false;
+    function toggleModeradores() {
+        moderadoresExpanded = !moderadoresExpanded;
+        var wrapper = document.querySelector('#moderadores-track').parentElement;
+        var track = document.getElementById('moderadores-track');
+        var btn = document.getElementById('toggle-moderadores');
+        if (moderadoresExpanded) {
+            wrapper.classList.add('expanded');
+            track.classList.add('grid');
+            track.classList.add('paused');
+            track.innerHTML = track.getAttribute('data-original') || track.innerHTML;
+            btn.innerHTML = '🔄 Carrossel';
+        } else {
+            wrapper.classList.remove('expanded');
+            track.classList.remove('grid');
+            track.classList.remove('paused');
+            var orig = track.getAttribute('data-original') || track.innerHTML;
+            track.innerHTML = orig + orig;
+            btn.innerHTML = '📋 Ver todos';
+        }
+    }
     function toggleSpeakers() {
         speakersExpanded = !speakersExpanded;
         var wrapper = document.querySelector('.speakers-scroll-wrapper');

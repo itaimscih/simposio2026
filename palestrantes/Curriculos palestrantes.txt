@@ -52,7 +52,7 @@ Médico infectologista pelo Instituto de Infectologia Emílio Ribas e mestre em 
 Enfermeira e Estomaterapeuta pelo Centro Universitário São Camilo, com formação no Enterostomal Therapy Nursing Education Program (ETNEP), reconhecido pelo World Council of Enterostomal Therapists (WCET®). Certificada pelo programa da WOCN – Wound, Ostomy and Continence Nurses Society™. Especialista em Terapia Intensiva pela Faculdades Metropolitanas Unidas.  Atua como Estomaterapeuta no Hospital Vila Nova Star.
 
 
-#Mariza Silva Ramos Loesch
+# Mariza Silva Ramos Loesch
 Formada Faculdade de Ciências Médicas de Santos
 Residência de Nefrologia No HCFMUSP
 Título Medicina Intensiva pela AMIB
