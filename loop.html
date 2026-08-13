@@ -140,12 +140,15 @@
         .sponsor-logo { animation:photoIn 0.9s ease-out; }
         .sponsor-logo.gold-logo { height:150px; }
         .sponsor-logo.bronze-logo { height:80px; }
-        .sponsor-card {
-            display:inline-block; background:var(--white); border-radius:16px;
-            padding:24px 48px; box-shadow:0 4px 24px rgba(0,0,0,0.25);
+        .sponsor-glow {
+            display:inline-block; position:relative; padding:28px 60px;
         }
-        .sponsor-card.gold-card { border:2px solid var(--gold); }
-        .sponsor-card.bronze-card { border:2px solid var(--bronze); }
+        .sponsor-glow::before {
+            content:''; position:absolute; inset:0; border-radius:50%;
+            background:radial-gradient(ellipse at center, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.05) 45%, transparent 70%);
+            filter:blur(12px);
+        }
+        .sponsor-glow img { position:relative; z-index:1; }
 
         /* Event footer on person slides */
         .slide-event-footer {
@@ -288,11 +291,11 @@
                 '<div class="inst-title" style="margin-bottom:20px;">Patrocinadores</div>' +
                 '<div class="sponsor-section">' +
                     '<div class="sponsor-tier ouro">★ Patrocinador Ouro</div>' +
-                    '<div class="sponsor-card gold-card"><img class="sponsor-logo gold-logo" src="Pfizer_Logo_Color_RGB.png" alt="Pfizer"></div>' +
+                    '<div class="sponsor-glow"><img class="sponsor-logo gold-logo" src="Pfizer_Logo_Color_RGB.png" alt="Pfizer"></div>' +
                 '</div>' +
                 '<div class="sponsor-section">' +
                     '<div class="sponsor-tier bronze">Patrocinador Bronze</div>' +
-                    '<div class="sponsor-card bronze-card"><img class="sponsor-logo bronze-logo" src="IME_Brasil_Logo.png" alt="Imebrasil" style="filter:none;"></div>' +
+                    '<div class="sponsor-glow"><img class="sponsor-logo bronze-logo" src="IME_Brasil_Logo.png" alt="Imebrasil"></div>' +
                 '</div>' +
                 '<div class="inst-footer">Agradecemos o apoio dos nossos patrocinadores</div>' +
             '</div>' +
