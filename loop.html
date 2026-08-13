@@ -85,14 +85,17 @@
             white-space:pre-line; line-height:1.5; margin-bottom:18px;
         }
         .slide-logos {
-            display:flex; align-items:center; justify-content:center;
-            gap:16px; flex-wrap:wrap; margin-top:6px;
+            display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:6px;
         }
-        .slide-logos img { height:26px; filter:brightness(0) invert(1); }
-        .slide-logos img.no-invert { filter:none; }
-        .slide-logos .sep {
+        .logos-row {
+            display:flex; align-items:center; justify-content:center;
+            gap:16px; flex-wrap:wrap;
+        }
+        .logos-row img { height:26px; filter:brightness(0) invert(1); }
+        .logos-row .sep {
             width:1px; height:28px; background:var(--gold); margin:0 6px; opacity:0.7;
         }
+        .logos-row-sponsors img { height:22px; filter:brightness(0) invert(1); }
 
         /* Institutional slide */
         .inst-event-name {
@@ -206,14 +209,17 @@
 
     function logosRodape() {
         return '<div class="slide-logos">' +
-            '<img src="MaternidadeStar_png_converted.png" alt="Maternidade Star">' +
-            '<img src="Itaim_png_whiteversion_converted.png" alt="São Luiz Itaim">' +
-            '<img src="VNS_png_converted.png" alt="Vila Nova Star">' +
-            '<span class="sep"></span>' +
-            '<img src="Logo Rede Dor White.png" alt="Rede D\'Or">' +
-            '<span class="sep"></span>' +
-            '<img class="no-invert" src="Pfizer_Logo_Color_RGB.png" alt="Pfizer">' +
-            '<img src="IME_Brasil_Logo_White.png" alt="Imebrasil">' +
+            '<div class="logos-row">' +
+                '<img src="MaternidadeStar_png_converted.png" alt="Maternidade Star">' +
+                '<img src="Itaim_png_whiteversion_converted.png" alt="São Luiz Itaim">' +
+                '<img src="VNS_png_converted.png" alt="Vila Nova Star">' +
+                '<span class="sep"></span>' +
+                '<img src="Logo Rede Dor White.png" alt="Rede D\'Or">' +
+            '</div>' +
+            '<div class="logos-row logos-row-sponsors">' +
+                '<img src="Pfizer_Logo_Color_RGB.png" alt="Pfizer">' +
+                '<img src="IME_Brasil_Logo_White.png" alt="Imebrasil">' +
+            '</div>' +
         '</div>';
     }
 
@@ -269,7 +275,7 @@
                 '</div>' +
                 '<div class="sponsor-section">' +
                     '<div class="sponsor-tier bronze">Patrocinador Bronze</div>' +
-                    '<img class="sponsor-logo bronze-logo" src="IME_Brasil_Logo_White.png" alt="Imebrasil">' +
+                    '<img class="sponsor-logo bronze-logo" src="IME_Brasil_Logo.png" alt="Imebrasil" style="filter:none;">' +
                 '</div>' +
                 '<div class="inst-footer">Agradecemos o apoio dos nossos patrocinadores</div>' +
             '</div>' +
