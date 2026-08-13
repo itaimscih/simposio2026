@@ -120,12 +120,13 @@ function doGet(e) {
       const q = query.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
       const results = [];
       for (let i = 0; i < data.length; i++) {
-        const nome = (data[i][1] || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-        const email = (data[i][2] || '').toLowerCase();
+        // Colunas reais do Forms: A=Carimbo B=Email(auto) C=Nome D=Email E=Profissao F=Instituicao
+        const nome = (data[i][2] || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+        const email = (data[i][1] || '').toLowerCase();
         if (nome.includes(q) || email.includes(q)) {
           results.push({
-            row: i + 2, nome: data[i][1] || '', profissao: data[i][3] || '',
-            instituicao: data[i][4] || '',
+            row: i + 2, nome: data[i][2] || '', profissao: data[i][4] || '',
+            instituicao: data[i][5] || '',
             d1: !!data[i][8], d2: !!data[i][9]
           });
           if (results.length >= 15) break;
@@ -137,8 +138,8 @@ function doGet(e) {
     if (action === 'all') {
       const results = data.map(function(row, i) {
         return {
-          row: i + 2, nome: row[1] || '', profissao: row[3] || '',
-          instituicao: row[4] || '',
+          row: i + 2, nome: row[2] || '', profissao: row[4] || '',
+          instituicao: row[5] || '',
           d1: !!row[8], d2: !!row[9]
         };
       });
