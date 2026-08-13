@@ -85,7 +85,7 @@
             white-space:pre-line; line-height:1.5; margin-bottom:18px;
         }
         .slide-logos {
-            display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:6px;
+            display:flex; flex-direction:column; align-items:center; gap:22px; margin-top:10px;
         }
         .logos-row {
             display:flex; align-items:center; justify-content:center;
@@ -96,6 +96,10 @@
             width:1px; height:28px; background:var(--gold); margin:0 6px; opacity:0.7;
         }
         .logos-row-sponsors img { height:22px; filter:brightness(0) invert(1); }
+        .logos-label {
+            font-size:0.65rem; letter-spacing:3px; text-transform:uppercase;
+            color:rgba(255,255,255,0.45); font-weight:500; margin-bottom:-14px;
+        }
 
         /* Institutional slide */
         .inst-event-name {
@@ -103,8 +107,13 @@
             color:var(--gold-light); font-weight:700; margin-bottom:24px;
         }
         .inst-title {
-            font-size:2.2rem; font-weight:900; margin-bottom:56px;
-            letter-spacing:-0.5px;
+            font-size:1.5rem; font-weight:500; margin-bottom:56px;
+            letter-spacing:6px; text-transform:uppercase; color:var(--gold-light);
+            display:inline-flex; align-items:center; gap:24px;
+        }
+        .inst-title::before,
+        .inst-title::after {
+            content:''; width:60px; height:1px; background:var(--gold); opacity:0.6;
         }
         .inst-logos {
             display:flex; align-items:center; justify-content:center;
@@ -209,6 +218,7 @@
 
     function logosRodape() {
         return '<div class="slide-logos">' +
+            '<div class="logos-label">Realização</div>' +
             '<div class="logos-row">' +
                 '<img src="MaternidadeStar_png_converted.png" alt="Maternidade Star">' +
                 '<img src="Itaim_png_whiteversion_converted.png" alt="São Luiz Itaim">' +
@@ -216,6 +226,7 @@
                 '<span class="sep"></span>' +
                 '<img src="Logo Rede Dor White.png" alt="Rede D\'Or">' +
             '</div>' +
+            '<div class="logos-label">Patrocinadores</div>' +
             '<div class="logos-row logos-row-sponsors">' +
                 '<img src="Pfizer_Logo_Color_RGB.png" alt="Pfizer">' +
                 '<img src="IME_Brasil_Logo_White.png" alt="Imebrasil">' +
