@@ -53,9 +53,13 @@
         .slide-content { position:relative; z-index:2; text-align:center; padding:40px; width:100%; }
 
         /* Speaker / moderator slide */
+        .person-event-line {
+            font-size:0.85rem; letter-spacing:2px; text-transform:uppercase;
+            color:rgba(255,255,255,0.65); font-weight:600; margin-bottom:8px;
+        }
         .person-photo {
-            width:220px; height:220px; border-radius:50%; object-fit:cover;
-            border:4px solid var(--gold); margin:0 auto 28px; display:block;
+            width:190px; height:190px; border-radius:50%; object-fit:cover;
+            border:4px solid var(--gold); margin:0 auto 20px; display:block;
             box-shadow:0 0 60px rgba(198,162,124,0.35);
             animation:photoIn 0.9s ease-out;
         }
@@ -65,38 +69,47 @@
         }
         .person-role-label {
             font-size:0.8rem; letter-spacing:4px; text-transform:uppercase;
-            color:var(--gold-light); font-weight:700; margin-bottom:10px;
+            color:var(--gold-light); font-weight:700; margin-bottom:8px;
         }
         .person-name {
-            font-size:2.6rem; font-weight:900; margin-bottom:8px;
+            font-size:2.2rem; font-weight:900; margin-bottom:6px;
             letter-spacing:-0.5px; line-height:1.15;
         }
         .person-inst {
-            font-size:1.05rem; color:var(--blue-light); margin-bottom:16px; font-weight:500;
+            font-size:1rem; color:var(--blue-light); margin-bottom:12px; font-weight:500;
         }
         .person-topic {
-            font-size:1.1rem; color:var(--white); font-weight:600;
+            font-size:1rem; color:var(--white); font-weight:600;
             background:rgba(255,255,255,0.08); display:inline-block;
-            padding:10px 26px; border-radius:30px; border:1px solid rgba(255,255,255,0.15);
-            white-space:pre-line; line-height:1.5;
+            padding:9px 22px; border-radius:30px; border:1px solid rgba(255,255,255,0.15);
+            white-space:pre-line; line-height:1.5; margin-bottom:18px;
+        }
+        .slide-logos {
+            display:flex; align-items:center; justify-content:center;
+            gap:16px; flex-wrap:wrap; margin-top:6px;
+        }
+        .slide-logos img { height:26px; filter:brightness(0) invert(1); }
+        .slide-logos img.no-invert { filter:none; }
+        .slide-logos .sep {
+            width:1px; height:28px; background:var(--gold); margin:0 6px; opacity:0.7;
         }
 
         /* Institutional slide */
         .inst-event-name {
             font-size:1.2rem; letter-spacing:3px; text-transform:uppercase;
-            color:var(--gold-light); font-weight:700; margin-bottom:6px;
+            color:var(--gold-light); font-weight:700; margin-bottom:24px;
         }
         .inst-title {
-            font-size:2.2rem; font-weight:900; margin-bottom:40px;
+            font-size:2.2rem; font-weight:900; margin-bottom:56px;
             letter-spacing:-0.5px;
         }
         .inst-logos {
             display:flex; align-items:center; justify-content:center;
-            gap:22px; flex-wrap:wrap;
+            gap:44px; flex-wrap:wrap;
         }
         .inst-logos img { height:64px; filter:brightness(0) invert(1); animation:photoIn 0.9s ease-out; }
         .inst-logos .sep {
-            width:1px; height:70px; background:var(--gold); margin:0 10px; opacity:0.7;
+            width:1px; height:70px; background:var(--gold); margin:0 22px; opacity:0.7;
         }
         .inst-footer {
             margin-top:40px; font-size:0.9rem; color:rgba(255,255,255,0.6);
@@ -191,29 +204,46 @@
     // ═══════════════════════════════════════════
     var SLIDE_SECONDS = 8;
 
+    function logosRodape() {
+        return '<div class="slide-logos">' +
+            '<img src="MaternidadeStar_png_converted.png" alt="Maternidade Star">' +
+            '<img src="Itaim_png_whiteversion_converted.png" alt="São Luiz Itaim">' +
+            '<img src="VNS_png_converted.png" alt="Vila Nova Star">' +
+            '<span class="sep"></span>' +
+            '<img src="Logo Rede Dor White.png" alt="Rede D\'Or">' +
+            '<span class="sep"></span>' +
+            '<img class="no-invert" src="Pfizer_Logo_Color_RGB.png" alt="Pfizer">' +
+            '<img src="IME_Brasil_Logo_White.png" alt="Imebrasil">' +
+        '</div>';
+    }
+
     function speakerSlide(p, label) {
         return '<div class="slide">' +
             '<div class="slide-content">' +
+                '<div class="person-event-line">II Simpósio de Prevenção de IRAS e Stewardship</div>' +
                 '<div class="person-role-label">' + label + '</div>' +
                 '<img class="person-photo" src="palestrantes/' + p.foto + '" alt="' + p.nome + '">' +
                 '<div class="person-name">' + p.nome + '</div>' +
                 '<div class="person-inst">' + p.inst + '</div>' +
                 '<div class="person-topic">' + p.papel.replace(/\n/g,'<br>') + '</div>' +
+                logosRodape() +
             '</div>' +
-            '<div class="slide-event-footer">II Simpósio de Prevenção de IRAS e Stewardship de Antimicrobianos · 14-15 Ago 2026 · São Luiz Itaim</div>' +
+            '<div class="slide-event-footer">14-15 Ago 2026 · Hospital São Luiz Itaim · São Paulo, SP</div>' +
         '</div>';
     }
 
     function moderatorSlide(p) {
         return '<div class="slide">' +
             '<div class="slide-content">' +
+                '<div class="person-event-line">II Simpósio de Prevenção de IRAS e Stewardship</div>' +
                 '<div class="person-role-label">Moderação</div>' +
                 '<img class="person-photo" src="moderadores/' + p.foto + '" alt="' + p.nome + '">' +
                 '<div class="person-name" style="font-size:2rem;">' + p.nome + '</div>' +
                 '<div class="person-inst">' + p.inst + '</div>' +
                 '<div class="person-topic">' + p.papel + '</div>' +
+                logosRodape() +
             '</div>' +
-            '<div class="slide-event-footer">II Simpósio de Prevenção de IRAS e Stewardship de Antimicrobianos · 14-15 Ago 2026 · São Luiz Itaim</div>' +
+            '<div class="slide-event-footer">14-15 Ago 2026 · Hospital São Luiz Itaim · São Paulo, SP</div>' +
         '</div>';
     }
 
