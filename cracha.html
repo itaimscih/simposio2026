@@ -136,7 +136,7 @@
         };
         var s = document.createElement('script');
         s.id = 'scr_badge';
-        s.src = SCRIPT_URL + '?action=badge&cpf=' + raw + '&callback=' + cbName;
+        s.src = SCRIPT_URL + '?action=badge&cpf=' + raw + '&callback=' + cbName + '&t=' + new Date().getTime();
         s.onerror = function() {
             el.className = 'msg error';
             el.textContent = 'Erro de conexão. Tente novamente.';

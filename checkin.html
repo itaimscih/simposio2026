@@ -161,6 +161,7 @@ function jsonp(action, params, cb, errCb) {
     if (params.q) url += '&q=' + encodeURIComponent(params.q);
     if (params.row) url += '&row=' + params.row;
     url += '&callback=' + name;
+    url += '&t=' + new Date().getTime(); // cache-busting
     var s = document.createElement('script');
     s.id = 's_' + name; s.src = url;
     s.onerror = function() { clearTimeout(timer); cleanup(); if (errCb) errCb(); };
