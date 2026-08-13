@@ -138,8 +138,14 @@
         .sponsor-tier.ouro { color:var(--gold); }
         .sponsor-tier.bronze { color:var(--bronze); }
         .sponsor-logo { animation:photoIn 0.9s ease-out; }
-        .sponsor-logo.gold-logo { height:150px; filter:drop-shadow(0 0 30px rgba(198,162,124,0.4)); }
+        .sponsor-logo.gold-logo { height:150px; }
         .sponsor-logo.bronze-logo { height:80px; }
+        .sponsor-card {
+            display:inline-block; background:var(--white); border-radius:16px;
+            padding:24px 48px; box-shadow:0 4px 24px rgba(0,0,0,0.25);
+        }
+        .sponsor-card.gold-card { border:2px solid var(--gold); }
+        .sponsor-card.bronze-card { border:2px solid var(--bronze); }
 
         /* Event footer on person slides */
         .slide-event-footer {
@@ -282,11 +288,11 @@
                 '<div class="inst-title" style="margin-bottom:20px;">Patrocinadores</div>' +
                 '<div class="sponsor-section">' +
                     '<div class="sponsor-tier ouro">★ Patrocinador Ouro</div>' +
-                    '<img class="sponsor-logo gold-logo" src="Pfizer_Logo_Color_RGB.png" alt="Pfizer">' +
+                    '<div class="sponsor-card gold-card"><img class="sponsor-logo gold-logo" src="Pfizer_Logo_Color_RGB.png" alt="Pfizer"></div>' +
                 '</div>' +
                 '<div class="sponsor-section">' +
                     '<div class="sponsor-tier bronze">Patrocinador Bronze</div>' +
-                    '<img class="sponsor-logo bronze-logo" src="IME_Brasil_Logo.png" alt="Imebrasil" style="filter:none;">' +
+                    '<div class="sponsor-card bronze-card"><img class="sponsor-logo bronze-logo" src="IME_Brasil_Logo.png" alt="Imebrasil" style="filter:none;"></div>' +
                 '</div>' +
                 '<div class="inst-footer">Agradecemos o apoio dos nossos patrocinadores</div>' +
             '</div>' +
