@@ -121,12 +121,31 @@
             position:absolute; bottom:30px; left:0; right:0; text-align:center;
             font-size:0.75rem; color:rgba(255,255,255,0.45); letter-spacing:1px;
         }
+
+        /* Controls */
+        .controls {
+            position:fixed; bottom:24px; right:24px; z-index:200;
+            display:flex; gap:8px; opacity:0; transition:opacity 0.3s;
+        }
+        body.controls-visible .controls { opacity:1; }
+        .ctrl-btn {
+            width:44px; height:44px; border-radius:50%; border:1px solid rgba(255,255,255,0.25);
+            background:rgba(0,0,0,0.45); color:var(--white); cursor:pointer;
+            font-size:1.1rem; display:flex; align-items:center; justify-content:center;
+            transition:background 0.2s; font-family:inherit;
+        }
+        .ctrl-btn:hover { background:rgba(0,61,165,0.7); }
     </style>
 </head>
 <body>
 
 <div class="progress" id="progress"></div>
 <div class="stage" id="stage"></div>
+<div class="controls" id="controls">
+    <button class="ctrl-btn" onclick="prevSlide()" title="Anterior">⏮</button>
+    <button class="ctrl-btn" id="play-btn" onclick="togglePlay()" title="Play/Pause">⏸</button>
+    <button class="ctrl-btn" onclick="nextSlide()" title="Próximo">⏭</button>
+</div>
 
 <script>
     // ═══════════════════════════════════════════
@@ -140,7 +159,7 @@
         {foto:'Med Laila Viana - Nefrologia.jpg', nome:'Dra. Laila Viana', inst:'São Luiz Itaim — Rede D\'Or', papel:'Infecções de corrente sanguínea em hemodiálise'},
         {foto:'Mariza Loesch - Terapia Intensiva.jpg', nome:'Dra. Mariza Loesch', inst:'São Luiz Itaim · Maternidade Star', papel:'IRAS em gestantes de alto risco\nDa UTI'},
         {foto:'Med Regia Feijo - SCIH.jpg', nome:'Dra. Regia Feijó', inst:'Maternidade Star · São Luiz Itaim', papel:'Cirurgias robóticas\nCandida auris\nModeradora'},
-        {foto:'Med Natanael Adiwardana - SCIH.jpg', nome:'Dr. Natanael Adiwardana', inst:'São Luiz Itaim — Rede D\'Or', papel:'Legionella\nIA e prevenção de IRAS\nVancomicina\nModerador'},
+        {foto:'Med Natanael Adiwardana - SCIH.jpeg', nome:'Dr. Natanael Adiwardana', inst:'São Luiz Itaim — Rede D\'Or', papel:'Legionella\nIA e prevenção de IRAS\nVancomicina\nModerador'},
         {foto:'Med Thais Romano - Coordenadora Regional de Microbiologia.jpg', nome:'Dra. Thais Romano', inst:'Rede D\'Or — Regional Sul', papel:'Qualidade diagnóstica em microbiologia'},
         {foto:'Biomed Flavia Palomo - Supervisora Microbiologia.jpg', nome:'Bioméd. Flavia Palomo', inst:'São Luiz Itaim — Rede D\'Or', papel:'Diagnóstico rápido para bactérias MDR'},
         {foto:'Enf Juliana Virolli - SCIH.jpg', nome:'Enf. Juliana Virolli', inst:'Hospital Alemão Oswaldo Cruz', papel:'Pacientes neutropênicos\nModeradora'},
@@ -148,7 +167,7 @@
         {foto:'Enf Rodrigo Reghini - SCIH.jpg', nome:'Enf. Rodrigo Reghini', inst:'AC Camargo Cancer Center', papel:'Prevenção de infecção em Tumores Sólidos'},
         {foto:'Farm Marinei Ricieri - Stewardship.jpg', nome:'Farm. Marinei Ricieri', inst:'Hospital Pequeno Príncipe — Curitiba', papel:'ATB em neonatos: quando falta a via?'},
         {foto:'Marcia Pereira - Gerente Regional de CME.jpg', nome:'Enf. Márcia Pereira', inst:'Rede D\'Or — Regional Sul', papel:'Processamento e limpeza de instrumentais'},
-        {foto:'Med Maria Luisa Moura - Diretora Medica.jpg', nome:'Dra. Maria Luisa Nascimento', inst:'Vila Nova Star — Rede D\'Or', papel:'A visão da alta gestão sobre antimicrobianos'},
+        {foto:'Med Maria Luisa Moura - Diretora Medica.jpeg', nome:'Dra. Maria Luisa Nascimento', inst:'Vila Nova Star — Rede D\'Or', papel:'A visão da alta gestão sobre antimicrobianos'},
         {foto:'Med Rodrigo Lima - Cuidados Paliativos.jpg', nome:'Dr. Rodrigo Lima', inst:'São Luiz Itaim — Rede D\'Or', papel:'Cuidados paliativos e antibioticoterapia no fim da vida'},
         {foto:'Med Fernando Oliveira - Praticas Medicas.jpg', nome:'Dr. Fernando Oliveira', inst:'São Luiz Morumbi — Rede D\'Or', papel:'Comunicação sobre antibióticos'},
         {foto:'Med Laina Bubach - SCIH.jpg', nome:'Dra. Laina Bubach', inst:'Vila Nova Star — Rede D\'Or', papel:'Agentes MDR: quando há pouca ou nenhuma opção'},
@@ -252,7 +271,7 @@
             }
         }
         if (sp % 9 === 3) slidesHtml.push(sponsorSlide());
-        if (sp % 12 === 6) slidesHtml.push(instSlide('São Luiz Itaim — Rede D\'Or', hospitalLogos));
+        if (sp % 12 === 6) slidesHtml.push(instSlide('Rede D\'Or — Regional Sul', hospitalLogos));
     }
     slidesHtml.push(sponsorSlide());
     slidesHtml.push(instSlide('Agradecimento', hospitalLogos));
@@ -265,6 +284,8 @@
     var slideEls = document.querySelectorAll('.slide');
     var current = 0;
     var progress = document.getElementById('progress');
+    var timer = null;
+    var paused = false;
 
     function showSlide(i) {
         slideEls.forEach(function(el, idx) {
@@ -278,7 +299,14 @@
         animateProgress();
     }
 
+    function prevSlide() {
+        current = (current - 1 + slideEls.length) % slideEls.length;
+        showSlide(current);
+        animateProgress();
+    }
+
     function animateProgress() {
+        if (paused) return;
         progress.style.transition = 'none';
         progress.style.width = '0%';
         requestAnimationFrame(function() {
@@ -287,9 +315,56 @@
         });
     }
 
+    var pausedWidth = 0;
+
+    function togglePlay() {
+        var btn = document.getElementById('play-btn');
+        if (paused) {
+            paused = false;
+            btn.textContent = '⏸';
+            // Retomar animação do ponto onde parou
+            progress.style.transition = 'none';
+            progress.style.width = pausedWidth + '%';
+            requestAnimationFrame(function() {
+                var remaining = SLIDE_SECONDS * 1000 * (1 - pausedWidth / 100);
+                progress.style.transition = 'width ' + remaining + 'ms linear';
+                progress.style.width = '100%';
+            });
+            timer = setInterval(nextSlide, SLIDE_SECONDS * 1000);
+        } else {
+            paused = true;
+            btn.textContent = '▶';
+            clearInterval(timer);
+            timer = null;
+            // Congelar a barra
+            var w = progress.style.width;
+            var match = w.match(/([\d.]+)%/);
+            pausedWidth = match ? parseFloat(match[1]) : 0;
+            // Se a transição está no meio, precisamos calcular a posição real
+            var rect = progress.getBoundingClientRect();
+            var parentW = progress.parentElement ? progress.parentElement.offsetWidth : window.innerWidth;
+            var actualPct = (rect.width / parentW) * 100;
+            if (rect.width > 0) pausedWidth = actualPct;
+            progress.style.transition = 'none';
+            progress.style.width = pausedWidth + '%';
+        }
+    }
+
     showSlide(0);
     animateProgress();
-    setInterval(nextSlide, SLIDE_SECONDS * 1000);
+    timer = setInterval(nextSlide, SLIDE_SECONDS * 1000);
+
+    // Controles visíveis ao mover o mouse
+    var hideControlsTimeout;
+    function showControls() {
+        document.body.classList.add('controls-visible');
+        clearTimeout(hideControlsTimeout);
+        hideControlsTimeout = setTimeout(function() {
+            document.body.classList.remove('controls-visible');
+        }, 2500);
+    }
+    document.addEventListener('mousemove', showControls);
+    showControls();
 
     // Fullscreen automático ao clicar (browsers exigem gesto do usuário)
     document.addEventListener('click', function() {
@@ -298,11 +373,14 @@
         }
     });
 
-    // ESC sai do fullscreen
+    // Atalhos de teclado
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && document.fullscreenElement) {
             document.exitFullscreen();
         }
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+        if (e.key === ' ') { e.preventDefault(); togglePlay(); }
     });
 </script>
 </body>
