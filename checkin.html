@@ -300,7 +300,7 @@ function ck(row, action, btn) {
             toast(action.startsWith('undo') ? (action === 'undo-d1' ? 'Dia 1 removido' : 'Dia 2 removido') : ((action === 'checkin-d1' ? 'Dia 1' : 'Dia 2') + ' confirmado!'));
             // Re-renderiza resultados para atualizar todos os botoes corretamente
             var q = document.getElementById('search-input').value.trim();
-            if (q.length >= 2) { doSearch(q); } else { loadAll(); renderAll(); }
+            if (q.length >= 2) { doSearchNow(); } else { loadAll(); renderAll(); }
         } else {
             toast(data.message || 'Erro');
         }

@@ -48,11 +48,11 @@ function doGet(e) {
       var shB = ssB.getSheetByName(SHEET_NAME) || ssB.getSheets()[0];
       var lastB = shB.getLastRow();
       if (lastB < 2) return json({ found:false, error:'Nenhum inscrito' }, callback);
-      var dataB = shB.getRange(2, 1, lastB - 1, 10).getValues();
+      var dataB = shB.getRange(2, 1, lastB - 1, 11).getValues();
       for (var j = 0; j < dataB.length; j++) {
         var cpfRow = (dataB[j][6] || '').toString().replace(/\D/g,'');
         if (cpfRow === cpfBusca) {
-          var d1b = !!dataB[j][8], d2b = !!dataB[j][9];
+          var d1b = !!dataB[j][9], d2b = !!dataB[j][10];
           if (!d1b && !d2b) return json({ found:false, error:'Check-in nao realizado' }, callback);
           return json({
             found:true,
@@ -85,20 +85,20 @@ function doGet(e) {
       const sh2 = ss2.getSheetByName(SHEET_NAME) || ss2.getSheets()[0];
       if (action === 'checkin-d1') {
         const ts = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM HH:mm');
-        sh2.getRange(ckRow, 9).setValue(ts);
+        sh2.getRange(ckRow, 10).setValue(ts); // coluna J
         return json({ success: true, timestamp: ts, day: 1 }, callback);
       }
       if (action === 'checkin-d2') {
         const ts = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM HH:mm');
-        sh2.getRange(ckRow, 10).setValue(ts);
+        sh2.getRange(ckRow, 11).setValue(ts); // coluna K
         return json({ success: true, timestamp: ts, day: 2 }, callback);
       }
       if (action === 'undo-d1') {
-        sh2.getRange(ckRow, 9).setValue('');
+        sh2.getRange(ckRow, 10).setValue('');
         return json({ success: true, message: 'Check-in Dia 1 removido' }, callback);
       }
       if (action === 'undo-d2') {
-        sh2.getRange(ckRow, 10).setValue('');
+        sh2.getRange(ckRow, 11).setValue('');
         return json({ success: true, message: 'Check-in Dia 2 removido' }, callback);
       }
     } catch (err) {
@@ -114,7 +114,7 @@ function doGet(e) {
     const lastRow = sheet.getLastRow();
     if (lastRow < 2) return json({ results: [] }, callback);
 
-    const data = sheet.getRange(2, 1, lastRow - 1, 10).getValues();
+    const data = sheet.getRange(2, 1, lastRow - 1, 11).getValues();
 
     if (action === 'search' && query.length >= 2) {
       const q = query.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -127,7 +127,7 @@ function doGet(e) {
           results.push({
             row: i + 2, nome: data[i][2] || '', profissao: data[i][4] || '',
             instituicao: data[i][5] || '',
-            d1: !!data[i][8], d2: !!data[i][9]
+            d1: !!data[i][9], d2: !!data[i][10]
           });
           if (results.length >= 15) break;
         }
@@ -140,7 +140,7 @@ function doGet(e) {
         return {
           row: i + 2, nome: row[2] || '', profissao: row[4] || '',
           instituicao: row[5] || '',
-          d1: !!row[8], d2: !!row[9]
+          d1: !!row[9], d2: !!row[10]
         };
       });
       return json({ results: results }, callback);
@@ -165,21 +165,21 @@ function doPost(e) {
     if (data.action === 'checkin-d1') {
       const now = new Date();
       const ts = Utilities.formatDate(now, 'America/Sao_Paulo', 'dd/MM HH:mm');
-      sheet.getRange(data.row, 9).setValue(ts);
+      sheet.getRange(data.row, 10).setValue(ts);
       return json({ success: true, timestamp: ts, day: 1 });
     }
     if (data.action === 'checkin-d2') {
       const now = new Date();
       const ts = Utilities.formatDate(now, 'America/Sao_Paulo', 'dd/MM HH:mm');
-      sheet.getRange(data.row, 10).setValue(ts);
+      sheet.getRange(data.row, 11).setValue(ts);
       return json({ success: true, timestamp: ts, day: 2 });
     }
     if (data.action === 'undo-d1') {
-      sheet.getRange(data.row, 9).setValue('');
+      sheet.getRange(data.row, 10).setValue('');
       return json({ success: true, message: 'Check-in Dia 1 removido' });
     }
     if (data.action === 'undo-d2') {
-      sheet.getRange(data.row, 10).setValue('');
+      sheet.getRange(data.row, 11).setValue('');
       return json({ success: true, message: 'Check-in Dia 2 removido' });
     }
     return json({ success: false, message: 'Acao desconhecida' });
