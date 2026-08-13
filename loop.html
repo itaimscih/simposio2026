@@ -41,6 +41,11 @@
             content:''; position:absolute; inset:0; opacity:0.5;
             background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='173'%3E%3Cpath d='M50 0 L100 29v58L50 116L0 87V29z' fill='none' stroke='rgba(113,197,232,0.10)' stroke-width='0.5'/%3E%3C/svg%3E");
             background-size:100px 173px;
+            animation:meshDrift 30s linear infinite;
+        }
+        @keyframes meshDrift {
+            0% { background-position:0 0; }
+            100% { background-position:100px 173px; }
         }
 
         /* Gradient overlays */
@@ -51,6 +56,45 @@
         }
 
         .slide-content { position:relative; z-index:2; text-align:center; padding:40px; width:100%; }
+
+        /* Particles */
+        .particles { position:absolute; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+        .particle {
+            position:absolute; border-radius:50%;
+            background:rgba(113,197,232,0.5);
+            animation:floatUp linear infinite;
+        }
+        .particle.dna { background:transparent; border:1px solid rgba(198,162,124,0.4); }
+        @keyframes floatUp {
+            0% { transform:translateY(100vh) scale(0.6); opacity:0; }
+            10% { opacity:0.7; }
+            90% { opacity:0.7; }
+            100% { transform:translateY(-10vh) scale(1); opacity:0; }
+        }
+        @keyframes spinSlow {
+            0% { transform:rotate(0deg); }
+            100% { transform:rotate(360deg); }
+        }
+
+        /* DNA helix decor */
+        .dna-helix {
+            position:absolute; width:300px; height:300px; pointer-events:none;
+            border:1px dashed rgba(113,197,232,0.15); border-radius:50%;
+            animation:spinSlow 60s linear infinite;
+        }
+        .dna-helix.one { top:-80px; left:-80px; }
+        .dna-helix.two { bottom:-100px; right:-100px; width:400px; height:400px; animation-duration:90s; animation-direction:reverse; }
+
+        /* Pulsing cell */
+        .cell-pulse {
+            position:absolute; pointer-events:none; border-radius:50%;
+            border:1px solid rgba(198,162,124,0.25);
+            animation:cellPulse 6s ease-in-out infinite;
+        }
+        @keyframes cellPulse {
+            0%,100% { transform:scale(1); opacity:0.3; }
+            50% { transform:scale(1.4); opacity:0.7; }
+        }
 
         /* Speaker / moderator slide */
         .person-event-line {
@@ -365,6 +409,47 @@
     slidesHtml.push(instSlide('Agradecimento', hospitalLogos));
 
     document.getElementById('stage').innerHTML = slidesHtml.join('');
+
+    // ═══════════════════════════════════════════
+    // ANIMAÇÕES DE FUNDO (tecnologia/microbiologia)
+    // ═══════════════════════════════════════════
+    var slideElsInit = document.querySelectorAll('.slide');
+    slideElsInit.forEach(function(slide) {
+        // Partículas flutuantes
+        var pContainer = document.createElement('div');
+        pContainer.className = 'particles';
+        var count = 14;
+        for (var p = 0; p < count; p++) {
+            var dot = document.createElement('div');
+            dot.className = 'particle';
+            var size = 2 + Math.random() * 5;
+            dot.style.width = size + 'px';
+            dot.style.height = size + 'px';
+            dot.style.left = Math.random() * 100 + '%';
+            dot.style.animationDuration = (8 + Math.random() * 14) + 's';
+            dot.style.animationDelay = (Math.random() * 10) + 's';
+            if (p % 4 === 3) dot.classList.add('dna');
+            pContainer.appendChild(dot);
+        }
+        slide.appendChild(pContainer);
+
+        // DNA helix decorativo
+        var dna1 = document.createElement('div');
+        dna1.className = 'dna-helix one';
+        slide.appendChild(dna1);
+        var dna2 = document.createElement('div');
+        dna2.className = 'dna-helix two';
+        slide.appendChild(dna2);
+
+        // Célula pulsante (microbiologia)
+        var cell = document.createElement('div');
+        cell.className = 'cell-pulse';
+        cell.style.width = '120px';
+        cell.style.height = '120px';
+        cell.style.top = (10 + Math.random() * 60) + '%';
+        cell.style.left = (10 + Math.random() * 60) + '%';
+        slide.appendChild(cell);
+    });
 
     // ═══════════════════════════════════════════
     // ROTAÇÃO
