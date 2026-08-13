@@ -25,13 +25,34 @@
         .stat-num { font-size: 1.3rem; font-weight: 800; color: var(--blue); line-height: 1; }
         .stat-num.done { color: var(--green); }
         .stat-label { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 3px; }
-        .search-box { margin-bottom: 8px; }
+        .search-box { margin-bottom: 8px; display:flex; gap:6px; }
         .search-box input {
-            width: 100%; padding: 12px 14px; font-size: 0.95rem;
+            flex:1; padding: 12px 14px; font-size: 0.95rem;
             border: 2px solid var(--border); border-radius: 10px;
             font-family: inherit; background: var(--white);
         }
         .search-box input:focus { outline: none; border-color: var(--blue); }
+        .search-btn {
+            padding: 0 18px; border-radius: 10px; border:none;
+            background: var(--blue); color: var(--white);
+            font-weight: 700; cursor: pointer; font-family: inherit;
+            font-size: 0.85rem; min-width: 88px;
+        }
+        .search-btn:active { background: var(--blue-dark); }
+        .search-status {
+            font-size: 0.72rem; margin: 4px 2px 8px; min-height: 16px;
+            display:flex; align-items:center; gap:6px;
+        }
+        .search-status .dot {
+            width:8px; height:8px; border-radius:50%; background:#ccc;
+        }
+        .search-status.searching .dot { background:#f0b323; animation:blink 1s infinite; }
+        .search-status.success .dot { background:#0a7a3a; }
+        .search-status.fail .dot { background:#8b1a1a; }
+        .search-status.searching { color:#8a6d00; }
+        .search-status.success { color:#0a7a3a; }
+        .search-status.fail { color:#8b1a1a; }
+        @keyframes blink { 50% { opacity:0.2; } }
         .participant {
             background: var(--white); border: 1px solid var(--border);
             border-radius: 10px; padding: 12px 14px; margin-bottom: 6px;
@@ -110,7 +131,9 @@
     </div>
     <div class="search-box">
         <input type="text" id="search-input" placeholder="Buscar por nome..." autocomplete="off">
+        <button class="search-btn" id="search-btn" onclick="doSearchNow()">🔍 Buscar</button>
     </div>
+    <div class="search-status" id="search-status"><span class="dot"></span><span id="search-status-text">Pronto para buscar</span></div>
     <div id="results"></div>
 </div>
 <div class="toast" id="toast"></div>
@@ -204,12 +227,50 @@ function loadAll() {
 
 // ── SEARCH ───────────────────────────────────────
 var tmr;
+function setSearchStatus(mode, text) {
+    var el = document.getElementById('search-status');
+    el.className = 'search-status ' + mode;
+    document.getElementById('search-status-text').textContent = text;
+}
+
+function doSearchNow() {
+    var q = document.getElementById('search-input').value.trim();
+    if (!q) {
+        setSearchStatus('', 'Digite um nome para buscar');
+        loadAll();
+        document.getElementById('results').innerHTML = '';
+        return;
+    }
+    if (q.length < 2) {
+        setSearchStatus('', 'Digite pelo menos 2 caracteres');
+        return;
+    }
+    setSearchStatus('searching', 'Buscando...');
+    document.getElementById('search-btn').disabled = true;
+    jsonp('search', {q:q}, function(data) {
+        document.getElementById('search-btn').disabled = false;
+        var results = data.results || [];
+        render(results);
+        if (results.length > 0) {
+            setSearchStatus('success', 'Busca concluída: ' + results.length + ' resultado(s)');
+        } else {
+            setSearchStatus('success', 'Busca concluída: nenhum resultado');
+        }
+    }, function() {
+        document.getElementById('search-btn').disabled = false;
+        setSearchStatus('fail', 'Falha na busca. Toque em Buscar para tentar novamente.');
+    });
+}
+
 document.getElementById('search-input').addEventListener('input', function() {
     clearTimeout(tmr);
     var q = this.value.trim();
-    if (!q) { loadAll(); document.getElementById('results').innerHTML = ''; return; }
+    if (!q) { loadAll(); document.getElementById('results').innerHTML = ''; setSearchStatus('', 'Pronto para buscar'); return; }
     if (q.length < 2) return;
-    tmr = setTimeout(function() { jsonp('search', {q:q}, function(data) { render(data.results || []); }); }, 300);
+    tmr = setTimeout(doSearchNow, 300);
+});
+document.getElementById('search-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { clearTimeout(tmr); doSearchNow(); }
 });
 
 // ── RENDER ───────────────────────────────────────
