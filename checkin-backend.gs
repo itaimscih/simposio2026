@@ -120,9 +120,9 @@ function doGet(e) {
       const q = query.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
       const results = [];
       for (let i = 0; i < data.length; i++) {
-        // Colunas reais do Forms: A=Carimbo B=Email(auto) C=Nome D=Email E=Profissao F=Instituicao
+        // Colunas reais do Forms: A=Carimbo B=Email(auto, ignorar) C=Nome D=Email E=Profissao F=Instituicao
         const nome = (data[i][2] || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-        const email = (data[i][1] || '').toLowerCase();
+        const email = (data[i][3] || '').toLowerCase();
         if (nome.includes(q) || email.includes(q)) {
           results.push({
             row: i + 2, nome: data[i][2] || '', profissao: data[i][4] || '',
