@@ -133,6 +133,14 @@
             .then(function(r) { return r.text(); })
             .then(function(csv) {
                 var rows = parseCSV(csv);
+                // DEBUG: exibir cabecalho e numero de linhas
+                var debugInfo = '';
+                if (rows.length > 0) {
+                    debugInfo = 'CSV OK: ' + (rows.length - 1) + ' inscritos. Cabecalho: ' + rows[0].join(' | ');
+                    console.log(debugInfo);
+                } else {
+                    console.log('CSV vazio!');
+                }
                 var found = null;
                 for (var i = 1; i < rows.length; i++) {
                     var cols = rows[i];
@@ -159,6 +167,9 @@
                 } else {
                     el.className = 'msg error';
                     el.textContent = 'Crachá não encontrado. Verifique o CPF digitado.';
+                    if (debugInfo) {
+                        el.textContent += ' [' + debugInfo + ']';
+                    }
                 }
             })
             .catch(function() {
