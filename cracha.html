@@ -95,7 +95,7 @@
 <div class="container" id="badge-screen" style="display:none;"></div>
 
 <script>
-    var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZWq5izGS2TFREGrYUj0p1V0ofYnVvNR-RVQGPfbyILIEXaQtEXf7QpcZyc_heqAhapVgfm7tftHUt/pub?gid=0&single=true&output=csv';
+    var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZWq5izGS2TFREGrYUj0p1V0ofYnVvNR-RVQGPfbyILIEXaQtEXf7QpcZyc_heqAhapVgfm7tftHUt/pub?gid=1083752259&single=true&output=csv';
 
     // Mascara CPF enquanto digita
     var cpfInput = document.getElementById('cpf-input');
@@ -133,14 +133,6 @@
             .then(function(r) { return r.text(); })
             .then(function(csv) {
                 var rows = parseCSV(csv);
-                // DEBUG: exibir cabecalho e numero de linhas
-                var debugInfo = '';
-                if (rows.length > 0) {
-                    debugInfo = 'CSV OK: ' + (rows.length - 1) + ' inscritos. Cabecalho: ' + rows[0].join(' | ');
-                    console.log(debugInfo);
-                } else {
-                    console.log('CSV vazio!');
-                }
                 var found = null;
                 for (var i = 1; i < rows.length; i++) {
                     var cols = rows[i];
@@ -167,9 +159,6 @@
                 } else {
                     el.className = 'msg error';
                     el.textContent = 'Crachá não encontrado. Verifique o CPF digitado.';
-                    if (debugInfo) {
-                        el.textContent += ' [' + debugInfo + ']';
-                    }
                 }
             })
             .catch(function() {
