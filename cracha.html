@@ -132,18 +132,18 @@
         fetch(CSV_URL)
             .then(function(r) { return r.text(); })
             .then(function(csv) {
-                var lines = csv.trim().split('\n');
+                var rows = parseCSV(csv);
                 var found = null;
-                for (var i = 1; i < lines.length; i++) {
-                    var cols = lines[i].split(',');
-                    var cpfRow = (cols[6] || '').replace(/"/g,'').replace(/\D/g,'');
+                for (var i = 1; i < rows.length; i++) {
+                    var cols = rows[i];
+                    var cpfRow = (cols[6] || '').replace(/\D/g,'');
                     if (cpfRow === raw) {
-                        var d1 = !!(cols[9] || '').replace(/"/g,'').trim();
-                        var d2 = !!(cols[10] || '').replace(/"/g,'').trim();
+                        var d1 = !!(cols[9] || '').trim();
+                        var d2 = !!(cols[10] || '').trim();
                         found = {
-                            nome: (cols[2] || '').replace(/"/g,'').trim(),
-                            profissao: (cols[4] || '').replace(/"/g,'').trim(),
-                            instituicao: (cols[5] || '').replace(/"/g,'').trim(),
+                            nome: (cols[2] || '').trim(),
+                            profissao: (cols[4] || '').trim(),
+                            instituicao: (cols[5] || '').trim(),
                             d1: d1, d2: d2
                         };
                         break;
@@ -165,6 +165,35 @@
                 el.className = 'msg error';
                 el.textContent = 'Erro de conexão. Tente novamente.';
             });
+    }
+
+    // Parser CSV que respeita aspas (campos com virgula/aspas)
+    function parseCSV(text) {
+        var rows = [];
+        var row = [];
+        var field = '';
+        var inQuotes = false;
+        for (var i = 0; i < text.length; i++) {
+            var c = text[i];
+            if (inQuotes) {
+                if (c === '"') {
+                    if (text[i+1] === '"') { field += '"'; i++; }
+                    else { inQuotes = false; }
+                } else { field += c; }
+            } else {
+                if (c === '"') { inQuotes = true; }
+                else if (c === ',') { row.push(field); field = ''; }
+                else if (c === '\n' || c === '\r') {
+                    if (field !== '' || row.length > 0) {
+                        row.push(field); field = '';
+                        rows.push(row); row = [];
+                    }
+                }
+                else { field += c; }
+            }
+        }
+        if (field !== '' || row.length > 0) { row.push(field); rows.push(row); }
+        return rows;
     }
 
     function showBadge(p) {

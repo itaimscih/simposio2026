@@ -47,14 +47,14 @@
         fetch(CSV_URL)
             .then(function(r) { return r.text(); })
             .then(function(csv) {
-                var lines = csv.trim().split('\n');
+                var lines = parseCSV(csv);
                 var found = null;
                 for (var i = 1; i < lines.length; i++) { // pula cabecalho
-                    var cols = lines[i].split(',');
-                    // Coluna K (indice 10) = codigo, Coluna B (indice 1) = nome, Coluna L (indice 11) = data
+                    var cols = lines[i];
+                    // Coluna K (indice 10) = codigo, Coluna C (indice 2) = nome, Coluna L (indice 11) = data
                     var rowCode = (cols[10] || '').trim().toUpperCase().replace(/"/g, '');
                     if (rowCode === code) {
-                        found = { nome: cols[1] || '', data: cols[11] || '' };
+                        found = { nome: cols[2] || '', data: cols[11] || '' };
                         break;
                     }
                 }
@@ -74,6 +74,35 @@
     }
 
     function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // Parser CSV que respeita aspas (campos com virgula/aspas)
+    function parseCSV(text) {
+        var rows = [];
+        var row = [];
+        var field = '';
+        var inQuotes = false;
+        for (var i = 0; i < text.length; i++) {
+            var c = text[i];
+            if (inQuotes) {
+                if (c === '"') {
+                    if (text[i+1] === '"') { field += '"'; i++; }
+                    else { inQuotes = false; }
+                } else { field += c; }
+            } else {
+                if (c === '"') { inQuotes = true; }
+                else if (c === ',') { row.push(field); field = ''; }
+                else if (c === '\n' || c === '\r') {
+                    if (field !== '' || row.length > 0) {
+                        row.push(field); field = '';
+                        rows.push(row); row = [];
+                    }
+                }
+                else { field += c; }
+            }
+        }
+        if (field !== '' || row.length > 0) { row.push(field); rows.push(row); }
+        return rows;
+    }
 </script>
 </body>
 </html>
