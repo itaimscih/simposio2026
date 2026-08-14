@@ -95,7 +95,7 @@
 <div class="container" id="badge-screen" style="display:none;"></div>
 
 <script>
-    var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6Kr-4PSq2kzP0VglYQLABJmGDfksTgRG1Ieo9g35iZaYwpVV8krtcumFTCYxkwed5/exec';
+    var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZWq5izGS2TFREGrYUj0p1V0ofYnVvNR-RVQGPfbyILIEXaQtEXf7QpcZyc_heqAhapVgfm7tftHUt/pub?gid=0&single=true&output=csv';
 
     // Mascara CPF enquanto digita
     var cpfInput = document.getElementById('cpf-input');
@@ -128,44 +128,43 @@
         el.className = 'msg info';
         el.textContent = 'Buscando...';
 
-        // JSONP via backend do check-in (callback unico por requisicao)
-        var cbName = '_badgeCb' + new Date().getTime();
-        var done = false;
-        var scriptEl = document.createElement('script');
-        window[cbName] = function(data) {
-            if (done) return;
-            done = true;
-            if (data.found) {
-                showBadge(data);
-            } else {
+        // Busca via CSV publicado (mesma tecnica do verificar.html — sem CORS/CORB)
+        fetch(CSV_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(csv) {
+                var lines = csv.trim().split('\n');
+                var found = null;
+                for (var i = 1; i < lines.length; i++) {
+                    var cols = lines[i].split(',');
+                    var cpfRow = (cols[6] || '').replace(/"/g,'').replace(/\D/g,'');
+                    if (cpfRow === raw) {
+                        var d1 = !!(cols[9] || '').replace(/"/g,'').trim();
+                        var d2 = !!(cols[10] || '').replace(/"/g,'').trim();
+                        found = {
+                            nome: (cols[2] || '').replace(/"/g,'').trim(),
+                            profissao: (cols[4] || '').replace(/"/g,'').trim(),
+                            instituicao: (cols[5] || '').replace(/"/g,'').trim(),
+                            d1: d1, d2: d2
+                        };
+                        break;
+                    }
+                }
+                if (found) {
+                    if (!found.d1 && !found.d2) {
+                        el.className = 'msg error';
+                        el.textContent = 'Seu CPF foi encontrado, mas o check-in ainda não foi realizado.';
+                    } else {
+                        showBadge(found);
+                    }
+                } else {
+                    el.className = 'msg error';
+                    el.textContent = 'Crachá não encontrado. Verifique o CPF digitado.';
+                }
+            })
+            .catch(function() {
                 el.className = 'msg error';
-                el.textContent = data.error === 'Check-in nao realizado' ?
-                    'Seu CPF foi encontrado, mas o check-in ainda não foi realizado.' :
-                    'Crachá não encontrado. Verifique o CPF digitado.';
-            }
-            cleanup();
-        };
-        var timer = setTimeout(function() {
-            if (done) return;
-            done = true;
-            el.className = 'msg error';
-            el.textContent = 'Tempo esgotado. Toque em buscar novamente.';
-            cleanup();
-        }, 25000);
-        function cleanup() {
-            clearTimeout(timer);
-            delete window[cbName];
-            if (scriptEl.parentNode) scriptEl.parentNode.removeChild(scriptEl);
-        }
-        scriptEl.src = SCRIPT_URL + '?action=badge&cpf=' + raw + '&callback=' + cbName + '&t=' + new Date().getTime();
-        scriptEl.onerror = function() {
-            if (done) return;
-            done = true;
-            el.className = 'msg error';
-            el.textContent = 'Erro de conexão. Toque em buscar novamente.';
-            cleanup();
-        };
-        document.head.appendChild(scriptEl);
+                el.textContent = 'Erro de conexão. Tente novamente.';
+            });
     }
 
     function showBadge(p) {
