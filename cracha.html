@@ -28,6 +28,13 @@
         .search-card input:focus { outline:none; border-color:var(--blue); }
         .search-card input::placeholder { font-size:0.9rem; letter-spacing:1px; font-family:'Montserrat',sans-serif; }
         .hint { font-size:0.7rem; color:var(--muted); margin-top:12px; line-height:1.4; }
+        .btn-search {
+            display:block; width:100%; margin-top:12px; padding:14px;
+            background:var(--blue); color:var(--white); border:none;
+            border-radius:12px; font-size:1rem; font-weight:700;
+            cursor:pointer; font-family:inherit;
+        }
+        .btn-search:active { background:var(--blue-dark); }
         .hint strong { color:var(--blue-dark); }
         .msg { font-size:0.82rem; margin-top:12px; padding:10px; border-radius:8px; display:none; }
         .msg.error { background:#fde8e8; color:#8b1a1a; display:block; }
@@ -79,6 +86,7 @@
         <h2>Crachá Digital</h2>
         <p class="sub">II Simpósio de Prevenção de IRAS<br>e Stewardship de Antimicrobianos</p>
         <input type="text" id="cpf-input" placeholder="Digite seu CPF" maxlength="14" autofocus autocomplete="off" inputmode="numeric">
+        <button class="btn-search" onclick="buscar()">Buscar crachá</button>
         <div class="msg" id="msg"></div>
         <p class="hint">Seu CPF foi informado na inscrição.<br><strong>Não será exibido na tela</strong> — usado apenas para localizar seu crachá.</p>
     </div>
@@ -120,9 +128,13 @@
         el.className = 'msg info';
         el.textContent = 'Buscando...';
 
-        // JSONP via backend do check-in
-        var cbName = '_badgeCb';
+        // JSONP via backend do check-in (callback unico por requisicao)
+        var cbName = '_badgeCb' + new Date().getTime();
+        var done = false;
+        var scriptEl = document.createElement('script');
         window[cbName] = function(data) {
+            if (done) return;
+            done = true;
             if (data.found) {
                 showBadge(data);
             } else {
@@ -131,17 +143,29 @@
                     'Seu CPF foi encontrado, mas o check-in ainda não foi realizado.' :
                     'Crachá não encontrado. Verifique o CPF digitado.';
             }
-            delete window[cbName];
-            document.head.removeChild(document.getElementById('scr_badge'));
+            cleanup();
         };
-        var s = document.createElement('script');
-        s.id = 'scr_badge';
-        s.src = SCRIPT_URL + '?action=badge&cpf=' + raw + '&callback=' + cbName + '&t=' + new Date().getTime();
-        s.onerror = function() {
+        var timer = setTimeout(function() {
+            if (done) return;
+            done = true;
             el.className = 'msg error';
-            el.textContent = 'Erro de conexão. Tente novamente.';
+            el.textContent = 'Tempo esgotado. Toque em buscar novamente.';
+            cleanup();
+        }, 25000);
+        function cleanup() {
+            clearTimeout(timer);
+            delete window[cbName];
+            if (scriptEl.parentNode) scriptEl.parentNode.removeChild(scriptEl);
+        }
+        scriptEl.src = SCRIPT_URL + '?action=badge&cpf=' + raw + '&callback=' + cbName + '&t=' + new Date().getTime();
+        scriptEl.onerror = function() {
+            if (done) return;
+            done = true;
+            el.className = 'msg error';
+            el.textContent = 'Erro de conexão. Toque em buscar novamente.';
+            cleanup();
         };
-        document.head.appendChild(s);
+        document.head.appendChild(scriptEl);
     }
 
     function showBadge(p) {
